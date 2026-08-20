@@ -42,7 +42,7 @@ void main() {
   });
 
   test('fetchBankData should gracefully handle non-existent bank details', () async {
-    await usersCollection.doc(testUid).set({});
+    await usersCollection.doc(testUid).set(<String, dynamic>{});
 
     await controller.fetchBankData();
 
