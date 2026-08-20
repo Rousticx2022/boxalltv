@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
+import '../../controllers/upload_video_controller.dart';
 import '../../utils/collections.dart';
 
 part 'upload_video_ext.dart';
@@ -61,90 +62,28 @@ class _UploadVideoState extends State<UploadVideo> {
   //   return '${directory!.path}/trimmed_$fileName.mp3';
   // }
 
-  createReel(
-      {required String fileName,
-      required String videoPath,
-      String audioPath = ""}) async {
-    // final storageRef = FirebaseStorage.instance.ref();
-    String videoURL = '', thumbnailURL = '', audioURL = '';
+  late UploadVideoController controller;
 
-    // try {
-    FTPConnect ftpConnect = FTPConnect("storage.bunnycdn.com",
-        user: const String.fromEnvironment('FTP_USER'),
-        pass: const String.fromEnvironment('FTP_PASS'));
-
-    await ftpConnect.connect();
-    await ftpConnect.changeDirectory("reels");
-    await ftpConnect.createFolderIfNotExist(widget.uid);
-    await ftpConnect.changeDirectory(widget.uid).then((value) async {
-      bool videoStatus = await ftpConnect.uploadFileWithRetry(File(videoPath),
-          pRetryCount: 3, pRemoteName: "reel_$fileName.mp4");
-      if (videoStatus) {
-        videoURL =
-            "https://frametv.b-cdn.net/reels/${widget.uid}/reel_$fileName.mp4";
-      }
-      bool thumbStatus = await ftpConnect.uploadFileWithRetry(
-          File(thumbnailImagePath),
-          pRetryCount: 3,
-          pRemoteName: "thumbnail_$fileName.webp");
-      if (thumbStatus) {
-        thumbnailURL =
-            "https://frametv.b-cdn.net/reels/${widget.uid}/thumbnail_$fileName.webp";
-      }
-      if (audioPath.isNotEmpty) {
-        bool audioStatus = await ftpConnect.uploadFileWithRetry(File(audioPath),
-            pRetryCount: 3, pRemoteName: "audio_$fileName.mp3");
-        if (audioStatus) {
-          audioURL =
-              "https://frametv.b-cdn.net/reels/${widget.uid}/audio_$fileName.mp3";
-        }
-      }
-
-      ftpConnect.disconnect();
+  @override
+  void initState() {
+    controller = Get.put(UploadVideoController(uid: widget.uid));
+    setState(() {
+      selectedSound = widget.soundData;
     });
-    // } catch (e) {
-    //   Get.back();
-    // }
-
-    // try {
-    //   final upload = storageRef.child("reels/${widget.uid}/reel_$fileName.mp4");
-    //   await upload.putFile(File(videoPath));
-    //   videoURL = await upload.getDownloadURL();
-    // } on FirebaseException catch (e) {
-    //   Get.back();
-    //   customSnackBar(text: e.code);
-    // }
-
-    // try {
-    //   final upload = storageRef.child("reels/${widget.uid}/thumbnail_$fileName.webp");
-    //   await upload.putData(thumbnailImage!);
-    //   thumbnailURL = await upload.getDownloadURL();
-    // } on FirebaseException catch (e) {
-    //   Get.back();
-    //   customSnackBar(text: e.code);
-    // }
-
-    await reelsCollection.add({
-      'userID': widget.uid,
-      'url': videoURL,
-      'thumbnail': thumbnailURL,
-      'createdAt': DateTime.now(),
-      "hasAudio": audioURL.isNotEmpty,
-      "caption": captionController.text,
-      "soundData": selectedSound.isEmpty
-          ? {}
-          : {
-              "url": audioURL,
-              "id": selectedSound["id"],
-              "title": selectedSound["title"],
-            },
-      'totalLikes': 0,
-      'totalComments': 0,
-      'totalShares': 0
+    videoPlayerController = VideoPlayerController.file(File(widget.videoPath))
+      ..initialize().then((_) {
+        setState(() {});
+      })
+      ..play()
+      ..setLooping(true);
+    videoPlayerController.addListener(() {
+      if (!videoPlayerController.value.isPlaying) {
+        setState(() {
+          videoPaused = true;
+        });
+      }
     });
-    Get.back();
-    Get.back();
-    customSnackBar(text: "Reel uploaded successfully!");
+    super.initState();
   }
 
   upload() async {
@@ -168,10 +107,8 @@ class _UploadVideoState extends State<UploadVideo> {
     String videoPath = widget.videoPath;
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-    if (selectedSound["url"].isNotEmpty) {
+    if (selectedSound["url"] != null && selectedSound["url"].toString().isNotEmpty) {
       String audioPath = await _getAudioFilePath(fileName);
-      // String outputPathVideo = await _getOutputFilePath(fileName);
-
       try {
         audioTrimmer.loadAudio(audioFile: File(audioPath));
         await audioTrimmer.saveTrimmedAudio(
@@ -186,9 +123,12 @@ class _UploadVideoState extends State<UploadVideo> {
                 return;
               }
 
-              createReel(
+              controller.createReel(
                   fileName: fileName,
                   videoPath: videoPath,
+                  thumbnailImagePath: thumbnailImagePath,
+                  captionController: captionController,
+                  selectedSound: selectedSound,
                   audioPath: outputPath);
             });
       } catch (e) {
@@ -196,7 +136,12 @@ class _UploadVideoState extends State<UploadVideo> {
         debugPrint(e.toString());
       }
     } else {
-      createReel(fileName: fileName, videoPath: videoPath);
+      controller.createReel(
+                  fileName: fileName,
+                  videoPath: videoPath,
+                  thumbnailImagePath: thumbnailImagePath,
+                  captionController: captionController,
+                  selectedSound: selectedSound);
     }
   }
 
