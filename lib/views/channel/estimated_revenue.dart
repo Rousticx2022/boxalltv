@@ -9,6 +9,7 @@ import 'package:boxalltv/utils/styles.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:numeral/numeral.dart';
+import 'package:boxalltv/controllers/bank_details_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class EstimatedRevenue extends StatefulWidget {
@@ -20,45 +21,22 @@ class EstimatedRevenue extends StatefulWidget {
 }
 
 class _EstimatedRevenueState extends State<EstimatedRevenue> {
-  final formKey = GlobalKey<FormState>();
-  final TextEditingController bankNameController = TextEditingController(),
-      swiftCodeController = TextEditingController(),
-      accountNameController = TextEditingController(),
-      branchNameController = TextEditingController(),
-      accountNumberController = TextEditingController();
+  late BankDetailsController controller;
 
-  fetchBankData() async {
-    DocumentSnapshot doc = await usersCollection.doc(widget.uid).get();
-
-    if (doc.exists && doc["bankDetails"].isNotEmpty) {
-      accountNameController.text = doc["bankDetails"]["accountName"];
-      accountNumberController.text = doc["bankDetails"]["accountNumber"];
-      bankNameController.text = doc["bankDetails"]["bankName"];
-      branchNameController.text = doc["bankDetails"]["branch"];
-      swiftCodeController.text = doc["bankDetails"]["swiftCode"];
-    }
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.put(BankDetailsController(uid: widget.uid));
   }
 
-  updateBankDetails() async {
-    if (!formKey.currentState!.validate()) return;
-
-    Get.dialog(progressIndicator(), barrierDismissible: false);
-    await usersCollection.doc(widget.uid).update({
-      "bankDetails": {
-        "accountName": accountNameController.text,
-        "accountNumber": accountNumberController.text,
-        "bankName": bankNameController.text,
-        "branch": branchNameController.text,
-        "swiftCode": swiftCodeController.text,
-      }
-    });
-    Get.back();
-    Get.back();
-    customSnackBar(text: "Bank details updated");
+  @override
+  void dispose() {
+    Get.delete<BankDetailsController>();
+    super.dispose();
   }
 
-  modifyBankDetails() async {
-    fetchBankData();
+  modifyBankDetails() {
+    controller.fetchBankData();
     Get.bottomSheet(
       BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
@@ -72,7 +50,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
             ),
           ),
           child: Form(
-            key: formKey,
+            key: controller.formKey,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -99,7 +77,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                   child: ListView(
                     children: [
                       TextFormField(
-                        controller: accountNameController,
+                        controller: controller.accountNameController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
                             color: Colors.white, fontSize: 16.sp),
@@ -125,7 +103,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
-                        controller: accountNumberController,
+                        controller: controller.accountNumberController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
                             color: Colors.white, fontSize: 16.sp),
@@ -151,7 +129,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
-                        controller: bankNameController,
+                        controller: controller.bankNameController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
                             color: Colors.white, fontSize: 16.sp),
@@ -177,7 +155,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
-                        controller: branchNameController,
+                        controller: controller.branchNameController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
                             color: Colors.white, fontSize: 16.sp),
@@ -203,7 +181,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                       ),
                       const SizedBox(height: 15),
                       TextFormField(
-                        controller: swiftCodeController,
+                        controller: controller.swiftCodeController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
                             color: Colors.white, fontSize: 16.sp),
@@ -229,7 +207,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                       ),
                       const SizedBox(height: 15),
                       TextButton(
-                        onPressed: () => updateBankDetails(),
+                        onPressed: () => controller.updateBankDetails(),
                         style: TextButton.styleFrom(
                             backgroundColor: kButtonColor,
                             foregroundColor: kWhiteColor,
@@ -254,16 +232,6 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
       barrierColor: Colors.white12,
       enableDrag: true,
     );
-  }
-
-  @override
-  void dispose() {
-    bankNameController.dispose();
-    swiftCodeController.dispose();
-    branchNameController.dispose();
-    accountNameController.dispose();
-    accountNumberController.dispose();
-    super.dispose();
   }
 
   @override
