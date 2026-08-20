@@ -8,6 +8,8 @@ import 'package:boxalltv/utils/ui_widgets.dart';
 import '../../utils/form_validators.dart';
 import '../../utils/styles.dart';
 
+import '../../controllers/edit_movie_controller.dart';
+
 class EditMovie extends StatefulWidget {
   final String uid, videoID;
   const EditMovie({super.key, required this.uid, required this.videoID});
@@ -17,21 +19,19 @@ class EditMovie extends StatefulWidget {
 }
 
 class _EditMovieState extends State<EditMovie> {
-  List selectedGenres = [];
-  bool loading = false;
-  String selectedType = "FREE";
+  late EditMovieController controller;
 
-  final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.put(EditMovieController(uid: widget.uid, videoID: widget.videoID));
+  }
 
-  final TextEditingController titleController = TextEditingController(),
-      storylineController = TextEditingController(),
-      durationController = TextEditingController(),
-      releaseYearController = TextEditingController(),
-      genresController = TextEditingController(),
-      amountController = TextEditingController(),
-      validityController = TextEditingController(),
-      contentUrlController = TextEditingController(),
-      ratingController = TextEditingController(text: "12+");
+  @override
+  void dispose() {
+    Get.delete<EditMovieController>();
+    super.dispose();
+  }
 
   openGenresDialog() {
     Get.bottomSheet(
@@ -43,112 +43,31 @@ class _EditMovieState extends State<EditMovie> {
             title: Text('Select Genres', style: customTextStyleHeadline()),
           ),
           Expanded(
-            child: StatefulBuilder(builder: (context, setState) {
-              return FirestoreListView(
-                query: genresCollection.orderBy("name"),
-                loadingBuilder: (c) =>
-                    customCircularProgress(strokeColor: kStreamPrimaryColor),
-                itemBuilder: (context, snapshot) {
-                  return ListTile(
-                    title: Text(snapshot["name"],
-                        style: fontButton(fontSize: 18.sp)),
-                    trailing: IconButton(
-                      onPressed: () {
-                        if (selectedGenres.contains(snapshot["name"])) {
-                          selectedGenres.remove(snapshot["name"]);
-                          genresController.text = selectedGenres.join(",");
-                        } else {
-                          selectedGenres.add(snapshot["name"]);
-                          genresController.text = selectedGenres.join(",");
-                        }
-                        setState(() {});
-                      },
-                      icon: selectedGenres.contains(snapshot["name"])
-                          ? const Icon(Icons.check_circle)
-                          : const Icon(Icons.circle_outlined),
-                    ),
-                  );
-                },
-              );
-            }),
+            child: FirestoreListView(
+              query: controller.getGenresQuery(),
+              loadingBuilder: (c) =>
+                  customCircularProgress(strokeColor: kStreamPrimaryColor),
+              itemBuilder: (context, snapshot) {
+                return Obx(() => ListTile(
+                  title: Text(snapshot["name"],
+                      style: fontButton(fontSize: 18.sp)),
+                  trailing: IconButton(
+                    onPressed: () {
+                      controller.toggleGenre(snapshot["name"]);
+                    },
+                    icon: controller.selectedGenres.contains(snapshot["name"])
+                        ? const Icon(Icons.check_circle)
+                        : const Icon(Icons.circle_outlined),
+                  ),
+                ));
+              },
+            ),
           ),
         ],
       ),
       isScrollControlled: true,
       backgroundColor: kBlackColor,
     );
-  }
-
-  uploadForm() async {
-    if (!formKey.currentState!.validate()) return;
-    setState(() {
-      loading = true;
-    });
-    await videosCollection.doc(widget.videoID).update({"active": false});
-
-    await reviewVideosCollection.add({
-      "originalID": widget.videoID,
-      "creatorID": widget.uid,
-      "title": titleController.text,
-      "storyline": storylineController.text,
-      "section": "movies",
-      "duration": durationController.text,
-      "publish": int.parse(releaseYearController.text),
-      "genres": genresController.text.split(","),
-      "type": selectedType,
-      "contentUrl": contentUrlController.text,
-      "contentRating": ratingController.text,
-      "pricing": {
-        "amount": double.parse(amountController.text),
-        "validity": int.parse(validityController.text),
-      },
-      "addedAt": DateTime.now(),
-    });
-    customSnackBar(text: "Content submitted and waiting for re-verification");
-    Get.back();
-  }
-
-  getData() async {
-    setState(() {
-      loading = true;
-    });
-    final snapshot = await videosCollection.doc(widget.videoID).get();
-    titleController.text = snapshot['title'];
-    storylineController.text = snapshot['storyline'];
-    durationController.text = snapshot['duration'];
-    releaseYearController.text = snapshot['publish'].toString();
-    selectedGenres = snapshot['genres'];
-    genresController.text = snapshot['genres'].join(",");
-
-    if (snapshot['type'] == "PREMIUM") {
-      selectedType = "PREMIUM";
-      amountController.text = snapshot['amount'].toString();
-      validityController.text = snapshot['validity'].toString();
-    }
-
-    setState(() {
-      loading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    titleController.dispose();
-    storylineController.dispose();
-    durationController.dispose();
-    releaseYearController.dispose();
-    ratingController.dispose();
-    genresController.dispose();
-    amountController.dispose();
-    validityController.dispose();
-    contentUrlController.dispose();
-    super.dispose();
   }
 
   @override
@@ -158,12 +77,12 @@ class _EditMovieState extends State<EditMovie> {
         title: const Text("Edit Movie"),
       ),
       body: Form(
-        key: formKey,
+        key: controller.formKey,
         child: ListView(
           padding: const EdgeInsets.all(15),
           children: [
             TextFormField(
-              controller: titleController,
+              controller: controller.titleController,
               keyboardType: TextInputType.text,
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
               decoration: InputDecoration(
@@ -183,7 +102,7 @@ class _EditMovieState extends State<EditMovie> {
             ),
             const SizedBox(height: 15),
             TextFormField(
-              controller: storylineController,
+              controller: controller.storylineController,
               maxLines: 4,
               keyboardType: TextInputType.multiline,
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
@@ -204,7 +123,7 @@ class _EditMovieState extends State<EditMovie> {
             ),
             const SizedBox(height: 15),
             TextFormField(
-              controller: releaseYearController,
+              controller: controller.releaseYearController,
               keyboardType: const TextInputType.numberWithOptions(
                   signed: false, decimal: false),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
@@ -228,7 +147,7 @@ class _EditMovieState extends State<EditMovie> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: durationController,
+                    controller: controller.durationController,
                     keyboardType: TextInputType.text,
                     style: customTextStyleBody(
                         color: Colors.white, fontSize: 16.sp),
@@ -251,7 +170,7 @@ class _EditMovieState extends State<EditMovie> {
                 const SizedBox(width: 15),
                 Expanded(
                   child: TextFormField(
-                    controller: ratingController,
+                    controller: controller.ratingController,
                     keyboardType: TextInputType.text,
                     style: customTextStyleBody(
                         color: Colors.white, fontSize: 16.sp),
@@ -275,7 +194,7 @@ class _EditMovieState extends State<EditMovie> {
             ),
             const SizedBox(height: 15),
             TextFormField(
-              controller: genresController,
+              controller: controller.genresController,
               maxLines: 2,
               readOnly: true,
               onTap: () => openGenresDialog(),
@@ -297,83 +216,80 @@ class _EditMovieState extends State<EditMovie> {
               validator: fieldValidator,
             ),
             const SizedBox(height: 15),
-            Wrap(
+            Obx(() => Wrap(
               children: [
                 RadioListTile(
-                  value: selectedType,
-                  groupValue: "FREE",
+                  value: "FREE",
+                  groupValue: controller.selectedType.value,
                   onChanged: (v) {
-                    setState(() {
-                      selectedType = "FREE";
-                    });
+                    controller.selectedType.value = "FREE";
                   },
                   title: Text("FREE", style: fontBody()),
                 ),
                 const SizedBox(width: 15),
                 RadioListTile(
-                  value: selectedType,
-                  groupValue: "PREMIUM",
+                  value: "PREMIUM",
+                  groupValue: controller.selectedType.value,
                   onChanged: (v) {
-                    setState(() {
-                      selectedType = "PREMIUM";
-                    });
+                    controller.selectedType.value = "PREMIUM";
                   },
                   title: Text("PREMIUM", style: fontBody()),
                 ),
               ],
-            ),
-            if (selectedType == "PREMIUM") const SizedBox(height: 15),
-            if (selectedType == "PREMIUM")
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: amountController,
-                      keyboardType: TextInputType.text,
-                      style: customTextStyleBody(
-                          color: Colors.white, fontSize: 16.sp),
-                      decoration: InputDecoration(
-                        fillColor: Colors.white10,
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        labelText: "Amount (dollar)",
-                        labelStyle: customTextStyleBody(
-                            color: kWhiteColor, fontSize: 16.sp),
+            )),
+            Obx(() => controller.selectedType.value == "PREMIUM" ? const SizedBox(height: 15) : const SizedBox.shrink()),
+            Obx(() => controller.selectedType.value == "PREMIUM"
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.amountController,
+                        keyboardType: TextInputType.text,
+                        style: customTextStyleBody(
+                            color: Colors.white, fontSize: 16.sp),
+                        decoration: InputDecoration(
+                          fillColor: Colors.white10,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          labelText: "Amount (dollar)",
+                          labelStyle: customTextStyleBody(
+                              color: kWhiteColor, fontSize: 16.sp),
+                        ),
+                        validator: fieldValidator,
                       ),
-                      validator: fieldValidator,
                     ),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: TextFormField(
-                      controller: validityController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                          signed: false, decimal: false),
-                      style: customTextStyleBody(
-                          color: Colors.white, fontSize: 16.sp),
-                      decoration: InputDecoration(
-                        fillColor: Colors.white10,
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        labelText: "Validity (days)",
-                        labelStyle: customTextStyleBody(
-                            color: kWhiteColor, fontSize: 16.sp),
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: TextFormField(
+                        controller: controller.validityController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            signed: false, decimal: false),
+                        style: customTextStyleBody(
+                            color: Colors.white, fontSize: 16.sp),
+                        decoration: InputDecoration(
+                          fillColor: Colors.white10,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          labelText: "Validity (days)",
+                          labelStyle: customTextStyleBody(
+                              color: kWhiteColor, fontSize: 16.sp),
+                        ),
+                        validator: fieldValidator,
                       ),
-                      validator: fieldValidator,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                )
+              : const SizedBox.shrink()),
             const SizedBox(height: 15),
             Text(
                 "Please provide these files: 1. Video (HD or 4K), 2. Banner (3:2), 3. Poster (3:4), 4. N.O.C (PDF format), 5. Optional Trailer (HD), 6. Optional Subtitle (srt)\nPlease upload all in a single google drive and share the url here.",
@@ -381,7 +297,7 @@ class _EditMovieState extends State<EditMovie> {
                     fontSize: 15.sp, color: kWhiteColor.withValues(alpha: 0.7))),
             const SizedBox(height: 10),
             TextFormField(
-              controller: contentUrlController,
+              controller: controller.contentUrlController,
               keyboardType: const TextInputType.numberWithOptions(
                   signed: false, decimal: false),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
@@ -408,7 +324,7 @@ class _EditMovieState extends State<EditMovie> {
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-          child: loading
+          child: Obx(() => controller.loading.value
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -416,7 +332,7 @@ class _EditMovieState extends State<EditMovie> {
                   ],
                 )
               : TextButton(
-                  onPressed: () => uploadForm(),
+                  onPressed: () => controller.uploadForm(),
                   style: TextButton.styleFrom(
                       backgroundColor: kButtonColor,
                       shape: const StadiumBorder(),
@@ -424,7 +340,7 @@ class _EditMovieState extends State<EditMovie> {
                   child: Text("Submit",
                       style: customTextStyleBody(
                           fontWeight: FontWeight.bold, fontSize: 16.sp)),
-                ),
+                )),
         ),
       ),
     );
