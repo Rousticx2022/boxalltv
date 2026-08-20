@@ -61,6 +61,22 @@ class CartController extends GetxController {
     return data.map((event) => event.docs.map((e) => e.data()).toList());
   }
 
+  Stream<DocumentSnapshot> fetchProduct(String vid, String productID) {
+    return videosCollection
+        .doc(vid)
+        .collection("products")
+        .doc(productID)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot> fetchAddresses() {
+    return usersCollection
+        .doc(uid)
+        .collection("addresses")
+        .orderBy("mostUsed", descending: true)
+        .snapshots();
+  }
+
   addNewAddress() {
     Get.bottomSheet(
       SafeArea(

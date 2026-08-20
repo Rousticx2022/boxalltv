@@ -70,11 +70,7 @@ class Cart extends GetView<CartController> {
                       itemCount: controller.cartItems.length,
                       itemBuilder: (context, index) {
                         return StreamBuilder<DocumentSnapshot>(
-                            stream: videosCollection
-                                .doc(controller.cartItems[index]["vid"])
-                                .collection("products")
-                                .doc(controller.cartItems[index]["productID"])
-                                .snapshots(),
+                            stream: controller.fetchProduct(controller.cartItems[index]["vid"], controller.cartItems[index]["productID"]),
                             builder: (context, snapshot) {
                               if (!snapshot.hasData) return const SizedBox();
 
@@ -166,11 +162,7 @@ class Cart extends GetView<CartController> {
                 ),
                 const Divider(),
                 StreamBuilder<QuerySnapshot>(
-                    stream: usersCollection
-                        .doc(controller.uid)
-                        .collection("addresses")
-                        .orderBy("mostUsed", descending: true)
-                        .snapshots(),
+                    stream: controller.fetchAddresses(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return customCircularProgress(
@@ -289,11 +281,7 @@ class Cart extends GetView<CartController> {
                     itemCount: controller.cartItems.length,
                     itemBuilder: (context, index) {
                       return StreamBuilder<DocumentSnapshot>(
-                          stream: videosCollection
-                              .doc(controller.cartItems[index]["vid"])
-                              .collection("products")
-                              .doc(controller.cartItems[index]["productID"])
-                              .snapshots(),
+                          stream: controller.fetchProduct(controller.cartItems[index]["vid"], controller.cartItems[index]["productID"]),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) return const SizedBox();
 
