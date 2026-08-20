@@ -85,7 +85,6 @@ dependencies:
   animated_music_indicator: ^0.0.6
   numeral: 2.0.1
   cnav: ^1.0.3
-  ffmpeg_kit_flutter: 6.0.3
   readmore: ^3.0.0
   easy_image_viewer: ^1.5.1
   app_links: ^7.2.1
@@ -108,6 +107,7 @@ dependencies:
   flutter_image_slideshow: ^0.1.6
   #  flutter_screen_recording: ^2.0.14
   device_screen_recorder: ^0.0.4
+  ffmpeg_kit_flutter_new: ^4.6.2
 
 
 dev_dependencies:
