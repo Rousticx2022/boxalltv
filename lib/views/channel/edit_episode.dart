@@ -34,7 +34,7 @@ class _EditEpisodeState extends State<EditEpisode> {
       durationController = TextEditingController(),
       episodeDescriptionController = TextEditingController();
 
-  getData() async {
+  Future<void> getData() async {
     setState(() {
       loading = true;
     });
@@ -56,7 +56,7 @@ class _EditEpisodeState extends State<EditEpisode> {
     });
   }
 
-  editEpisode() async {
+  Future<void> editEpisode() async {
     if (!formKey.currentState!.validate()) return;
     await videosCollection.doc(widget.vid).update({"active": false});
 

@@ -32,7 +32,7 @@ class _CreatorFormState extends State<CreatorForm> {
 
   List files = [];
 
-  uploadForm() async {
+  Future<void> uploadForm() async {
     if (!formKey.currentState!.validate()) return;
 
     if (files.isEmpty) {
@@ -98,7 +98,7 @@ class _CreatorFormState extends State<CreatorForm> {
         ]);
   }
 
-  pickFiles() async {
+  Future<void> pickFiles() async {
     List<PlatformFile> result = await FilePicker.pickFiles(
 
         type: FileType.custom,

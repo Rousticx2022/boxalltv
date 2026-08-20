@@ -15,7 +15,7 @@ class SplashController extends GetxController
   RxBool loaded = false.obs;
   final box = GetStorage();
 
-  verifyAuthentication() async {
+  Future<void> verifyAuthentication() async {
     uid = await UserService.instance.authenticate();
 
     DocumentSnapshot generalDoc =

@@ -4,7 +4,7 @@ import 'package:just_audio/just_audio.dart';
 class MusicService extends GetxService {
   final audioPlayer = AudioPlayer();
 
-  playAudio({required String url}) async {
+  Future<void> playAudio({required String url}) async {
     if (audioPlayer.playing) {
       await audioPlayer.stop();
     }
@@ -12,7 +12,7 @@ class MusicService extends GetxService {
     audioPlayer.play();
   }
 
-  pauseAudio() async {
+  Future<void> pauseAudio() async {
     if (audioPlayer.playing) {
       await audioPlayer.pause();
     }

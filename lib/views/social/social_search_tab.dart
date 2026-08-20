@@ -197,7 +197,7 @@ class _SocialSearchTabState extends State<SocialSearchTab> {
     );
   }
 
-  openChat(String fid) async {
+  Future<void> openChat(String fid) async {
     DocumentSnapshot snapshot = await usersCollection
         .doc(widget.uid)
         .collection("messages")

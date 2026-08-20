@@ -7,7 +7,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:boxalltv/utils/ui_widgets.dart';
 import '../utils/container_builder.dart';
 import '../utils/placeholder_rails.dart';
-import '../utils/collections.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

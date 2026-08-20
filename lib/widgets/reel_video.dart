@@ -47,7 +47,7 @@ class _ReelVideoState extends State<ReelVideo> with RouteAware {
   BottomTabController bottomTabController = Get.find();
   AdsService adsService = Get.find();
 
-  toggleReelLike(bool liked) async {
+  Future<void> toggleReelLike(bool liked) async {
     if (widget.uid.isEmpty) {
       return;
     }
@@ -60,7 +60,7 @@ class _ReelVideoState extends State<ReelVideo> with RouteAware {
     }
   }
 
-  sendComment() async {
+  Future<void> sendComment() async {
     if (commentController.text.trim().isEmpty) {
       return;
     }
@@ -71,7 +71,7 @@ class _ReelVideoState extends State<ReelVideo> with RouteAware {
     widget.reelData.reference.update({"comments": FieldValue.increment(1)});
   }
 
-  reportComment(DocumentReference documentReference) {
+  void reportComment(DocumentReference documentReference) {
     Get.defaultDialog(
         title: "Report Comment",
         backgroundColor: Colors.grey.shade900,
@@ -120,7 +120,7 @@ class _ReelVideoState extends State<ReelVideo> with RouteAware {
         ]);
   }
 
-  deleteReel(DocumentReference docRef) {
+  void deleteReel(DocumentReference docRef) {
     Get.defaultDialog(
         title: "Delete Reel",
         titleStyle: fontHeading(

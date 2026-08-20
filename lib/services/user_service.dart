@@ -33,7 +33,7 @@ class UserService {
     });
   }
 
-  addToCart(
+  Future<void> addToCart(
       {required String uid,
       required String vid,
       required String productID}) async {
@@ -65,7 +65,7 @@ class UserService {
     }
   }
 
-  removeFromCart(
+  Future<void> removeFromCart(
       {required String uid,
       required String vid,
       required String productID}) async {

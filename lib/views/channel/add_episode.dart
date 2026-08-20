@@ -29,7 +29,7 @@ class _AddEpisodeState extends State<AddEpisode> {
       durationController = TextEditingController(),
       episodeDescriptionController = TextEditingController();
 
-  addEpisode() async {
+  Future<void> addEpisode() async {
     if (!formKey.currentState!.validate()) return;
     await videosCollection.doc(widget.vid).update({"active": false});
 

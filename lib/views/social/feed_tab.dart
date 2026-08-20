@@ -32,7 +32,7 @@ class _FeedTabState extends State<FeedTab> {
 
   List<DocumentSnapshot> postsList = [];
 
-  confirmDelete(String postID) {
+  void confirmDelete(String postID) {
     Get.defaultDialog(
         title: "Delete Post",
         titleStyle: fontHeading(
@@ -75,7 +75,7 @@ class _FeedTabState extends State<FeedTab> {
         ]);
   }
 
-  showRewardedAdReel(int coins) {
+  void showRewardedAdReel(int coins) {
     if (bottomTabController.userData["accountType"] == "premium") {
       return;
     }
@@ -103,7 +103,7 @@ class _FeedTabState extends State<FeedTab> {
     adsService.rewardedAd = null;
   }
 
-  fetchPosts() async {
+  Future<void> fetchPosts() async {
     final QuerySnapshot snapshot = await postsCollection
         .where("active", isEqualTo: true)
         .orderBy('postDate', descending: true)
@@ -118,7 +118,7 @@ class _FeedTabState extends State<FeedTab> {
     }
   }
 
-  fetchNextPosts() async {
+  Future<void> fetchNextPosts() async {
     if (postsList.length > 30) {
       fetchPosts();
       customSnackBar(text: "Feeds refreshed");

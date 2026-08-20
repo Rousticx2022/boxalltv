@@ -34,7 +34,7 @@ class Menu extends StatefulWidget {
 class _MenuState extends State<Menu> {
   bool channelLoading = false, advertisersLoading = false;
 
-  showCreatorAccountBlocked() {
+  void showCreatorAccountBlocked() {
     Get.defaultDialog(
         title: "Account Blocked",
         titleStyle: fontHeading(
@@ -61,7 +61,7 @@ class _MenuState extends State<Menu> {
         ]);
   }
 
-  showAdvertiserAccountBlocked() {
+  void showAdvertiserAccountBlocked() {
     Get.defaultDialog(
         title: "Account Blocked",
         titleStyle: fontHeading(
@@ -88,7 +88,7 @@ class _MenuState extends State<Menu> {
         ]);
   }
 
-  showCreatorAccountPending() {
+  void showCreatorAccountPending() {
     Get.defaultDialog(
         title: "Pending Approval",
         titleStyle: fontHeading(
@@ -115,7 +115,7 @@ class _MenuState extends State<Menu> {
         ]);
   }
 
-  showAdvertiserAccountPending() {
+  void showAdvertiserAccountPending() {
     Get.defaultDialog(
         title: "Pending Approval",
         titleStyle: fontHeading(

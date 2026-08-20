@@ -61,7 +61,7 @@ class CropPage extends StatelessWidget {
                 flex: 4,
                 child: AnimatedBuilder(
                   animation: controller,
-                  builder: (_, __) => Column(
+                  builder: (_, _) => Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -33,7 +33,7 @@ class _AddMovieState extends State<AddMovie> {
       contentUrlController = TextEditingController(),
       ratingController = TextEditingController(text: "12+");
 
-  uploadForm() async {
+  Future<void> uploadForm() async {
     if (!formKey.currentState!.validate()) return;
 
     submittedVideosCollection.add({
@@ -57,7 +57,7 @@ class _AddMovieState extends State<AddMovie> {
     Get.back();
   }
 
-  openGenresDialog() {
+  void openGenresDialog() {
     Get.bottomSheet(
       Column(
         children: [

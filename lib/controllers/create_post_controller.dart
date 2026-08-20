@@ -81,7 +81,7 @@ class CreatePostController extends GetxController {
     super.onInit();
   }
 
-  uploadPost() async {
+  Future<void> uploadPost() async {
     if (captionController.text.isEmpty && content.isEmpty) {
       customSnackBar(text: "Cannot post blank");
       return;
@@ -121,7 +121,7 @@ class CreatePostController extends GetxController {
         ]);
   }
 
-  openOptionSheet() {
+  void openOptionSheet() {
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(16),

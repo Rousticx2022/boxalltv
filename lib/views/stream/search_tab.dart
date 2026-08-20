@@ -27,7 +27,7 @@ class _SearchTabState extends State<SearchTab> {
   bool doSearch = false;
   RxString searchText = "".obs;
 
-  getSearchResult() async {
+  Future<void> getSearchResult() async {
     if (searchText.isEmpty) {
       setState(() {
         filmList.clear();

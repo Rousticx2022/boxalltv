@@ -33,7 +33,7 @@ class _EditSeriesState extends State<EditSeries> {
       contentUrlController = TextEditingController(),
       ratingController = TextEditingController(text: "12+");
 
-  openGenresDialog() {
+  void openGenresDialog() {
     Get.bottomSheet(
       Column(
         children: [
@@ -79,7 +79,7 @@ class _EditSeriesState extends State<EditSeries> {
     );
   }
 
-  uploadForm() async {
+  Future<void> uploadForm() async {
     if (!formKey.currentState!.validate()) return;
     setState(() {
       loading = true;
@@ -107,7 +107,7 @@ class _EditSeriesState extends State<EditSeries> {
     Get.back();
   }
 
-  getDate() async {
+  Future<void> getDate() async {
     setState(() {
       loading = true;
     });

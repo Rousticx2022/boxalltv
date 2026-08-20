@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class NotificationsController extends GetxController {
   String? uid = Get.parameters["uid"];
 
-  acceptFriendRequest(String friendID, String notificationID) async {
+  Future<void> acceptFriendRequest(String friendID, String notificationID) async {
     customSnackBar(text: "You are now friends");
 
     await usersCollection
@@ -55,7 +55,7 @@ class NotificationsController extends GetxController {
     );
   }
 
-  rejectFriendRequest(String friendID, String notificationID) async {
+  Future<void> rejectFriendRequest(String friendID, String notificationID) async {
     customSnackBar(text: "Friend request rejected");
     await usersCollection
         .doc(uid!)

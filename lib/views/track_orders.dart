@@ -20,7 +20,7 @@ class TrackOrders extends StatefulWidget {
 }
 
 class _TrackOrdersState extends State<TrackOrders> {
-  cancelOrder(DocumentSnapshot snapshot) {
+  void cancelOrder(DocumentSnapshot snapshot) {
     if (snapshot["shipped"]["status"]) {
       customSnackBar(text: "Cannot cancel this order after being shipped");
       return;
@@ -74,7 +74,7 @@ class _TrackOrdersState extends State<TrackOrders> {
         ]);
   }
 
-  openTrackingDetails(DocumentSnapshot snapshot) {
+  void openTrackingDetails(DocumentSnapshot snapshot) {
     Get.bottomSheet(
       SizedBox(
         height: context.height / 1.5,

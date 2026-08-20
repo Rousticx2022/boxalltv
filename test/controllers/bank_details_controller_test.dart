@@ -1,6 +1,5 @@
 import 'package:boxalltv/controllers/bank_details_controller.dart';
 import 'package:boxalltv/utils/collections.dart';
-import 'package:boxalltv/utils/exceptions.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';

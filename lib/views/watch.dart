@@ -25,7 +25,7 @@ class Watch extends GetView<WatchController> {
     return buildMain(context);
   }
 
-  customAdsControls(BuildContext context) {
+  Stack customAdsControls(BuildContext context) {
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -93,7 +93,7 @@ class Watch extends GetView<WatchController> {
     );
   }
 
-  customControlsMobile(BuildContext context) {
+  Stack customControlsMobile(BuildContext context) {
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -193,7 +193,7 @@ class Watch extends GetView<WatchController> {
     );
   }
 
-  customControls(BuildContext context) {
+  Stack customControls(BuildContext context) {
     return Stack(
       children: <Widget>[
         Positioned.fill(

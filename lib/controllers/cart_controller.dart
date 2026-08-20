@@ -77,7 +77,7 @@ class CartController extends GetxController {
         .snapshots();
   }
 
-  addNewAddress() {
+  void addNewAddress() {
     Get.bottomSheet(
       SafeArea(
         child: Padding(
@@ -206,7 +206,7 @@ class CartController extends GetxController {
     );
   }
 
-  nextButton() async {
+  Future<void> nextButton() async {
     switch (pageIndex.value) {
       case 0:
         if (cartItems.isEmpty) {
@@ -277,7 +277,7 @@ class CartController extends GetxController {
     }
   }
 
-  createPaymentIntent(double amount, String currency) async {
+  Future<dynamic> createPaymentIntent(double amount, String currency) async {
     try {
       Map<String, dynamic> body = {
         'amount': (amount * 100).toInt().toString(),
@@ -301,7 +301,7 @@ class CartController extends GetxController {
     }
   }
 
-  displayPaymentSheet(double amount) async {
+  Future<void> displayPaymentSheet(double amount) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {
         await ordersCollection.add({

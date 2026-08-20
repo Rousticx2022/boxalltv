@@ -32,7 +32,7 @@ class PurchaseService extends GetxService {
     }
   }
 
-  createPaymentIntent(double amount, String currency, String uid, String vid,
+  Future<dynamic> createPaymentIntent(double amount, String currency, String uid, String vid,
       int validity) async {
     try {
       Map<String, dynamic> body = {
@@ -57,7 +57,7 @@ class PurchaseService extends GetxService {
     }
   }
 
-  displayPaymentSheet(
+  Future<void> displayPaymentSheet(
       double amount, String uid, String vid, int validity) async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {

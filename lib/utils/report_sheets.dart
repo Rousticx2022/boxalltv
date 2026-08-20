@@ -6,7 +6,7 @@ import '../utils/styles.dart';
 import 'collections.dart';
 import 'ui_widgets.dart';
 
-openTrendReelReport({required String reelID, required String uid}) {
+void openTrendReelReport({required String reelID, required String uid}) {
   Get.bottomSheet(
     BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),

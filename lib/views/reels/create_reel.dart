@@ -46,7 +46,7 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
 
   ImagePicker imagePicker = ImagePicker();
 
-  pickVideo() async {
+  Future<void> pickVideo() async {
     final pickedFile = await imagePicker.pickVideo(source: ImageSource.gallery);
     if (pickedFile != null) {
       Get.to(() =>
@@ -59,7 +59,7 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
     return '/storage/emulated/0/Download/${Platform.pathSeparator}$filename';
   }
 
-  initializeCamera(int cameraDirection) async {
+  Future<void> initializeCamera(int cameraDirection) async {
     cameras = await availableCameras();
     cameraController = CameraController(
         cameras[cameraDirection], ResolutionPreset.max,
@@ -88,7 +88,7 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
     });
   }
 
-  toggleCamDirection() {
+  void toggleCamDirection() {
     _isFacingFront = !_isFacingFront;
     cameraDirection = _isFacingFront ? 1 : 0;
     // cameraController.dispose();
@@ -96,14 +96,14 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
     setState(() {});
   }
 
-  enableFlash() {
+  void enableFlash() {
     _enableFlashlight = !_enableFlashlight;
     cameraController
         .setFlashMode(_enableFlashlight ? FlashMode.torch : FlashMode.off);
     setState(() {});
   }
 
-  startRecording() async {
+  Future<void> startRecording() async {
     setState(() {
       _isVideoRecording = true;
     });
@@ -124,7 +124,7 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
     });
   }
 
-  stopRecording() async {
+  Future<void> stopRecording() async {
     timer.cancel();
     debugPrint('CameraPage: stopVideoRecording');
 
@@ -134,7 +134,7 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
         () => AddReelDetails(videoPath: xFile.path, audioData: selectedSound));
   }
 
-  toggleRecordingMode() {
+  void toggleRecordingMode() {
     switch (selectedRecordTimer) {
       case 15:
         setState(() {

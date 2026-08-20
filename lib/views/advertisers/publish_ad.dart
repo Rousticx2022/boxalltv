@@ -44,7 +44,7 @@ class _PublishAdState extends State<PublishAd> {
   Rx selectedTargetCountry = "".obs;
   String logoPath = "", videoPath = "";
 
-  pickFile() async {
+  Future<void> pickFile() async {
     List<PlatformFile> result =
         await FilePicker.pickFiles(type: FileType.image);
 
@@ -56,7 +56,7 @@ class _PublishAdState extends State<PublishAd> {
     }
   }
 
-  pickVideo() async {
+  Future<void> pickVideo() async {
     List<PlatformFile> result =
         await FilePicker.pickFiles(type: FileType.video);
 
@@ -68,7 +68,7 @@ class _PublishAdState extends State<PublishAd> {
     }
   }
 
-  fetchTargetCountries() async {
+  Future<void> fetchTargetCountries() async {
     QuerySnapshot countries =
         await targetCountriesCollection.orderBy("country").get();
     targetCountries = countries.docs;
@@ -76,7 +76,7 @@ class _PublishAdState extends State<PublishAd> {
     setState(() {});
   }
 
-  save() async {
+  Future<void> save() async {
     if (!formKey.currentState!.validate()) return;
 
     setState(() {

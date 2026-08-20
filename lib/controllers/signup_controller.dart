@@ -38,7 +38,7 @@ class SignupController extends GetxController {
     passwordVisible.value = !passwordVisible.value;
   }
 
-  fetchTargetCountries() async {
+  Future<void> fetchTargetCountries() async {
     QuerySnapshot countries =
         await targetCountriesCollection.orderBy("country").get();
     targetCountries = countries.docs;
@@ -220,7 +220,7 @@ class SignupController extends GetxController {
           borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
       backgroundColor: kBlackColor);
 
-  openZipcodeSheet() {
+  void openZipcodeSheet() {
     Get.bottomSheet(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

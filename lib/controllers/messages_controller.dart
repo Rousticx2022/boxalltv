@@ -22,7 +22,7 @@ class MessagesController extends GetxController {
   List pickedFiles = [];
   RxString showTimeID = "".obs;
 
-  sendMessage() async {
+  Future<void> sendMessage() async {
     if (messageController.text.trim().isEmpty) return;
     await chatsCollection.doc(chatID).collection("messages").add({
       "message": messageController.text.trim(),
@@ -41,7 +41,7 @@ class MessagesController extends GetxController {
     );
   }
 
-  senderView(MessageModel chat) => Column(
+  Column senderView(MessageModel chat) => Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Align(
@@ -97,7 +97,7 @@ class MessagesController extends GetxController {
         ],
       );
 
-  receiverView(MessageModel chat) => Column(
+  Column receiverView(MessageModel chat) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
@@ -152,51 +152,47 @@ class MessagesController extends GetxController {
         ],
       );
 
-  pickFiles() async {
+  Future<void> pickFiles() async {
     List<PlatformFile> result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowMultiple: true,
       allowedExtensions: ['jpg', 'png', 'mp4', 'jpeg', 'gif'],
     );
 
-    if (result != null) {
-      pickedFiles = result
-          .map((file) => {"path": file.path!, "extension": file.name.split(".").last})
-          .toList();
+    pickedFiles = result
+        .map((file) => {"path": file.path!, "extension": file.name.split(".").last})
+        .toList();
 
-      var request = http.MultipartRequest('POST',
-          Uri.parse('http://appdev.gameinghub.com/gameinghub/postContent'));
-      request.fields.addAll({'type': 'chat', 'uid': uid!});
+    var request = http.MultipartRequest('POST',
+        Uri.parse('http://appdev.gameinghub.com/gameinghub/postContent'));
+    request.fields.addAll({'type': 'chat', 'uid': uid!});
 
-      for (var element in pickedFiles) {
-        request.files
-            .add(await http.MultipartFile.fromPath('file', element["path"]));
+    for (var element in pickedFiles) {
+      request.files
+          .add(await http.MultipartFile.fromPath('file', element["path"]));
+    }
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      Map res = jsonDecode(await response.stream.bytesToString());
+      for (var i in res["details"]) {
+        await chatsCollection.doc(chatID).collection("messages").add({
+          "message": i["url"],
+          "type": "file",
+          "sentBy": uid!,
+          "sentOn": DateTime.now(),
+        });
       }
-      http.StreamedResponse response = await request.send();
-
-      if (response.statusCode == 200) {
-        Map res = jsonDecode(await response.stream.bytesToString());
-        for (var i in res["details"]) {
-          await chatsCollection.doc(chatID).collection("messages").add({
-            "message": i["url"],
-            "type": "file",
-            "sentBy": uid!,
-            "sentOn": DateTime.now(),
-          });
-        }
-        await http.post(
-          Uri.parse("http://65.109.39.177:7110/send_notification"),
-          body: jsonEncode({
-            "title": Get.find<BottomTabController>().userData["name"],
-            "message": "${res["details"].length} files",
-            "uid": fid,
-          }),
-        );
-      } else {
-        customSnackBar(text: response.reasonPhrase.toString());
-      }
+      await http.post(
+        Uri.parse("http://65.109.39.177:7110/send_notification"),
+        body: jsonEncode({
+          "title": Get.find<BottomTabController>().userData["name"],
+          "message": "${res["details"].length} files",
+          "uid": fid,
+        }),
+      );
     } else {
-      // User canceled the picker
+      customSnackBar(text: response.reasonPhrase.toString());
     }
   }
 

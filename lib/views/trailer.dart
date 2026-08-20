@@ -64,7 +64,7 @@ class _TrailerState extends State<Trailer> {
     );
   }
 
-  customControls() {
+  Stack customControls() {
     return Stack(
       children: <Widget>[
         Positioned.fill(

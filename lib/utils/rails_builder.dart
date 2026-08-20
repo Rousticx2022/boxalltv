@@ -17,7 +17,7 @@ part 'rails_builder_ext2.dart';
 class RailsBuilder {
   final String uid;
   RailsBuilder({required this.uid});
-  buildCarousel() {
+  FutureBuilder<QuerySnapshot<Object?>> buildCarousel() {
     return FutureBuilder<QuerySnapshot>(
         future: videosCollection
             .where("active", isEqualTo: true)

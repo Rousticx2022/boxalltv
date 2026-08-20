@@ -35,7 +35,7 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
     super.dispose();
   }
 
-  modifyBankDetails() {
+  void modifyBankDetails() {
     controller.fetchBankData();
     Get.bottomSheet(
       BackdropFilter(

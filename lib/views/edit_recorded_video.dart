@@ -158,7 +158,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                               controller: _controller),
                                           AnimatedBuilder(
                                             animation: _controller.video,
-                                            builder: (_, __) => AnimatedOpacity(
+                                            builder: (_, _) => AnimatedOpacity(
                                               opacity:
                                                   _controller.isPlaying ? 0 : 1,
                                               duration: kThemeAnimationDuration,
@@ -244,7 +244,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                   child: AlertDialog(
                                     title: ValueListenableBuilder(
                                       valueListenable: _exportingProgress,
-                                      builder: (_, double value, __) => Text(
+                                      builder: (_, double value, _) => Text(
                                         "Exporting video ${(value * 100).ceil()}%",
                                         style: const TextStyle(fontSize: 12),
                                       ),
@@ -276,7 +276,7 @@ class _VideoEditorState extends State<VideoEditor> {
           _controller,
           _controller.video,
         ]),
-        builder: (_, __) {
+        builder: (_, _) {
           final int duration = _controller.videoDuration.inSeconds;
           final double pos = _controller.trimPosition * duration;
 

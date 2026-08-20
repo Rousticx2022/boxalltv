@@ -1,7 +1,7 @@
 part of 'publish_ad.dart';
 
 extension _PublishAdStateExt2 on _PublishAdState {
-  openZipcodeSheet() {
+  void openZipcodeSheet() {
     Get.bottomSheet(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

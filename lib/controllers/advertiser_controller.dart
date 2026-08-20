@@ -14,7 +14,7 @@ class AdvertiserController extends GetxController {
     return stream.map((event) => event.data() as Map<String, dynamic>);
   }
 
-  getUserAds() async {
+  Future<void> getUserAds() async {
     await customVideoAdsCollection
         .where("uid", isEqualTo: uid)
         .where("status", isEqualTo: "ongoing")

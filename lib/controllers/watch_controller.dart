@@ -78,7 +78,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
     return true;
   }
 
-  startRecordingTimeout() {
+  void startRecordingTimeout() {
     elapsedSeconds.value =
         recordDuration[bottomTabController.userData["accountType"]];
 
@@ -130,7 +130,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
         file: response, vid: vid!, recordingStartedFrom: recordingStartedFrom));
   }
 
-  showAds() async {
+  Future<void> showAds() async {
     if (bottomTabController.userData["accountType"] == "premium") return;
 
     String videoURL = await adsService.showCustomAds();
@@ -151,7 +151,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
     });
   }
 
-  loadAdVideo(String adURL) {
+  void loadAdVideo(String adURL) {
     playingVideoAds.value = true;
     flickAdsManager = FlickManager(
       videoPlayerController: VideoPlayerController.networkUrl(Uri.parse(adURL)),
@@ -174,7 +174,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  loadVideo() async {
+  Future<void> loadVideo() async {
     DocumentSnapshot vdata = await videosCollection.doc(vid).get();
 
     String videoURL = "", subtitleURL = "";
@@ -304,7 +304,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
     });
   }
 
-  onWillPop() async {
+  Future<void> onWillPop() async {
     flickManager.flickControlManager!.pause();
     Get.find<BottomTabController>().updateContinueWatching(
       position: flickManager

@@ -29,7 +29,7 @@ class _SavedVideosState extends State<SavedVideos> {
   bool isSelecting = false;
   List<String> selectedVideos = [];
 
-  deleteVideos() async {
+  Future<void> deleteVideos() async {
     if (selectedVideos.isEmpty) {
       customSnackBar(text: 'Select videos to delete');
       return;
@@ -48,7 +48,7 @@ class _SavedVideosState extends State<SavedVideos> {
     }
   }
 
-  toggleSelection(bool value, String url) {
+  void toggleSelection(bool value, String url) {
     if (value) {
       setState(() {
         selectedVideos.add(url);
@@ -63,7 +63,7 @@ class _SavedVideosState extends State<SavedVideos> {
     }
   }
 
-  downloadVideos() async {
+  Future<void> downloadVideos() async {
     if (selectedVideos.isEmpty) {
       customSnackBar(text: 'Select videos to create mashup');
       return;

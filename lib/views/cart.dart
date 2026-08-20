@@ -8,7 +8,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/cart_controller.dart';
 import '../services/user_service.dart';
-import '../utils/collections.dart';
 import 'package:boxalltv/utils/ui_widgets.dart';
 import '../utils/styles.dart';
 

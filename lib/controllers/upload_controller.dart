@@ -18,7 +18,7 @@ class UploadController extends GetxController {
   RxBool isUploadingPost = false.obs;
   TextEditingController commentController = TextEditingController();
 
-  createPost({
+  Future<void> createPost({
     required String uid,
     required String vid,
     required String caption,
@@ -89,7 +89,7 @@ class UploadController extends GetxController {
     });
   }
 
-  openPostCommentsSheet(
+  void openPostCommentsSheet(
       {required String uid,
       required String postOwner,
       required String postID}) {

@@ -23,7 +23,7 @@ class YourSeries extends StatefulWidget {
 }
 
 class _YourSeriesState extends State<YourSeries> {
-  openEditOptions(String vid) {
+  void openEditOptions(String vid) {
     Get.bottomSheet(
       BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),

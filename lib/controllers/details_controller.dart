@@ -61,7 +61,7 @@ class DetailsController extends GetxController {
         : Icons.thumb_down_alt_outlined;
   }
 
-  addRating(String title) async {
+  Future<void> addRating(String title) async {
     DocumentSnapshot documentSnapshot = await videoDataCollection
         .doc(vid)
         .collection("reviews")
@@ -112,7 +112,7 @@ class DetailsController extends GetxController {
     );
   }
 
-  fetchFavouritesStatus() async {
+  Future<void> fetchFavouritesStatus() async {
     DocumentSnapshot streamData =
         await usersCollection.doc(uid).collection("favourites").doc(vid).get();
     if (streamData.exists) {
@@ -172,7 +172,7 @@ class DetailsController extends GetxController {
     }
   }
 
-  updateRecommendation() async {
+  Future<void> updateRecommendation() async {
     DocumentSnapshot vdoc = await videosCollection.doc(vid).get();
     DocumentSnapshot udoc = await usersCollection.doc(uid).get();
 
@@ -187,7 +187,7 @@ class DetailsController extends GetxController {
     await usersCollection.doc(uid).update({"recommendations": recommendations});
   }
 
-  loadAllReviews() async {
+  Future<void> loadAllReviews() async {
     Get.bottomSheet(
       Padding(
         padding: const EdgeInsets.only(

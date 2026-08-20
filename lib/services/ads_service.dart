@@ -39,7 +39,7 @@ class AdsService extends GetxService {
   RxInt rewardTimer = 20.obs;
   RxBool isRewardingTimer = false.obs;
 
-  startEarnRewardTimer() {
+  void startEarnRewardTimer() {
     earnRewardTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (rewardTimer.value == 0) {
         timer.cancel();
@@ -53,7 +53,7 @@ class AdsService extends GetxService {
     });
   }
 
-  updateReward(int coins, {bool forSharing = false}) async {
+  Future<void> updateReward(int coins, {bool forSharing = false}) async {
     await usersCollection.doc(uid).update({
       "wallet": FieldValue.increment(coins),
     });
@@ -163,7 +163,7 @@ class AdsService extends GetxService {
     return res;
   }
 
-  loadCustomAds() async {
+  Future<void> loadCustomAds() async {
     QuerySnapshot videoAds = await customVideoAdsCollection
         .where("active", isEqualTo: true)
         .where("status", isEqualTo: "ongoing")
@@ -181,7 +181,7 @@ class AdsService extends GetxService {
     videoAdsList.shuffle();
   }
 
-  reloadCustomAds() async {
+  Future<void> reloadCustomAds() async {
     videoAdsList.shuffle();
   }
 

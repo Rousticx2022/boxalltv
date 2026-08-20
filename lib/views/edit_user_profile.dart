@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +54,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
     passwordVisible = !passwordVisible;
   }
 
-  fetchUser() async {
+  Future<void> fetchUser() async {
     DocumentSnapshot user = await usersCollection.doc(widget.uid).get();
     nameController.text = user["name"];
     emailController.text = user["email"];
@@ -64,7 +63,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
     zipcodeController.text = user["zipcode"];
   }
 
-  fetchTargetCountries() async {
+  Future<void> fetchTargetCountries() async {
     QuerySnapshot countries = await targetCountriesCollection.orderBy("country").get();
     targetCountries = countries.docs;
     selectedTargetCountry.value = targetCountries.first["country"];

@@ -77,7 +77,7 @@ class _PostTypeVideoState extends State<PostTypeVideo> {
 
   bool showIconButton = true;
 
-  initializeVideo() async {
+  Future<void> initializeVideo() async {
     videoPlayerController =
         VideoPlayerController.networkUrl(Uri.parse(widget.content["url"]))
           ..initialize().then((_) {

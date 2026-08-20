@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:ftpconnect/ftpconnect.dart';
 import 'package:animated_music_indicator/animated_music_indicator.dart';
 import 'package:easy_audio_trimmer/easy_audio_trimmer.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
@@ -86,7 +85,7 @@ class _UploadVideoState extends State<UploadVideo> {
     super.initState();
   }
 
-  upload() async {
+  Future<void> upload() async {
     await videoPlayerController.pause();
     Get.defaultDialog(
       backgroundColor: kGreyColor2,
@@ -145,7 +144,7 @@ class _UploadVideoState extends State<UploadVideo> {
     }
   }
 
-  nextButton() {
+  void nextButton() {
     switch (currentPage) {
       case 1:
         setState(() {
@@ -162,7 +161,7 @@ class _UploadVideoState extends State<UploadVideo> {
     }
   }
 
-  generateThumbnail() async {
+  Future<void> generateThumbnail() async {
     String? thumbnailPath = await VideoThumbnail.thumbnailFile(
       video: widget.videoPath,
       imageFormat: ImageFormat.WEBP,
@@ -173,7 +172,7 @@ class _UploadVideoState extends State<UploadVideo> {
     });
   }
 
-  checkTyping() {
+  void checkTyping() {
     if (captionController.text.isEmpty) {
       isTyping = false;
       setState(() {});
@@ -183,7 +182,7 @@ class _UploadVideoState extends State<UploadVideo> {
     }
   }
 
-  pauseVideoPlay() async {
+  Future<void> pauseVideoPlay() async {
     if (videoPlayerController.value.isPlaying) {
       if (soundSelected && player.playing) {
         player.pause();
@@ -192,7 +191,7 @@ class _UploadVideoState extends State<UploadVideo> {
     }
   }
 
-  toggleVideoPlay() async {
+  Future<void> toggleVideoPlay() async {
     if (videoPlayerController.value.isPlaying) {
       if (soundSelected && player.playing) {
         player.pause();
@@ -208,27 +207,6 @@ class _UploadVideoState extends State<UploadVideo> {
         videoPaused = false;
       });
     }
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      selectedSound = widget.soundData;
-    });
-    videoPlayerController = VideoPlayerController.file(File(widget.videoPath))
-      ..initialize().then((_) {
-        setState(() {});
-      })
-      ..play()
-      ..setLooping(true);
-    videoPlayerController.addListener(() {
-      if (!videoPlayerController.value.isPlaying) {
-        setState(() {
-          videoPaused = true;
-        });
-      }
-    });
-    super.initState();
   }
 
   @override

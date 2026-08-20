@@ -26,7 +26,7 @@ class _AddReelDetailsState extends State<AddReelDetails> {
   final TextEditingController captionController = TextEditingController();
   bool enableComment = true, enableSharing = true;
 
-  getThumbnail() async {
+  Future<void> getThumbnail() async {
     thumbnail = (await VideoThumbnail.thumbnailFile(
       video: widget.videoPath,
       thumbnailPath: (await getTemporaryDirectory()).path,

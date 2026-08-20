@@ -24,7 +24,7 @@ class _MusicsTabState extends State<MusicsTab> {
   int currentIndex = 0, position = 0;
   MusicService musicService = Get.find<MusicService>();
 
-  playMusic({required String id, required Map data}) async {
+  Future<void> playMusic({required String id, required Map data}) async {
     musicService.playAudio(url: data["url"]);
     if (!mounted) return;
     setState(() {
@@ -44,7 +44,7 @@ class _MusicsTabState extends State<MusicsTab> {
     }
   }
 
-  pauseMusic() async {
+  Future<void> pauseMusic() async {
     musicService.pauseAudio();
     if (!mounted) return;
     setState(() {

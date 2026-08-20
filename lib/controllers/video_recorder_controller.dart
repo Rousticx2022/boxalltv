@@ -38,7 +38,7 @@ class VideoRecorderController extends GetxController
 
   final player = AudioPlayer();
 
-  selectSound() async {
+  Future<void> selectSound() async {
     Get.bottomSheet(
       StatefulBuilder(builder: (context, setState) {
         return Container(
@@ -198,7 +198,7 @@ class VideoRecorderController extends GetxController
     return audioFile.path;
   }
 
-  toggleFlash() async {
+  Future<void> toggleFlash() async {
     if (cameraDirection.value == 1) {
       // customSnackBar(text: "Flash not supported on front camera");
       return;
@@ -212,7 +212,7 @@ class VideoRecorderController extends GetxController
     }
   }
 
-  toggleRecordingMode() {
+  void toggleRecordingMode() {
     switch (currentRecodingMode.value) {
       case 15:
         currentRecodingMode.value = 30;
@@ -229,7 +229,7 @@ class VideoRecorderController extends GetxController
     }
   }
 
-  pauseRecording() async {
+  Future<void> pauseRecording() async {
     timer.cancel();
     await cameraController.pauseVideoRecording();
     if (soundSelected.value && player.playing) await player.pause();
@@ -237,7 +237,7 @@ class VideoRecorderController extends GetxController
     isPaused.value = true;
   }
 
-  resumeRecording() async {
+  Future<void> resumeRecording() async {
     isRecording.value = true;
     isPaused.value = false;
     if (soundSelected.value) await player.play();
@@ -250,7 +250,7 @@ class VideoRecorderController extends GetxController
     });
   }
 
-  startRecording() async {
+  Future<void> startRecording() async {
     isRecording.value = true;
     isPaused.value = false;
     if (soundSelected.value) {
@@ -269,7 +269,7 @@ class VideoRecorderController extends GetxController
     });
   }
 
-  stopRecording() async {
+  Future<void> stopRecording() async {
     timer.cancel();
     XFile videoFile = await cameraController.stopVideoRecording();
     if (soundSelected.value && player.playing) await player.stop();
@@ -289,7 +289,7 @@ class VideoRecorderController extends GetxController
         uid: uid!, videoPath: videoFile.path, soundData: selectedSound));
   }
 
-  initializeCameraController(int camDir) async {
+  Future<void> initializeCameraController(int camDir) async {
     cameras = await availableCameras();
 
     if (isRecording.value) {

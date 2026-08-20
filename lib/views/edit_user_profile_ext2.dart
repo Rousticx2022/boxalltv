@@ -1,7 +1,7 @@
 part of 'edit_user_profile.dart';
 
 extension _EditUserProfileStateExt2 on _EditUserProfileState {
-  openZipcodeSheet() {
+  void openZipcodeSheet() {
     Get.bottomSheet(
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

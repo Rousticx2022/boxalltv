@@ -1,7 +1,7 @@
 part of 'reel_video.dart';
 
 extension ReelVideoExt on _ReelVideoState {
-  openComments() async {
+  Future<void> openComments() async {
     Get.find<AdsService>().showRewardedAd(1);
     Get.bottomSheet(
       StatefulBuilder(builder: (context, setState) {
@@ -178,18 +178,18 @@ extension ReelVideoExt on _ReelVideoState {
     );
   }
 
-  updateEngagement() {
+  void updateEngagement() {
     widget.reelData.reference.update({"engagement": FieldValue.increment(1)});
   }
 
-  followUser(String userID) async {
+  Future<void> followUser(String userID) async {
     if (followButtonLoading) return;
     followButtonLoading = true;
     await ReelsService().followUser(widget.uid, userID);
     followButtonLoading = false;
   }
 
-  unfollowUser(String userID) async {
+  Future<void> unfollowUser(String userID) async {
     if (followButtonLoading) return;
     followButtonLoading = true;
     await ReelsService().unfollowUser(widget.uid, userID);
@@ -198,7 +198,7 @@ extension ReelVideoExt on _ReelVideoState {
 
   // Random random = Random();
 
-  showRewardedAdReel(int coins) {
+  void showRewardedAdReel(int coins) {
     if (!widget.showAd) return;
 
     if (bottomTabController.userData["accountType"] == "premium") {

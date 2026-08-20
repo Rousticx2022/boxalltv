@@ -35,7 +35,7 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
 
   List tabs = [];
 
-  requestPermissions() async {
+  Future<void> requestPermissions() async {
     await Permission.notification.request();
 
     await Permission.mediaLibrary.request();
@@ -114,7 +114,7 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
     super.onInit();
   }
 
-  initialCheck() async {
+  Future<void> initialCheck() async {
     WidgetsBinding.instance.addObserver(this);
     userData.bindStream(fetchUserData());
     UserService.instance.updateToken(uid!);
@@ -191,7 +191,7 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
     return true;
   }
 
-  uploadVideoInProfile(String path) async {
+  Future<void> uploadVideoInProfile(String path) async {
     try {
       Get.dialog(progressIndicator(), barrierDismissible: false);
       String? thumbnailData = await VideoThumbnail.thumbnailFile(

@@ -11,7 +11,7 @@ class UploadService extends GetxService {
   RxBool isReelUploading = false.obs;
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
-  uploadReel({
+  Future<void> uploadReel({
     required String videoFile,
     required String thumbnail,
     required String caption,

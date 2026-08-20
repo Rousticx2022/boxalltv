@@ -1,7 +1,7 @@
 part of 'upload_video.dart';
 
 extension UploadVideoExt on _UploadVideoState {
-  selectSound() async {
+  Future<void> selectSound() async {
     pauseVideoPlay();
     Get.bottomSheet(
       StatefulBuilder(builder: (context, setState) {

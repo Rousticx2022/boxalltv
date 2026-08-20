@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../utils/collections.dart';
 import 'package:boxalltv/utils/ui_widgets.dart';
 import '../../utils/form_validators.dart';
 import '../../utils/styles.dart';
@@ -33,7 +32,7 @@ class _EditMovieState extends State<EditMovie> {
     super.dispose();
   }
 
-  openGenresDialog() {
+  void openGenresDialog() {
     Get.bottomSheet(
       Column(
         children: [

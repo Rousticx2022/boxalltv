@@ -34,7 +34,7 @@ class _WalletState extends State<Wallet> {
   List<DateTime> to7Days = [];
   List<String> checkInDates = [];
 
-  fetchCheckInDates() async {
+  Future<void> fetchCheckInDates() async {
     for (DateTime date in to7Days) {
       DocumentSnapshot checkInDoc = await usersCollection
           .doc(uid)
@@ -50,7 +50,7 @@ class _WalletState extends State<Wallet> {
     setState(() {});
   }
 
-  fetchUserCheckIn() async {
+  Future<void> fetchUserCheckIn() async {
     String checkInFirstDate = box.read("checkInFirstDate") ?? "";
     String checkInLastDate = box.read("checkInLastDate") ?? "";
 
@@ -75,7 +75,7 @@ class _WalletState extends State<Wallet> {
     fetchCheckInDates();
   }
 
-  openWithdrawSheet(BottomTabController btController) async {
+  Future<void> openWithdrawSheet(BottomTabController btController) async {
     DocumentSnapshot generalDoc =
         await generalCollection.doc("5eAxTtCgFCYlm0Z131mt").get();
     double coinsValuation = generalDoc["coinsValuation"].toDouble();

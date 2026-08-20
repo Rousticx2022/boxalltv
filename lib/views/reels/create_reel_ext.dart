@@ -1,7 +1,7 @@
 part of 'create_reel.dart';
 
 extension CreateReelExt on _CreateReelState {
-  openSoundsSheet() {
+  void openSoundsSheet() {
     Get.bottomSheet(
       Container(
         margin: const EdgeInsets.only(top: kToolbarHeight),

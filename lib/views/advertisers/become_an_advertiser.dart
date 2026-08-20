@@ -33,7 +33,7 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
 
   String signedAdAgreementPath = "";
 
-  pickFile() async {
+  Future<void> pickFile() async {
     List<PlatformFile> result = await FilePicker.pickFiles();
 
     if (result.isNotEmpty) {
@@ -44,7 +44,7 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
     }
   }
 
-  save() async {
+  Future<void> save() async {
     if (!formKey.currentState!.validate()) return;
 
     setState(() {

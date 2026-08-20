@@ -25,7 +25,7 @@ class PublicProfileController extends GetxController {
         });
   }
 
-  confirmDelete(String postID) {
+  void confirmDelete(String postID) {
     Get.defaultDialog(
         title: "Delete Post",
         titleStyle: fontHeading(
@@ -67,7 +67,7 @@ class PublicProfileController extends GetxController {
         ]);
   }
 
-  fetchFollowingStatus() async {
+  Future<void> fetchFollowingStatus() async {
     DocumentSnapshot documentSnapshot = await usersCollection
         .doc(uid)
         .collection("following")
@@ -81,7 +81,7 @@ class PublicProfileController extends GetxController {
     }
   }
 
-  toggleFollowingStatus() async {
+  Future<void> toggleFollowingStatus() async {
     Get.find<AdsService>().showRewardedAd(1);
     if (isFollowing.value) {
       isFollowing.value = false;

@@ -35,7 +35,7 @@ class _WithdrawState extends State<Withdraw> {
 
   BottomTabController bottomTabController = Get.find();
 
-  fetchBankDetails() async {
+  Future<void> fetchBankDetails() async {
     Map bankDetails = await bottomTabController.userData["bankDetails"];
 
     bankNameController.text = bankDetails["bankName"];

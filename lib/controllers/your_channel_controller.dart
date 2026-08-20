@@ -48,7 +48,7 @@ class YourChannelController extends GetxController
         });
   }
 
-  editChannelNameDialog() {
+  void editChannelNameDialog() {
     nameController.text = channelData["channelName"];
     Get.defaultDialog(
       title: "Update Channel Name",
@@ -193,7 +193,7 @@ class YourChannelController extends GetxController
     end: Alignment.topCenter,
   );
 
-  fetchMonthlyViews() async {
+  Future<void> fetchMonthlyViews() async {
     loadingStats.value = true;
     stats = {
       "january": 0.0,

@@ -18,7 +18,7 @@ class FriendsTab extends StatefulWidget {
 }
 
 class _FriendsTabState extends State<FriendsTab> {
-  openChat(String fid) async {
+  Future<void> openChat(String fid) async {
     DocumentSnapshot snapshot = await usersCollection
         .doc(widget.uid)
         .collection("messages")
