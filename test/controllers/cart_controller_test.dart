@@ -52,4 +52,26 @@ void main() {
     expect(snapshot.docs.length, 1);
     expect(snapshot.docs.first['name'], 'Test Address');
   });
+
+  test('nextButton computes cart totals accurately', () async {
+    controller.cartItems.add({
+      'vid': testVid,
+      'productID': testProductId,
+      'count': 2,
+    });
+    controller.selectedAddress.value = 'address123';
+    controller.pageIndex.value = 1; // trigger case 1
+
+    await videosCollection.doc(testVid).collection('products').doc(testProductId).set({
+      'mrp': 100,
+      'discount': 10,
+    }); // Price = 90. 2 count = 180. Tax = 180 * 0.06 = 10.8. Shipping = 25. Total = 215.8
+
+    await controller.nextButton();
+
+    expect(controller.cartTotal.value, 180.0);
+    expect(controller.taxPercentage.value, 10.8);
+    expect(controller.shippingCharge.value, 25.0);
+    expect(controller.subtotal.value, 215.8);
+  });
 }
