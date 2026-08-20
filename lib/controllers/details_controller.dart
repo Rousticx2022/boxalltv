@@ -207,4 +207,35 @@ class DetailsController extends GetxController {
       backgroundColor: Colors.black,
     );
   }
+
+  Stream<DocumentSnapshot> fetchVideoDetails() {
+    return videosCollection.doc(vid).snapshots();
+  }
+
+  Stream<DocumentSnapshot> fetchWatchlistStatus() {
+    return usersCollection.doc(uid).collection("watchlist").doc(vid).snapshots();
+  }
+
+  Future<void> toggleWatchlist(bool exists, DocumentSnapshot videoDetails) async {
+    if (exists) {
+      await usersCollection.doc(uid).collection("watchlist").doc(vid).delete();
+    } else {
+      await usersCollection.doc(uid).collection("watchlist").doc(vid).set({
+        "addedAt": DateTime.now(),
+        "poster": videoDetails["poster"],
+        "title": videoDetails["title"],
+        "type": videoDetails["type"],
+        "section": videoDetails["section"],
+      });
+    }
+  }
+
+  Stream<QuerySnapshot> fetchRelatedVideos(List genres) {
+    return videosCollection
+        .where("active", isEqualTo: true)
+        .where("id", isNotEqualTo: vid)
+        .where("genres", arrayContainsAny: genres)
+        .limit(6)
+        .snapshots();
+  }
 }

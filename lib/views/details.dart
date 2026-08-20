@@ -25,7 +25,7 @@ class Details extends GetView<DetailsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<DocumentSnapshot>(
-          stream: videosCollection.doc(controller.vid).snapshots(),
+          stream: controller.fetchVideoDetails(),
           builder: (context, vSnapshot) {
             if (!vSnapshot.hasData) {
               return Center(
@@ -111,11 +111,7 @@ class Details extends GetView<DetailsController> {
                             ),
                           ),
                           StreamBuilder<DocumentSnapshot>(
-                              stream: usersCollection
-                                  .doc(controller.uid)
-                                  .collection("watchlist")
-                                  .doc(controller.vid)
-                                  .snapshots(),
+                              stream: controller.fetchWatchlistStatus(),
                               builder: (context, snapshot) {
                                 bool exists = false;
 
@@ -129,21 +125,7 @@ class Details extends GetView<DetailsController> {
 
                                 return GestureDetector(
                                   onTap: () async {
-                                    if (exists) {
-                                      snapshot.data!.reference.delete();
-                                    } else {
-                                      await usersCollection
-                                          .doc(controller.uid)
-                                          .collection("watchlist")
-                                          .doc(controller.vid)
-                                          .set({
-                                        "addedAt": DateTime.now(),
-                                        "poster": videoDetails["poster"],
-                                        "title": videoDetails["title"],
-                                        "type": videoDetails["type"],
-                                        "section": videoDetails["section"],
-                                      });
-                                    }
+                                    await controller.toggleWatchlist(exists, videoDetails);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(12),
@@ -384,13 +366,7 @@ class Details extends GetView<DetailsController> {
                       MovieCastBuilder().movieCrew(controller.vid!),
                       const SizedBox(height: 10),
                       StreamBuilder<QuerySnapshot>(
-                          stream: videosCollection
-                              .where("active", isEqualTo: true)
-                              .where("id", isNotEqualTo: controller.vid)
-                              .where("genres",
-                                  arrayContainsAny: videoDetails['genres'])
-                              .limit(6)
-                              .snapshots(),
+                          stream: controller.fetchRelatedVideos(videoDetails['genres']),
                           builder: (context, rSnapshot) {
                             if (!rSnapshot.hasData) {
                               return PlaceholderRails.instance
