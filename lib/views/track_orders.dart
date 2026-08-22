@@ -27,51 +27,57 @@ class _TrackOrdersState extends State<TrackOrders> {
     }
 
     Get.defaultDialog(
-        title: "Cancel Order",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Are you sure you want to cancel this order?",
-          style: fontBody(),
-          textAlign: TextAlign.center,
+      title: "Cancel Order",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Are you sure you want to cancel this order?",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kBlackColor,
+            shape: const StadiumBorder(),
+            foregroundColor: kWhiteColor,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          ),
+          child: Text(
+            "No",
+            style: fontButton(fontWeight: FontWeight.w600, fontSize: 16.sp),
+          ),
         ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kBlackColor,
-              shape: const StadiumBorder(),
-              foregroundColor: kWhiteColor,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("No",
-                style:
-                    fontButton(fontWeight: FontWeight.w600, fontSize: 16.sp)),
+        TextButton(
+          onPressed: () async {
+            snapshot.reference.update({
+              "cancelled": {"status": true, "date": DateTime.now()},
+            });
+            customSnackBar(text: "Order cancelled successfully");
+            Get.back();
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            foregroundColor: kWhiteColor,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-          TextButton(
-            onPressed: () async {
-              snapshot.reference.update({
-                "cancelled": {
-                  "status": true,
-                  "date": DateTime.now(),
-                }
-              });
-              customSnackBar(text: "Order cancelled successfully");
-              Get.back();
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              foregroundColor: kWhiteColor,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          child: Text(
+            "Cancel",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.w600,
+              fontSize: 16.sp,
             ),
-            child: Text("Cancel",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.w600, fontSize: 16.sp)),
           ),
-        ]);
+        ),
+      ],
+    );
   }
 
   void openTrackingDetails(DocumentSnapshot snapshot) {
@@ -81,19 +87,25 @@ class _TrackOrdersState extends State<TrackOrders> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           children: [
-            Text("Status",
-                style: fontBody(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+            Text(
+              "Status",
+              style: fontBody(fontWeight: FontWeight.bold, fontSize: 18.sp),
+            ),
             TimelineTile(
               nodeAlign: TimelineNodeAlign.start,
               contents: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   tileColor: kPrimaryColor.withValues(alpha: 0.3),
                   title: Text("Order placed", style: fontHeading()),
-                  subtitle: Text(DateFormat("dd/MM/yyyy")
-                      .format(snapshot['orderPlaced']["date"].toDate())),
+                  subtitle: Text(
+                    DateFormat(
+                      "dd/MM/yyyy",
+                    ).format(snapshot['orderPlaced']["date"].toDate()),
+                  ),
                 ),
               ),
               node: const TimelineNode(
@@ -112,14 +124,17 @@ class _TrackOrdersState extends State<TrackOrders> {
                 padding: const EdgeInsets.all(10.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   tileColor: snapshot['shipped']["status"]
                       ? kPrimaryColor.withValues(alpha: 0.3)
                       : Colors.grey.withValues(alpha: 0.1),
                   title: Text("Order Confirmed", style: fontHeading()),
-                  subtitle: Text(snapshot['shipped']["date"] != null
-                      ? "Will be delivered by ${DateFormat("dd/MM/yyyy").format(snapshot['shipped']["date"].toDate())}"
-                      : "Usually gets shipped within 2-3 days"),
+                  subtitle: Text(
+                    snapshot['shipped']["date"] != null
+                        ? "Will be delivered by ${DateFormat("dd/MM/yyyy").format(snapshot['shipped']["date"].toDate())}"
+                        : "Usually gets shipped within 2-3 days",
+                  ),
                 ),
               ),
               node: TimelineNode(
@@ -129,10 +144,11 @@ class _TrackOrdersState extends State<TrackOrders> {
                       : Colors.grey,
                   size: 30,
                   child: Icon(
-                      snapshot['shipped']["status"]
-                          ? Remix.check_line
-                          : Remix.time_line,
-                      color: Colors.white),
+                    snapshot['shipped']["status"]
+                        ? Remix.check_line
+                        : Remix.time_line,
+                    color: Colors.white,
+                  ),
                 ),
                 startConnector: const SolidLineConnector(color: kPrimaryColor),
                 endConnector: const SolidLineConnector(color: kPrimaryColor),
@@ -144,14 +160,17 @@ class _TrackOrdersState extends State<TrackOrders> {
                 padding: const EdgeInsets.all(10.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   tileColor: snapshot['outForDelivery']["status"]
                       ? kPrimaryColor.withValues(alpha: 0.1)
                       : Colors.grey.withValues(alpha: 0.1),
                   title: Text("Out for Delivery", style: fontHeading()),
-                  subtitle: Text(snapshot['outForDelivery']["date"] != null
-                      ? "Will reach to you by end of today"
-                      : "Pending"),
+                  subtitle: Text(
+                    snapshot['outForDelivery']["date"] != null
+                        ? "Will reach to you by end of today"
+                        : "Pending",
+                  ),
                 ),
               ),
               node: TimelineNode(
@@ -161,10 +180,11 @@ class _TrackOrdersState extends State<TrackOrders> {
                       : Colors.grey,
                   size: 30,
                   child: Icon(
-                      snapshot['outForDelivery']["status"]
-                          ? Remix.check_line
-                          : Remix.time_line,
-                      color: Colors.white),
+                    snapshot['outForDelivery']["status"]
+                        ? Remix.check_line
+                        : Remix.time_line,
+                    color: Colors.white,
+                  ),
                 ),
                 startConnector: const SolidLineConnector(color: kPrimaryColor),
                 endConnector: const SolidLineConnector(color: kPrimaryColor),
@@ -176,14 +196,17 @@ class _TrackOrdersState extends State<TrackOrders> {
                 padding: const EdgeInsets.all(10.0),
                 child: ListTile(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   tileColor: snapshot['delivered']["status"]
                       ? kPrimaryColor.withValues(alpha: 0.1)
                       : Colors.grey.withValues(alpha: 0.1),
                   title: Text("Delivered", style: fontHeading()),
-                  subtitle: Text(snapshot['delivered']["date"] != null
-                      ? "Delivered"
-                      : "Pending"),
+                  subtitle: Text(
+                    snapshot['delivered']["date"] != null
+                        ? "Delivered"
+                        : "Pending",
+                  ),
                 ),
               ),
               node: TimelineNode(
@@ -193,10 +216,11 @@ class _TrackOrdersState extends State<TrackOrders> {
                       : Colors.grey,
                   size: 30,
                   child: Icon(
-                      snapshot['delivered']["status"]
-                          ? Remix.check_line
-                          : Remix.time_line,
-                      color: Colors.white),
+                    snapshot['delivered']["status"]
+                        ? Remix.check_line
+                        : Remix.time_line,
+                    color: Colors.white,
+                  ),
                 ),
                 startConnector: const SolidLineConnector(color: kPrimaryColor),
                 endConnector: const SolidLineConnector(color: kBlackColor),
@@ -209,12 +233,15 @@ class _TrackOrdersState extends State<TrackOrders> {
                 backgroundColor: kButtonColor,
                 foregroundColor: kWhiteColor,
                 elevation: 0,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 15,
+                ),
               ),
-              child: Text("Close",
-                  style:
-                      fontButton(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+              child: Text(
+                "Close",
+                style: fontButton(fontSize: 16.sp, fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         ),
@@ -228,14 +255,14 @@ class _TrackOrdersState extends State<TrackOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Track Orders'),
-      ),
+      appBar: AppBar(title: const Text('Track Orders')),
       body: FirestoreListView(
         loadingBuilder: (context) =>
             progressIndicator(loadingText: "Loading Orders..."),
-        emptyBuilder: (context) => Text("No Orders Found",
-            style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w500)),
+        emptyBuilder: (context) => Text(
+          "No Orders Found",
+          style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w500),
+        ),
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(20),
         query: ordersCollection
@@ -253,22 +280,29 @@ class _TrackOrdersState extends State<TrackOrders> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                    DateFormat("dd/MM/yyyy")
-                        .format(snapshot["purchasedAt"].toDate()),
-                    style:
-                        fontBody(fontSize: 18.sp, fontWeight: FontWeight.w500)),
+                  DateFormat(
+                    "dd/MM/yyyy",
+                  ).format(snapshot["purchasedAt"].toDate()),
+                  style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w500),
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 15),
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: kBlackColor,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text("ORD.${snapshot.id}",
-                      style: fontBody(
-                          fontSize: 15.sp, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    "ORD.${snapshot.id}",
+                    style: fontBody(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 160,
@@ -277,50 +311,53 @@ class _TrackOrdersState extends State<TrackOrders> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return FutureBuilder<DocumentSnapshot>(
-                          future: videosCollection
-                              .doc(snapshot["cartItems"][index]["vid"])
-                              .collection("products")
-                              .doc(snapshot["cartItems"][index]["productID"])
-                              .get(),
-                          builder: (context, prodSnap) {
-                            if (!prodSnap.hasData) return const SizedBox();
-                            DocumentSnapshot product = prodSnap.data!;
-                            if (prodSnap.hasData && !product.exists) {
-                              return const SizedBox();
-                            }
+                        future: videosCollection
+                            .doc(snapshot["cartItems"][index]["vid"])
+                            .collection("products")
+                            .doc(snapshot["cartItems"][index]["productID"])
+                            .get(),
+                        builder: (context, prodSnap) {
+                          if (!prodSnap.hasData) return const SizedBox();
+                          DocumentSnapshot product = prodSnap.data!;
+                          if (prodSnap.hasData && !product.exists) {
+                            return const SizedBox();
+                          }
 
-                            return Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                color: kGreyColor2,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: CachedNetworkImage(
-                                      imageUrl: product["image"],
-                                      placeholder: (context, url) =>
-                                          const ColoredBox(color: kBlackColor),
-                                      height: 100,
-                                      width: 100,
-                                      fit: BoxFit.cover,
-                                    ),
+                          return Container(
+                            width: 100,
+                            decoration: BoxDecoration(
+                              color: kGreyColor2,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    imageUrl: product["image"],
+                                    placeholder: (context, url) =>
+                                        const ColoredBox(color: kBlackColor),
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
                                   ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                      product["name"] +
-                                          " x${snapshot["cartItems"][index]["count"]}",
-                                      maxLines: 3,
-                                      style: fontBody(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w500)),
-                                ],
-                              ),
-                            );
-                          });
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  product["name"] +
+                                      " x${snapshot["cartItems"][index]["count"]}",
+                                  maxLines: 3,
+                                  style: fontBody(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(width: 10),
@@ -332,12 +369,20 @@ class _TrackOrdersState extends State<TrackOrders> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Order Total:",
-                        style: fontBody(
-                            fontSize: 16.sp, fontWeight: FontWeight.w500)),
-                    Text("\$${snapshot["totalAmountPaid"]}",
-                        style: fontBody(
-                            fontSize: 16.sp, fontWeight: FontWeight.w400))
+                    Text(
+                      "Order Total:",
+                      style: fontBody(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      "\$${snapshot["totalAmountPaid"]}",
+                      style: fontBody(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -345,9 +390,10 @@ class _TrackOrdersState extends State<TrackOrders> {
                     ? Text(
                         "Order cancelled on ${DateFormat("dd/MM/yyyy, HH:mm").format(snapshot["cancelled"]["date"].toDate())}",
                         style: fontBody(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.w600,
-                            color: kButtonColor),
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w600,
+                          color: kButtonColor,
+                        ),
                       )
                     : Row(
                         children: [
@@ -355,13 +401,17 @@ class _TrackOrdersState extends State<TrackOrders> {
                             child: ElevatedButton(
                               onPressed: () => cancelOrder(snapshot),
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: kButtonColor,
-                                  foregroundColor: kWhiteColor,
-                                  elevation: 0),
-                              child: Text("Cancel",
-                                  style: fontButton(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500)),
+                                backgroundColor: kButtonColor,
+                                foregroundColor: kWhiteColor,
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                "Cancel",
+                                style: fontButton(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -369,13 +419,17 @@ class _TrackOrdersState extends State<TrackOrders> {
                             child: ElevatedButton(
                               onPressed: () => openTrackingDetails(snapshot),
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: kPrimaryColor,
-                                  foregroundColor: kWhiteColor,
-                                  elevation: 0),
-                              child: Text("Track Package",
-                                  style: fontButton(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500)),
+                                backgroundColor: kPrimaryColor,
+                                foregroundColor: kWhiteColor,
+                                elevation: 0,
+                              ),
+                              child: Text(
+                                "Track Package",
+                                style: fontButton(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           ),
                         ],

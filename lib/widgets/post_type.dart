@@ -24,11 +24,13 @@ class _PostTypeImageState extends State<PostTypeImage> {
         CachedNetworkImage(
           imageUrl: widget.content["url"],
           placeholder: (c, s) => DecoratedBox(
-              decoration: const BoxDecoration(color: kBlackColor),
-              child: customCircularProgress(strokeColor: kPrimaryColor)),
+            decoration: const BoxDecoration(color: kBlackColor),
+            child: customCircularProgress(strokeColor: kPrimaryColor),
+          ),
           errorWidget: (c, s, v) => DecoratedBox(
-              decoration: const BoxDecoration(color: kBlackColor),
-              child: customCircularProgress(strokeColor: kPrimaryColor)),
+            decoration: const BoxDecoration(color: kBlackColor),
+            child: customCircularProgress(strokeColor: kPrimaryColor),
+          ),
           fit: coverFit ? BoxFit.cover : BoxFit.contain,
           height: Get.width,
           width: Get.width,
@@ -39,7 +41,8 @@ class _PostTypeImageState extends State<PostTypeImage> {
           child: DecoratedBox(
             decoration: ShapeDecoration(
               shape: const CircleBorder(
-                  side: BorderSide(color: kWhiteColor, width: 0.5)),
+                side: BorderSide(color: kWhiteColor, width: 0.5),
+              ),
               color: kBlackColor.withValues(alpha: 0.5),
             ),
             child: RotationTransition(
@@ -52,8 +55,11 @@ class _PostTypeImageState extends State<PostTypeImage> {
                 },
                 padding: const EdgeInsets.all(5),
                 constraints: const BoxConstraints(maxHeight: 40, maxWidth: 40),
-                icon: Icon(coverFit ? Icons.unfold_less : Icons.unfold_more,
-                    color: kWhiteColor, size: 20),
+                icon: Icon(
+                  coverFit ? Icons.unfold_less : Icons.unfold_more,
+                  color: kWhiteColor,
+                  size: 20,
+                ),
               ),
             ),
           ),
@@ -161,11 +167,12 @@ class _PostTypeVideoState extends State<PostTypeVideo> {
                           setState(() {});
                         },
                         icon: Icon(
-                            videoPlayerController.value.isPlaying
-                                ? Icons.pause_circle
-                                : Icons.play_circle,
-                            size: 40,
-                            color: kPrimaryColor),
+                          videoPlayerController.value.isPlaying
+                              ? Icons.pause_circle
+                              : Icons.play_circle,
+                          size: 40,
+                          color: kPrimaryColor,
+                        ),
                       ),
                   ],
                 ),
@@ -175,7 +182,8 @@ class _PostTypeVideoState extends State<PostTypeVideo> {
               height: Get.width,
               width: Get.width,
               color: kBlackColor,
-              child: customCircularProgress(strokeColor: kPrimaryColor)),
+              child: customCircularProgress(strokeColor: kPrimaryColor),
+            ),
     );
   }
 }

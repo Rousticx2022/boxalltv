@@ -5,17 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:boxalltv/utils/collections.dart';
-import '../utils/mock_firebase.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
   const String testUid = 'user123';
-
-  setUpAll(() async {
-    setupFirebaseCoreMocks();
-    await Firebase.initializeApp();
-  });
 
   setUp(() {
     fakeFirestore = FakeFirebaseFirestore();
@@ -23,7 +17,7 @@ void main() {
     videosCollection = fakeFirestore.collection('videos');
     ordersCollection = fakeFirestore.collection('orders');
     Get.testMode = true;
-    
+
     Get.parameters = {'uid': testUid};
     Get.put(CartController());
   });
@@ -34,10 +28,14 @@ void main() {
 
   testWidgets('Cart UI renders correctly', (WidgetTester tester) async {
     await tester.pumpWidget(
-      const GetMaterialApp(
-        home: Cart(),
+      ResponsiveSizer(
+        builder: (context, orientation, screenType) {
+          return const GetMaterialApp(home: Cart());
+        },
       ),
     );
+
+    await tester.pumpAndSettle();
 
     // Initial load will show a stream builder. Let's just check the basic scaffold.
     expect(find.byType(Scaffold), findsOneWidget);

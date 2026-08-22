@@ -18,8 +18,9 @@ class SplashController extends GetxController
   Future<void> verifyAuthentication() async {
     uid = await UserService.instance.authenticate();
 
-    DocumentSnapshot generalDoc =
-        await generalCollection.doc("RCVdTHFlVIVCUjuiD1pm").get();
+    DocumentSnapshot generalDoc = await generalCollection
+        .doc("RCVdTHFlVIVCUjuiD1pm")
+        .get();
 
     update();
     Future.delayed(const Duration(milliseconds: 6000), () {
@@ -29,9 +30,12 @@ class SplashController extends GetxController
       }
 
       if (!generalDoc["isLive"] || !generalDoc["isUnderMaintenance"]) {
-        Get.offAll(() => Maintenance(
+        Get.offAll(
+          () => Maintenance(
             isLive: generalDoc["isLive"],
-            isUnderMaintenance: generalDoc["isUnderMaintenance"]));
+            isUnderMaintenance: generalDoc["isUnderMaintenance"],
+          ),
+        );
         return;
       }
 
@@ -42,15 +46,13 @@ class SplashController extends GetxController
   @override
   void onInit() {
     videoPlayerController = VideoPlayerController.asset('assets/splash.mp4')
-      ..initialize().then(
-        (_) {
-          videoPlayerController.setVolume(0.0);
-          videoPlayerController.setPlaybackSpeed(1.5);
-          videoPlayerController.play();
+      ..initialize().then((_) {
+        videoPlayerController.setVolume(0.0);
+        videoPlayerController.setPlaybackSpeed(1.5);
+        videoPlayerController.play();
 
-          loaded.value = true;
-        },
-      );
+        loaded.value = true;
+      });
     verifyAuthentication();
     super.onInit();
   }

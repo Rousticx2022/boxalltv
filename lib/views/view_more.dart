@@ -16,26 +16,31 @@ class ViewMore extends GetView<ViewMoreController> {
         title: Text(controller.section!),
       ),
       body: FirestoreQueryBuilder(
-          query: controller.query!,
-          builder: (context, snapshot, _) {
-            return GridView.builder(
-                itemCount: snapshot.docs.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: context.width ~/ 120,
-                    childAspectRatio: (120 / 180),
-                    mainAxisSpacing: 5,
-                    crossAxisSpacing: 5),
-                itemBuilder: (context, index) {
-                  if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                    snapshot.fetchMore();
-                  }
-                  final user = snapshot.docs[index].data();
+        query: controller.query!,
+        builder: (context, snapshot, _) {
+          return GridView.builder(
+            itemCount: snapshot.docs.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: context.width ~/ 120,
+              childAspectRatio: (120 / 180),
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+            ),
+            itemBuilder: (context, index) {
+              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                snapshot.fetchMore();
+              }
+              final user = snapshot.docs[index].data();
 
-                  return Center(
-                      child: ContainerBuilder(uid: controller.uid!)
-                          .videoGridContainer(context, snapshot.docs[index]));
-                });
-          }),
+              return Center(
+                child: ContainerBuilder(
+                  uid: controller.uid!,
+                ).videoGridContainer(context, snapshot.docs[index]),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

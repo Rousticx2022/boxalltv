@@ -17,21 +17,23 @@ class NotificationService {
   Future<void> requestNotificationPermissionIOS() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
   Future<void> onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) async {
+    int id,
+    String? title,
+    String? body,
+    String? payload,
+  ) async {
     return;
   }
 
   void onDidReceiveNotificationResponse(
-      NotificationResponse notificationResponse) async {
+    NotificationResponse notificationResponse,
+  ) async {
     return;
   }
 
@@ -47,11 +49,11 @@ class NotificationService {
     //Initialization Settings for iOS
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
-    );
+          requestSoundPermission: false,
+          requestBadgePermission: false,
+          requestAlertPermission: false,
+          onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+        );
 
     //InitializationSettings for initializing settings for both platforms (Android & iOS)
     InitializationSettings initializationSettings = InitializationSettings(
@@ -59,22 +61,23 @@ class NotificationService {
       iOS: initializationSettingsDarwin,
     );
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse
-        // onSelectNotification: selectNotification,
-        );
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+      // onSelectNotification: selectNotification,
+    );
   }
 
   static const AndroidNotificationDetails _androidNotificationDetails =
       AndroidNotificationDetails(
-    '0',
-    'myChannel',
-    playSound: true,
-    priority: Priority.high,
-    importance: Importance.high,
-    color: Colors.white,
-    enableLights: true,
-  );
+        '0',
+        'myChannel',
+        playSound: true,
+        priority: Priority.high,
+        importance: Importance.high,
+        color: Colors.white,
+        enableLights: true,
+      );
 
   Future<void> showNotifications(String? title, String? body) async {
     await flutterLocalNotificationsPlugin.show(

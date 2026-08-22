@@ -13,9 +13,7 @@ class GenreVideos extends GetView<GenreVideosController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(controller.genre!),
-      ),
+      appBar: AppBar(title: Text(controller.genre!)),
       body: SafeArea(
         child: FirestoreQueryBuilder(
           query: videosCollection
@@ -34,27 +32,31 @@ class GenreVideos extends GetView<GenreVideosController> {
                 final fav = snapshot.docs[index];
 
                 return StreamBuilder<DocumentSnapshot>(
-                    stream: videosCollection.doc(fav.id).snapshots(),
-                    builder: (context, vSnapshot) {
-                      if (!vSnapshot.hasData) {
-                        return Container(
-                          height: 180,
-                          width: 120,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(12)),
-                        );
-                      }
-                      DocumentSnapshot vDetails = vSnapshot.data!;
-                      return ContainerBuilder(uid: controller.uid!)
-                          .videoGridContainer(context, vDetails);
-                    });
+                  stream: videosCollection.doc(fav.id).snapshots(),
+                  builder: (context, vSnapshot) {
+                    if (!vSnapshot.hasData) {
+                      return Container(
+                        height: 180,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      );
+                    }
+                    DocumentSnapshot vDetails = vSnapshot.data!;
+                    return ContainerBuilder(
+                      uid: controller.uid!,
+                    ).videoGridContainer(context, vDetails);
+                  },
+                );
               },
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: context.width / 2 - 30,
-                  mainAxisExtent: (context.width / 2 - 30) * 3 / 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20),
+                maxCrossAxisExtent: context.width / 2 - 30,
+                mainAxisExtent: (context.width / 2 - 30) * 3 / 2,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20,
+              ),
             );
           },
         ),

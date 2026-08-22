@@ -5,34 +5,39 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:boxalltv/utils/collections.dart';
-import '../utils/mock_firebase.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
   const String testUid = 'user123';
   const String testVid = 'video123';
 
-  setUpAll(() async {
-    setupFirebaseCoreMocks();
-    await Firebase.initializeApp();
-  });
-
   setUp(() async {
-    SharedPreferences.setMockInitialValues({'uid': testUid});
     fakeFirestore = FakeFirebaseFirestore();
     videosCollection = fakeFirestore.collection('videos');
     usersCollection = fakeFirestore.collection('users');
+    videoDataCollection = fakeFirestore.collection('videoData');
     Get.testMode = true;
-    
+
+    Get.parameters = {'uid': testUid, 'vid': testVid};
+
     // Create the video doc to prevent errors
     await videosCollection.doc(testVid).set({
       'title': 'Test Movie',
       'url': 'http://test.com/video.mp4',
+      'genres': [],
     });
 
-    Get.put(DetailsController(vid: testVid));
+    await videoDataCollection.doc(testVid).set({
+      'views': 0,
+      'likes': [],
+      'dislikes': [],
+    });
+
+    await usersCollection.doc(testUid).set({'recommendations': []});
+
+    Get.put(DetailsController());
   });
 
   tearDown(() {
@@ -41,8 +46,10 @@ void main() {
 
   testWidgets('Details UI renders correctly', (WidgetTester tester) async {
     await tester.pumpWidget(
-      const GetMaterialApp(
-        home: Details(vid: testVid),
+      ResponsiveSizer(
+        builder: (context, orientation, screenType) {
+          return const GetMaterialApp(home: Details());
+        },
       ),
     );
 

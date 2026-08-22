@@ -48,25 +48,32 @@ class _ReelsTabState extends State<ReelsTab> {
         actions: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
-            decoration:
-                const BoxDecoration(shape: BoxShape.circle, color: kBlackColor),
-            child: GetX<UploadService>(builder: (uploadService) {
-              return uploadService.isReelUploading.value
-                  ? SizedBox(
-                      width: 45,
-                      height: 45,
-                      child: customCircularProgress(
-                          strokeColor: kWhiteColor, strokeWidth: 5),
-                    )
-                  : IconButton(
-                      onPressed: () async {
-                        await availableCameras();
-                        // Get.find<BottomTabController>().selectedIndex.value = 0;
-                        Get.to(() => const CreateReel());
-                      },
-                      icon: const Icon(Remix.add_circle_fill),
-                      color: kWhiteColor);
-            }),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: kBlackColor,
+            ),
+            child: GetX<UploadService>(
+              builder: (uploadService) {
+                return uploadService.isReelUploading.value
+                    ? SizedBox(
+                        width: 45,
+                        height: 45,
+                        child: customCircularProgress(
+                          strokeColor: kWhiteColor,
+                          strokeWidth: 5,
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () async {
+                          await availableCameras();
+                          // Get.find<BottomTabController>().selectedIndex.value = 0;
+                          Get.to(() => const CreateReel());
+                        },
+                        icon: const Icon(Remix.add_circle_fill),
+                        color: kWhiteColor,
+                      );
+              },
+            ),
           ),
           GestureDetector(
             onTap: () =>
@@ -78,65 +85,80 @@ class _ReelsTabState extends State<ReelsTab> {
               ),
               padding: const EdgeInsets.all(12),
               alignment: Alignment.center,
-              child: GetX<BottomTabController>(builder: (btController) {
-                return btController.unreadNotifications.value == 0
-                    ? const Icon(Remix.notification_2_line)
-                    : badges.Badge(
-                        position:
-                            badges.BadgePosition.topEnd(top: -10, end: -4),
-                        badgeStyle: badges.BadgeStyle(
-                          shape: badges.BadgeShape.circle,
-                          badgeColor: kStreamPrimaryColor,
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: BorderRadius.circular(20),
-                          elevation: 0,
-                        ),
-                        badgeContent: Text(
+              child: GetX<BottomTabController>(
+                builder: (btController) {
+                  return btController.unreadNotifications.value == 0
+                      ? const Icon(Remix.notification_2_line)
+                      : badges.Badge(
+                          position: badges.BadgePosition.topEnd(
+                            top: -10,
+                            end: -4,
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: kStreamPrimaryColor,
+                            padding: const EdgeInsets.all(5),
+                            borderRadius: BorderRadius.circular(20),
+                            elevation: 0,
+                          ),
+                          badgeContent: Text(
                             btController.unreadNotifications.toString(),
-                            style: fontButton(fontSize: 12)),
-                        child: const Icon(Remix.notification_2_line),
-                      );
-              }),
+                            style: fontButton(fontSize: 12),
+                          ),
+                          child: const Icon(Remix.notification_2_line),
+                        );
+                },
+              ),
             ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
-            decoration:
-                const BoxDecoration(shape: BoxShape.circle, color: kBlackColor),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: kBlackColor,
+            ),
             alignment: Alignment.center,
             child: IconButton(
-                onPressed: () => Get.to(() => Menu(uid: widget.uid),
-                    transition: Transition.cupertino),
-                icon: const Icon(Remix.menu_3_line),
-                color: kWhiteColor),
+              onPressed: () => Get.to(
+                () => Menu(uid: widget.uid),
+                transition: Transition.cupertino,
+              ),
+              icon: const Icon(Remix.menu_3_line),
+              color: kWhiteColor,
+            ),
           ),
         ],
       ),
       body: FirestoreQueryBuilder(
         pageSize: 2,
         query: ReelsService().getActiveReelsQuery(),
-        builder: (BuildContext context,
-            FirestoreQueryBuilderSnapshot<dynamic> snapshot, Widget? child) {
-          return PageView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: snapshot.docs.length,
-            pageSnapping: true,
-            itemBuilder: (context, index) {
-              if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                snapshot.fetchMore();
-              }
+        builder:
+            (
+              BuildContext context,
+              FirestoreQueryBuilderSnapshot<dynamic> snapshot,
+              Widget? child,
+            ) {
+              return PageView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.docs.length,
+                pageSnapping: true,
+                itemBuilder: (context, index) {
+                  if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                    snapshot.fetchMore();
+                  }
 
-              return SizedBox(
-                height: Get.height,
-                width: Get.width,
-                child: ReelVideo(
-                    reelData: snapshot.docs[index],
-                    uid: FirebaseAuth.instance.currentUser!.uid,
-                    showAd: index % 10 == 0),
+                  return SizedBox(
+                    height: Get.height,
+                    width: Get.width,
+                    child: ReelVideo(
+                      reelData: snapshot.docs[index],
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                      showAd: index % 10 == 0,
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
       ),
     );
   }

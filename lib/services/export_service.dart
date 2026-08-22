@@ -32,7 +32,8 @@ class ExportService {
           if (onError != null) {
             onError(
               Exception(
-                  'FFmpeg process exited with state $state and return code $code.\n${await session.getOutput()}'),
+                'FFmpeg process exited with state $state and return code $code.\n${await session.getOutput()}',
+              ),
               StackTrace.current,
             );
           }

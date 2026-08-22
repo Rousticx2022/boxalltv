@@ -17,8 +17,9 @@ class UserService {
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
     await firebaseMessaging.getToken().then((token) {
-      DateTime validity =
-          DateTime.parse(user['subscriptionDuration'].toDate().toString());
+      DateTime validity = DateTime.parse(
+        user['subscriptionDuration'].toDate().toString(),
+      );
 
       user.reference.update({
         "messageToken": token,
@@ -27,16 +28,18 @@ class UserService {
         "accountType": validity.difference(DateTime.now()).isNegative
             ? "freemium"
             : "premium",
-        "subscribed":
-            validity.difference(DateTime.now()).isNegative ? false : true,
+        "subscribed": validity.difference(DateTime.now()).isNegative
+            ? false
+            : true,
       });
     });
   }
 
-  Future<void> addToCart(
-      {required String uid,
-      required String vid,
-      required String productID}) async {
+  Future<void> addToCart({
+    required String uid,
+    required String vid,
+    required String productID,
+  }) async {
     DocumentSnapshot cartDoc = await usersCollection
         .doc(uid)
         .collection("cart")
@@ -47,28 +50,26 @@ class UserService {
           .doc(uid)
           .collection("cart")
           .doc("${vid}_$productID")
-          .update({
-        "count": cartDoc["count"] + 1,
-        "lastAdded": DateTime.now(),
-      });
+          .update({"count": cartDoc["count"] + 1, "lastAdded": DateTime.now()});
     } else {
       await usersCollection
           .doc(uid)
           .collection("cart")
           .doc("${vid}_$productID")
           .set({
-        "vid": vid,
-        "productID": productID,
-        "count": 1,
-        "lastAdded": DateTime.now(),
-      });
+            "vid": vid,
+            "productID": productID,
+            "count": 1,
+            "lastAdded": DateTime.now(),
+          });
     }
   }
 
-  Future<void> removeFromCart(
-      {required String uid,
-      required String vid,
-      required String productID}) async {
+  Future<void> removeFromCart({
+    required String uid,
+    required String vid,
+    required String productID,
+  }) async {
     DocumentSnapshot cartDoc = await usersCollection
         .doc(uid)
         .collection("cart")
@@ -83,9 +84,9 @@ class UserService {
           .collection("cart")
           .doc("${vid}_$productID")
           .update({
-        "count": FieldValue.increment(-1),
-        "lastAdded": DateTime.now(),
-      });
+            "count": FieldValue.increment(-1),
+            "lastAdded": DateTime.now(),
+          });
     } else {
       await usersCollection
           .doc(uid)
@@ -96,9 +97,10 @@ class UserService {
   }
 
   void toggleActiveStatus(String uid, bool status) async {
-    await usersCollection
-        .doc(uid)
-        .update({"active": status, "lastSeen": DateTime.now()});
+    await usersCollection.doc(uid).update({
+      "active": status,
+      "lastSeen": DateTime.now(),
+    });
   }
 
   void updatePhoneNumber(String uid, String phoneNumber) async {
@@ -111,9 +113,7 @@ class UserService {
     await usersCollection.doc(uid).get().then((value) async {
       DateTime subDuration = value["subscriptionDuration"].toDate();
       if (subDuration.difference(DateTime.now()).isNegative) {
-        await usersCollection.doc(uid).update({
-          "subscribed": false,
-        });
+        await usersCollection.doc(uid).update({"subscribed": false});
       }
     });
   }

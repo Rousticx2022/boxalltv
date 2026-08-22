@@ -15,7 +15,7 @@ void main() {
     fakeFirestore = FakeFirebaseFirestore();
     reelsCollection = fakeFirestore.collection('reels');
     Get.testMode = true;
-    
+
     controller = UploadVideoController(uid: testUid);
     Get.put(controller);
   });
@@ -27,7 +27,7 @@ void main() {
   test('createReel throws AppException on invalid paths', () async {
     // Because we use invalid paths, FTP upload will fail and should throw AppException
     final captionController = TextEditingController(text: 'My Test Caption');
-    
+
     expect(
       () => controller.createReel(
         fileName: 'test_file',

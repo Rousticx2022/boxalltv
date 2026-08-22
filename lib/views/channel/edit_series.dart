@@ -43,34 +43,38 @@ class _EditSeriesState extends State<EditSeries> {
             title: Text('Select Genres', style: customTextStyleHeadline()),
           ),
           Expanded(
-            child: StatefulBuilder(builder: (context, setState) {
-              return FirestoreListView(
-                query: genresCollection.orderBy("name"),
-                loadingBuilder: (c) =>
-                    customCircularProgress(strokeColor: kStreamPrimaryColor),
-                itemBuilder: (context, snapshot) {
-                  return ListTile(
-                    title: Text(snapshot["name"],
-                        style: fontButton(fontSize: 18.sp)),
-                    trailing: IconButton(
-                      onPressed: () {
-                        if (selectedGenres.contains(snapshot["name"])) {
-                          selectedGenres.remove(snapshot["name"]);
-                          genresController.text = selectedGenres.join(",");
-                        } else {
-                          selectedGenres.add(snapshot["name"]);
-                          genresController.text = selectedGenres.join(",");
-                        }
-                        setState(() {});
-                      },
-                      icon: selectedGenres.contains(snapshot["name"])
-                          ? const Icon(Icons.check_circle)
-                          : const Icon(Icons.circle_outlined),
-                    ),
-                  );
-                },
-              );
-            }),
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return FirestoreListView(
+                  query: genresCollection.orderBy("name"),
+                  loadingBuilder: (c) =>
+                      customCircularProgress(strokeColor: kStreamPrimaryColor),
+                  itemBuilder: (context, snapshot) {
+                    return ListTile(
+                      title: Text(
+                        snapshot["name"],
+                        style: fontButton(fontSize: 18.sp),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          if (selectedGenres.contains(snapshot["name"])) {
+                            selectedGenres.remove(snapshot["name"]);
+                            genresController.text = selectedGenres.join(",");
+                          } else {
+                            selectedGenres.add(snapshot["name"]);
+                            genresController.text = selectedGenres.join(",");
+                          }
+                          setState(() {});
+                        },
+                        icon: selectedGenres.contains(snapshot["name"])
+                            ? const Icon(Icons.check_circle)
+                            : const Icon(Icons.circle_outlined),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -153,9 +157,7 @@ class _EditSeriesState extends State<EditSeries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Edit Series"),
-      ),
+      appBar: AppBar(title: const Text("Edit Series")),
       body: Form(
         key: formKey,
         child: ListView(
@@ -168,15 +170,20 @@ class _EditSeriesState extends State<EditSeries> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Title",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -189,15 +196,20 @@ class _EditSeriesState extends State<EditSeries> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Storyline",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -205,20 +217,27 @@ class _EditSeriesState extends State<EditSeries> {
             TextFormField(
               controller: releaseYearController,
               keyboardType: const TextInputType.numberWithOptions(
-                  signed: false, decimal: false),
+                signed: false,
+                decimal: false,
+              ),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Release year",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -230,19 +249,26 @@ class _EditSeriesState extends State<EditSeries> {
                     controller: seasonsController,
                     keyboardType: TextInputType.number,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Seasons",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -253,19 +279,26 @@ class _EditSeriesState extends State<EditSeries> {
                     controller: ratingController,
                     keyboardType: TextInputType.text,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Rating",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -283,15 +316,20 @@ class _EditSeriesState extends State<EditSeries> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Genres",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -330,19 +368,26 @@ class _EditSeriesState extends State<EditSeries> {
                       controller: amountController,
                       keyboardType: TextInputType.text,
                       style: customTextStyleBody(
-                          color: Colors.white, fontSize: 16.sp),
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
                       decoration: InputDecoration(
                         fillColor: Colors.white10,
                         filled: true,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         labelText: "Amount (dollar)",
                         labelStyle: customTextStyleBody(
-                            color: kWhiteColor, fontSize: 16.sp),
+                          color: kWhiteColor,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       validator: fieldValidator,
                     ),
@@ -352,21 +397,30 @@ class _EditSeriesState extends State<EditSeries> {
                     child: TextFormField(
                       controller: validityController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          signed: false, decimal: false),
+                        signed: false,
+                        decimal: false,
+                      ),
                       style: customTextStyleBody(
-                          color: Colors.white, fontSize: 16.sp),
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
                       decoration: InputDecoration(
                         fillColor: Colors.white10,
                         filled: true,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         labelText: "Validity (days)",
                         labelStyle: customTextStyleBody(
-                            color: kWhiteColor, fontSize: 16.sp),
+                          color: kWhiteColor,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       validator: fieldValidator,
                     ),
@@ -377,26 +431,35 @@ class _EditSeriesState extends State<EditSeries> {
             Text(
               "Please provide these files: 1. Banner (3:2), 2. Poster (3:4), 3. N.O.C (PDF format), 4. Optional Trailer (HD)\nPlease upload all in a single google drive and share the url here.",
               style: fontBody(
-                  fontSize: 15.sp, color: kWhiteColor.withValues(alpha: 0.7)),
+                fontSize: 15.sp,
+                color: kWhiteColor.withValues(alpha: 0.7),
+              ),
             ),
             const SizedBox(height: 10),
             TextFormField(
               controller: contentUrlController,
               keyboardType: const TextInputType.numberWithOptions(
-                  signed: false, decimal: false),
+                signed: false,
+                decimal: false,
+              ),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Content URL",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -418,12 +481,17 @@ class _EditSeriesState extends State<EditSeries> {
               : TextButton(
                   onPressed: () => uploadForm(),
                   style: TextButton.styleFrom(
-                      backgroundColor: kButtonColor,
-                      shape: const StadiumBorder(),
-                      padding: const EdgeInsets.symmetric(vertical: 15)),
-                  child: Text("Submit",
-                      style: customTextStyleBody(
-                          fontWeight: FontWeight.bold, fontSize: 16.sp)),
+                    backgroundColor: kButtonColor,
+                    shape: const StadiumBorder(),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: Text(
+                    "Submit",
+                    style: customTextStyleBody(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
         ),
       ),

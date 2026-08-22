@@ -37,43 +37,63 @@ class BottomTab extends GetView<BottomTabController> {
           items: [
             CNavItem(
               icon: const Icon(Remix.movie_2_line),
-              selectedIcon:
-                  const Icon(Remix.movie_2_fill, color: kStreamPrimaryColor),
-              title: Text("Stream",
-                  style: customTextStyleBody(
-                      fontSize: 13.sp,
-                      color: kStreamPrimaryColor,
-                      fontWeight: FontWeight.w400)),
+              selectedIcon: const Icon(
+                Remix.movie_2_fill,
+                color: kStreamPrimaryColor,
+              ),
+              title: Text(
+                "Stream",
+                style: customTextStyleBody(
+                  fontSize: 13.sp,
+                  color: kStreamPrimaryColor,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
             CNavItem(
               icon: const Icon(Remix.compass_discover_line),
-              selectedIcon: const Icon(Remix.compass_discover_fill,
-                  color: kSocialPrimaryColor),
-              title: Text("Social",
-                  style: customTextStyleBody(
-                      fontSize: 13.sp,
-                      color: kSocialPrimaryColor,
-                      fontWeight: FontWeight.w400)),
+              selectedIcon: const Icon(
+                Remix.compass_discover_fill,
+                color: kSocialPrimaryColor,
+              ),
+              title: Text(
+                "Social",
+                style: customTextStyleBody(
+                  fontSize: 13.sp,
+                  color: kSocialPrimaryColor,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
             CNavItem(
               icon: const Icon(Remix.film_line),
-              selectedIcon:
-                  const Icon(Remix.film_fill, color: kReelsPrimaryColor),
-              title: Text("Reels",
-                  style: customTextStyleBody(
-                      fontSize: 13.sp,
-                      color: kReelsPrimaryColor,
-                      fontWeight: FontWeight.w400)),
+              selectedIcon: const Icon(
+                Remix.film_fill,
+                color: kReelsPrimaryColor,
+              ),
+              title: Text(
+                "Reels",
+                style: customTextStyleBody(
+                  fontSize: 13.sp,
+                  color: kReelsPrimaryColor,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
             CNavItem(
               icon: const Icon(Remix.music_2_line),
-              selectedIcon:
-                  const Icon(Remix.music_2_fill, color: kMusicPrimaryColor),
-              title: Text("Music",
-                  style: customTextStyleBody(
-                      fontSize: 13.sp,
-                      color: kMusicPrimaryColor,
-                      fontWeight: FontWeight.w400)),
+              selectedIcon: const Icon(
+                Remix.music_2_fill,
+                color: kMusicPrimaryColor,
+              ),
+              title: Text(
+                "Music",
+                style: customTextStyleBody(
+                  fontSize: 13.sp,
+                  color: kMusicPrimaryColor,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
             ),
           ],
           currentIndex: controller.selectedIndex.value,

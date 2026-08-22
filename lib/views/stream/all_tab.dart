@@ -22,12 +22,15 @@ class _AllTabState extends State<AllTab> {
           child: RailsBuilder(uid: widget.uid).buildCarousel(),
         ),
         RailsBuilder(uid: widget.uid).buildContinueWatching(),
-        GetX<BottomTabController>(builder: (btc) {
-          return btc.userData.isEmpty
-              ? const SizedBox()
-              : RailsBuilder(uid: widget.uid)
-                  .buildRecommended(btc.userData["recommendations"]);
-        }),
+        GetX<BottomTabController>(
+          builder: (btc) {
+            return btc.userData.isEmpty
+                ? const SizedBox()
+                : RailsBuilder(
+                    uid: widget.uid,
+                  ).buildRecommended(btc.userData["recommendations"]);
+          },
+        ),
         RailsBuilder(uid: widget.uid).buildRent(),
         RailsBuilder(uid: widget.uid).buildTrending(),
         RailsBuilder(uid: widget.uid).buildPopularGenres(),

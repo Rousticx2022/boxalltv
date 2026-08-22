@@ -16,7 +16,8 @@ class Splash extends GetView<SplashController> {
               ? AspectRatio(
                   aspectRatio:
                       controller.videoPlayerController.value.aspectRatio,
-                  child: VideoPlayer(controller.videoPlayerController))
+                  child: VideoPlayer(controller.videoPlayerController),
+                )
               : Container(),
         ),
       ),

@@ -36,110 +36,142 @@ class _MenuState extends State<Menu> {
 
   void showCreatorAccountBlocked() {
     Get.defaultDialog(
-        title: "Account Blocked",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Please contact support if you want to reactivate your account",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Account Blocked",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Please contact support if you want to reactivate your account",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void showAdvertiserAccountBlocked() {
     Get.defaultDialog(
-        title: "Account Blocked",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Please contact support if you want to reactivate your account",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Account Blocked",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Please contact support if you want to reactivate your account",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void showCreatorAccountPending() {
     Get.defaultDialog(
-        title: "Pending Approval",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Your request to become a creator is still under review. Please be patient, it may take up to 3-4 business days",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Pending Approval",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Your request to become a creator is still under review. Please be patient, it may take up to 3-4 business days",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void showAdvertiserAccountPending() {
     Get.defaultDialog(
-        title: "Pending Approval",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Your request to become a advertiser is still under review. Please be patient, it may take up to 3-4 business days",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Pending Approval",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Your request to become a advertiser is still under review. Please be patient, it may take up to 3-4 business days",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override

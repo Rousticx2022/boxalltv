@@ -15,12 +15,13 @@ import '../utils/styles.dart';
 class ProductDetails extends StatefulWidget {
   final String uid, vid, productID;
   final bool fromCart;
-  const ProductDetails(
-      {super.key,
-      required this.uid,
-      required this.vid,
-      required this.productID,
-      this.fromCart = false});
+  const ProductDetails({
+    super.key,
+    required this.uid,
+    required this.vid,
+    required this.productID,
+    this.fromCart = false,
+  });
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -45,24 +46,30 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
                 padding: const EdgeInsets.all(12),
                 alignment: Alignment.center,
-                child: GetX<BottomTabController>(builder: (btController) {
-                  return btController.unreadNotifications.value == 0
-                      ? const Icon(Icons.shopping_cart_outlined)
-                      : badges.Badge(
-                          position:
-                              badges.BadgePosition.topEnd(top: -10, end: -4),
-                          badgeStyle: badges.BadgeStyle(
-                            shape: badges.BadgeShape.circle,
-                            badgeColor: kPrimaryColor,
-                            padding: const EdgeInsets.all(5),
-                            borderRadius: BorderRadius.circular(20),
-                            elevation: 0,
-                          ),
-                          badgeContent: Text(btController.cartItems.toString(),
-                              style: fontButton(fontSize: 12)),
-                          child: const Icon(Icons.shopping_cart_outlined),
-                        );
-                }),
+                child: GetX<BottomTabController>(
+                  builder: (btController) {
+                    return btController.unreadNotifications.value == 0
+                        ? const Icon(Icons.shopping_cart_outlined)
+                        : badges.Badge(
+                            position: badges.BadgePosition.topEnd(
+                              top: -10,
+                              end: -4,
+                            ),
+                            badgeStyle: badges.BadgeStyle(
+                              shape: badges.BadgeShape.circle,
+                              badgeColor: kPrimaryColor,
+                              padding: const EdgeInsets.all(5),
+                              borderRadius: BorderRadius.circular(20),
+                              elevation: 0,
+                            ),
+                            badgeContent: Text(
+                              btController.cartItems.toString(),
+                              style: fontButton(fontSize: 12),
+                            ),
+                            child: const Icon(Icons.shopping_cart_outlined),
+                          );
+                  },
+                ),
               ),
             ),
         ],
@@ -91,8 +98,12 @@ class _ProductDetailsState extends State<ProductDetails> {
               GestureDetector(
                 onTap: () {
                   final imageProvider = Image.network(prodDoc["image"]).image;
-                  showImageViewer(context, imageProvider,
-                      doubleTapZoomable: true, onViewerDismissed: () {});
+                  showImageViewer(
+                    context,
+                    imageProvider,
+                    doubleTapZoomable: true,
+                    onViewerDismissed: () {},
+                  );
                 },
                 child: Container(
                   height: context.width * 2 / 3,
@@ -104,7 +115,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: CachedNetworkImage(
                     imageUrl: prodDoc["image"],
                     placeholder: (context, url) => customCircularProgress(
-                        strokeColor: context.theme.primaryColor),
+                      strokeColor: context.theme.primaryColor,
+                    ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                     height: context.width * 2 / 3,
@@ -114,10 +126,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               const SizedBox(height: 20),
-              Text(prodDoc["name"],
-                  maxLines: 2,
-                  style: customTextStyleHeadline(
-                      fontSize: 20.sp, fontWeight: FontWeight.w600)),
+              Text(
+                prodDoc["name"],
+                maxLines: 2,
+                style: customTextStyleHeadline(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               Text(
                 "\$${(prodDoc["mrp"] - (prodDoc["mrp"] * prodDoc["discount"] / 100)).toStringAsFixed(2)}",
                 style: fontBody(fontSize: 25.sp, fontWeight: FontWeight.w900),
@@ -125,96 +141,115 @@ class _ProductDetailsState extends State<ProductDetails> {
               Text(
                 "MRP: \$${prodDoc["mrp"]}",
                 style: fontBody(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                    color: kWhiteColor.withValues(alpha: 0.7)),
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w400,
+                  color: kWhiteColor.withValues(alpha: 0.7),
+                ),
               ),
               Divider(color: kWhiteColor.withValues(alpha: 0.8), height: 40),
               Text(
                 "Description",
                 style: fontBody(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w900,
-                    color: kWhiteColor),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w900,
+                  color: kWhiteColor,
+                ),
               ),
               const SizedBox(height: 5),
               ReadMoreText(
                 prodDoc["description"],
                 trimLines: 3,
                 style: fontBody(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w400,
-                    color: kWhiteColor),
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w400,
+                  color: kWhiteColor,
+                ),
                 trimMode: TrimMode.Line,
                 trimCollapsedText: 'Show more',
                 trimExpandedText: 'Show less',
-                moreStyle:
-                    fontButton(fontSize: 14.sp, fontWeight: FontWeight.bold),
-                lessStyle:
-                    fontButton(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                moreStyle: fontButton(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+                lessStyle: fontButton(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 20),
               StreamBuilder<DocumentSnapshot>(
-                  stream: usersCollection
-                      .doc(widget.uid)
-                      .collection("cart")
-                      .doc("${widget.vid}_${widget.productID}")
-                      .snapshots(),
-                  builder: (context, csnapshot) {
-                    if (!csnapshot.hasData) return const SizedBox();
+                stream: usersCollection
+                    .doc(widget.uid)
+                    .collection("cart")
+                    .doc("${widget.vid}_${widget.productID}")
+                    .snapshots(),
+                builder: (context, csnapshot) {
+                  if (!csnapshot.hasData) return const SizedBox();
 
-                    if (csnapshot.hasData && csnapshot.data!.exists) {
-                      return Container(
-                        height: 53,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: kStreamPrimaryColor,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              onPressed: () => UserService.instance.addToCart(
+                  if (csnapshot.hasData && csnapshot.data!.exists) {
+                    return Container(
+                      height: 53,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: kStreamPrimaryColor,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () => UserService.instance.addToCart(
+                              uid: widget.uid,
+                              vid: widget.vid,
+                              productID: widget.productID,
+                            ),
+                            icon: const Icon(Icons.add_circle),
+                          ),
+                          Text(
+                            csnapshot.data!["count"].toString(),
+                            style: fontBody(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () =>
+                                UserService.instance.removeFromCart(
                                   uid: widget.uid,
                                   vid: widget.vid,
-                                  productID: widget.productID),
-                              icon: const Icon(Icons.add_circle),
-                            ),
-                            Text(csnapshot.data!["count"].toString(),
-                                style: fontBody(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600)),
-                            IconButton(
-                              onPressed: () => UserService.instance
-                                  .removeFromCart(
-                                      uid: widget.uid,
-                                      vid: widget.vid,
-                                      productID: widget.productID),
-                              icon: const Icon(Icons.remove_circle),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-
-                    return ElevatedButton(
-                      onPressed: () => UserService.instance.addToCart(
-                          uid: widget.uid,
-                          vid: widget.vid,
-                          productID: widget.productID),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kStreamPrimaryColor,
-                        foregroundColor: kWhiteColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        padding: const EdgeInsets.symmetric(vertical: 15),
+                                  productID: widget.productID,
+                                ),
+                            icon: const Icon(Icons.remove_circle),
+                          ),
+                        ],
                       ),
-                      child: Text("Add to Cart",
-                          style: fontButton(
-                              fontSize: 16.sp, fontWeight: FontWeight.w600)),
                     );
-                  }),
+                  }
+
+                  return ElevatedButton(
+                    onPressed: () => UserService.instance.addToCart(
+                      uid: widget.uid,
+                      vid: widget.vid,
+                      productID: widget.productID,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kStreamPrimaryColor,
+                      foregroundColor: kWhiteColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    child: Text(
+                      "Add to Cart",
+                      style: fontButton(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           );
         },

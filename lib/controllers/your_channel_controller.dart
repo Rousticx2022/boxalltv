@@ -39,13 +39,15 @@ class YourChannelController extends GetxController
 
   Stream<Map<String, dynamic>> fetchChannelData() {
     Stream stream = creatorsCollection.doc(uid).snapshots();
-    return stream.map((event) => {
-          "channelName": event["channelName"],
-          "totalRevenue": event["totalRevenue"],
-          "totalMovies": event["totalMovies"],
-          "totalSeries": event["totalSeries"],
-          "overallPopularity": event["overallPopularity"],
-        });
+    return stream.map(
+      (event) => {
+        "channelName": event["channelName"],
+        "totalRevenue": event["totalRevenue"],
+        "totalMovies": event["totalMovies"],
+        "totalSeries": event["totalSeries"],
+        "overallPopularity": event["overallPopularity"],
+      },
+    );
   }
 
   void editChannelNameDialog() {
@@ -57,14 +59,18 @@ class YourChannelController extends GetxController
         controller: nameController,
         style: fontBody(),
         decoration: InputDecoration(
-            hintText: "Enter channel name",
-            hintStyle: fontBody(),
-            border: const OutlineInputBorder(
-                borderSide: BorderSide(color: kWhiteColor)),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: kWhiteColor)),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: kWhiteColor))),
+          hintText: "Enter channel name",
+          hintStyle: fontBody(),
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(color: kWhiteColor),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: kWhiteColor),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: kWhiteColor),
+          ),
+        ),
       ),
       backgroundColor: kGreyColor2,
       textCancel: "Cancel",
@@ -86,11 +92,12 @@ class YourChannelController extends GetxController
   }
 
   BarTouchData get barTouchData => BarTouchData(
-        enabled: false,
-        touchTooltipData: BarTouchTooltipData(
-          tooltipPadding: EdgeInsets.zero,
-          tooltipMargin: 8,
-          getTooltipItem: (
+    enabled: false,
+    touchTooltipData: BarTouchTooltipData(
+      tooltipPadding: EdgeInsets.zero,
+      tooltipMargin: 8,
+      getTooltipItem:
+          (
             BarChartGroupData group,
             int groupIndex,
             BarChartRodData rod,
@@ -98,14 +105,11 @@ class YourChannelController extends GetxController
           ) {
             return BarTooltipItem(
               rod.toY.round().toString(),
-              const TextStyle(
-                color: kWhiteColor,
-                fontWeight: FontWeight.bold,
-              ),
+              const TextStyle(color: kWhiteColor, fontWeight: FontWeight.bold),
             );
           },
-        ),
-      );
+    ),
+  );
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = fontBody(
@@ -163,32 +167,23 @@ class YourChannelController extends GetxController
   }
 
   FlTitlesData get titlesData => FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: getTitles,
-          ),
-        ),
-        leftTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      );
+    show: true,
+    bottomTitles: AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        reservedSize: 30,
+        getTitlesWidget: getTitles,
+      ),
+    ),
+    leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+  );
 
   FlBorderData get borderData => FlBorderData(show: false);
 
   LinearGradient barsGradient = const LinearGradient(
-    colors: [
-      kPrimaryColor,
-      kWhiteColor,
-    ],
+    colors: [kPrimaryColor, kWhiteColor],
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
   );
@@ -243,8 +238,10 @@ class YourChannelController extends GetxController
       duration: const Duration(milliseconds: 260),
     );
 
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: animationController);
+    final curvedAnimation = CurvedAnimation(
+      curve: Curves.easeInOut,
+      parent: animationController,
+    );
     animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     channelData.bindStream(fetchChannelData());
     fetchMonthlyViews();

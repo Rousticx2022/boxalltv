@@ -42,115 +42,121 @@ class MessagesController extends GetxController {
   }
 
   Column senderView(MessageModel chat) => Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: ConstrainedBox(
-              constraints:
-                  BoxConstraints(minWidth: 50, maxWidth: Get.width / 1.5),
-              child: GestureDetector(
-                onTap: () {
-                  if (showTimeID.value == chat.chatID) {
-                    showTimeID.value = "";
-                    return;
-                  }
-                  showTimeID.value = chat.chatID;
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    color: kWhiteColor.withValues(alpha: 0.06),
-                    border: Border.all(color: kWhiteColor),
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
-                  ),
-                  child: chat.type == "text"
-                      ? Text(
-                          chat.message,
-                          style: fontBody(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        )
-                      : fileView(chat.message),
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
+      Align(
+        alignment: Alignment.centerRight,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: 50, maxWidth: Get.width / 1.5),
+          child: GestureDetector(
+            onTap: () {
+              if (showTimeID.value == chat.chatID) {
+                showTimeID.value = "";
+                return;
+              }
+              showTimeID.value = chat.chatID;
+            },
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: kWhiteColor.withValues(alpha: 0.06),
+                border: Border.all(color: kWhiteColor),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
                 ),
               ),
-            ),
-          ),
-          Obx(
-            () => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              switchInCurve: Curves.easeInCirc,
-              switchOutCurve: Curves.easeOutExpo,
-              child: showTimeID.value == chat.chatID
+              child: chat.type == "text"
                   ? Text(
-                      DateFormat("hh:mm a").format(chat.sentOn.toDate()),
+                      chat.message,
                       style: fontBody(
-                          color: const Color(0xff9FB5C6),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                     )
-                  : const SizedBox.shrink(),
+                  : fileView(chat.message),
             ),
           ),
-        ],
-      );
+        ),
+      ),
+      Obx(
+        () => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeInCirc,
+          switchOutCurve: Curves.easeOutExpo,
+          child: showTimeID.value == chat.chatID
+              ? Text(
+                  DateFormat("hh:mm a").format(chat.sentOn.toDate()),
+                  style: fontBody(
+                    color: const Color(0xff9FB5C6),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ),
+    ],
+  );
 
   Column receiverView(MessageModel chat) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: ConstrainedBox(
-              constraints:
-                  BoxConstraints(minWidth: 0, maxWidth: Get.width / 1.5),
-              child: GestureDetector(
-                onTap: () {
-                  if (showTimeID.value == chat.chatID) {
-                    showTimeID.value = "";
-                    return;
-                  }
-                  showTimeID.value = chat.chatID;
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    color: kWhiteColor.withValues(alpha: 0.15),
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                  child: chat.type == "text"
-                      ? Text(
-                          chat.message,
-                          style: fontBody(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        )
-                      : fileView(chat.message),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Align(
+        alignment: Alignment.centerLeft,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: 0, maxWidth: Get.width / 1.5),
+          child: GestureDetector(
+            onTap: () {
+              if (showTimeID.value == chat.chatID) {
+                showTimeID.value = "";
+                return;
+              }
+              showTimeID.value = chat.chatID;
+            },
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: kWhiteColor.withValues(alpha: 0.15),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
                 ),
               ),
-            ),
-          ),
-          Obx(
-            () => AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              switchInCurve: Curves.easeInCirc,
-              switchOutCurve: Curves.easeOutExpo,
-              child: showTimeID.value == chat.chatID
+              child: chat.type == "text"
                   ? Text(
-                      DateFormat("hh:mm a").format(chat.sentOn.toDate()),
+                      chat.message,
                       style: fontBody(
-                          color: const Color(0xff9FB5C6),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                     )
-                  : const SizedBox.shrink(),
+                  : fileView(chat.message),
             ),
           ),
-        ],
-      );
+        ),
+      ),
+      Obx(
+        () => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeInCirc,
+          switchOutCurve: Curves.easeOutExpo,
+          child: showTimeID.value == chat.chatID
+              ? Text(
+                  DateFormat("hh:mm a").format(chat.sentOn.toDate()),
+                  style: fontBody(
+                    color: const Color(0xff9FB5C6),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
+      ),
+    ],
+  );
 
   Future<void> pickFiles() async {
     List<PlatformFile> result = await FilePicker.pickFiles(
@@ -160,16 +166,24 @@ class MessagesController extends GetxController {
     );
 
     pickedFiles = result
-        .map((file) => {"path": file.path!, "extension": file.name.split(".").last})
+        .map(
+          (file) => {
+            "path": file.path!,
+            "extension": file.name.split(".").last,
+          },
+        )
         .toList();
 
-    var request = http.MultipartRequest('POST',
-        Uri.parse('http://appdev.gameinghub.com/gameinghub/postContent'));
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('http://appdev.gameinghub.com/gameinghub/postContent'),
+    );
     request.fields.addAll({'type': 'chat', 'uid': uid!});
 
     for (var element in pickedFiles) {
-      request.files
-          .add(await http.MultipartFile.fromPath('file', element["path"]));
+      request.files.add(
+        await http.MultipartFile.fromPath('file', element["path"]),
+      );
     }
     http.StreamedResponse response = await request.send();
 
@@ -210,10 +224,11 @@ class MessagesController extends GetxController {
             // Get.to(() => ViewImage(imageURL: message), fullscreenDialog: true);
           },
           child: CachedNetworkImage(
-              imageUrl: message,
-              fit: BoxFit.cover,
-              width: Get.width / 2,
-              height: Get.width / 2),
+            imageUrl: message,
+            fit: BoxFit.cover,
+            width: Get.width / 2,
+            height: Get.width / 2,
+          ),
         );
         break;
       case "mp4":

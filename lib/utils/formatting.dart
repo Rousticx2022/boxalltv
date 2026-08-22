@@ -1,4 +1,3 @@
-
 String getWeekdays(int weekday) {
   switch (weekday) {
     case 1:

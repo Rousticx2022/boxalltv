@@ -40,60 +40,70 @@ class VideoRecorderController extends GetxController
 
   Future<void> selectSound() async {
     Get.bottomSheet(
-      StatefulBuilder(builder: (context, setState) {
-        return Container(
-          margin: const EdgeInsets.only(top: kToolbarHeight * 3),
-          decoration: const BoxDecoration(
-            color: kBlackColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              ListTile(
-                shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20))),
-                leading: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: kReelsPrimaryColor.withValues(alpha: 0.2),
+      StatefulBuilder(
+        builder: (context, setState) {
+          return Container(
+            margin: const EdgeInsets.only(top: kToolbarHeight * 3),
+            decoration: const BoxDecoration(
+              color: kBlackColor,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
                   ),
-                  child: IconButton(
-                    onPressed: () async {
-                      if (player.playing) {
-                        await player.stop();
-                      }
-                      Get.back();
-                    },
-                    icon: const Icon(Remix.close_line),
-                    constraints:
-                        const BoxConstraints(maxHeight: 35, maxWidth: 35),
-                    padding: const EdgeInsets.all(5),
-                    color: kWhiteColor,
+                  leading: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: kReelsPrimaryColor.withValues(alpha: 0.2),
+                    ),
+                    child: IconButton(
+                      onPressed: () async {
+                        if (player.playing) {
+                          await player.stop();
+                        }
+                        Get.back();
+                      },
+                      icon: const Icon(Remix.close_line),
+                      constraints: const BoxConstraints(
+                        maxHeight: 35,
+                        maxWidth: 35,
+                      ),
+                      padding: const EdgeInsets.all(5),
+                      color: kWhiteColor,
+                    ),
+                  ),
+                  title: Text(
+                    "Pick a sound",
+                    style: fontHeading(
+                      fontSize: 18.sp,
+                      color: kReelsPrimaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                title: Text("Pick a sound",
-                    style: fontHeading(
-                        fontSize: 18.sp,
-                        color: kReelsPrimaryColor,
-                        fontWeight: FontWeight.bold)),
-              ),
-              Expanded(
-                child: FirestoreListView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.all(20),
-                  query:
-                      reelSoundsCollection.orderBy("addedAt", descending: true),
-                  emptyBuilder: (context) =>
-                      const Center(child: Text("No sound found")),
-                  itemBuilder: (context, soundData) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: kWhiteColor.withValues(alpha: 0.1),
-                      ),
-                      child: ListTile(
+                Expanded(
+                  child: FirestoreListView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.all(20),
+                    query: reelSoundsCollection.orderBy(
+                      "addedAt",
+                      descending: true,
+                    ),
+                    emptyBuilder: (context) =>
+                        const Center(child: Text("No sound found")),
+                    itemBuilder: (context, soundData) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: kWhiteColor.withValues(alpha: 0.1),
+                        ),
+                        child: ListTile(
                           minLeadingWidth: 0,
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
@@ -104,14 +114,19 @@ class VideoRecorderController extends GetxController
                               fit: BoxFit.cover,
                             ),
                           ),
-                          title: Text("${soundData["title"]}",
-                              style: fontHeading(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600)),
+                          title: Text(
+                            "${soundData["title"]}",
+                            style: fontHeading(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           subtitle: Text(
                             "${soundData["author"]} - ${soundData["duration"]}",
-                            style:
-                                fontBody(color: kWhiteColor, fontSize: 14.sp),
+                            style: fontBody(
+                              color: kWhiteColor,
+                              fontSize: 14.sp,
+                            ),
                           ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -135,7 +150,8 @@ class VideoRecorderController extends GetxController
                                 },
                                 constraints: const BoxConstraints(maxWidth: 30),
                                 icon: Obx(
-                                  () => selectedSound["id"] == soundData.id &&
+                                  () =>
+                                      selectedSound["id"] == soundData.id &&
                                           !soundSelected.value
                                       ? AnimatedMusicIndicator(
                                           animate: true,
@@ -151,8 +167,11 @@ class VideoRecorderController extends GetxController
                                             kWhiteColor,
                                           ],
                                         )
-                                      : const Icon(Remix.disc_line,
-                                          size: 18, color: kButtonColor),
+                                      : const Icon(
+                                          Remix.disc_line,
+                                          size: 18,
+                                          color: kButtonColor,
+                                        ),
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -171,26 +190,33 @@ class VideoRecorderController extends GetxController
                                   Get.back();
                                 },
                                 constraints: const BoxConstraints(maxWidth: 30),
-                                icon: const Icon(Remix.arrow_right_circle_fill,
-                                    size: 18, color: kButtonColor),
+                                icon: const Icon(
+                                  Remix.arrow_right_circle_fill,
+                                  size: 18,
+                                  color: kButtonColor,
+                                ),
                               ),
                             ],
-                          )),
-                    );
-                  },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      }),
+              ],
+            ),
+          );
+        },
+      ),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
     );
   }
 
-  Future<String> getAudioFilePath(
-      {required String fileName, required String url}) async {
+  Future<String> getAudioFilePath({
+    required String fileName,
+    required String url,
+  }) async {
     var response = await http.get(Uri.parse(selectedSound["url"]));
     final cacheDirectory = (await getExternalStorageDirectory())!.path;
     File audioFile = File('$cacheDirectory/$fileName.mp3');
@@ -285,8 +311,13 @@ class VideoRecorderController extends GetxController
 
     Get.back();
 
-    Get.to(() => UploadVideo(
-        uid: uid!, videoPath: videoFile.path, soundData: selectedSound));
+    Get.to(
+      () => UploadVideo(
+        uid: uid!,
+        videoPath: videoFile.path,
+        soundData: selectedSound,
+      ),
+    );
   }
 
   Future<void> initializeCameraController(int camDir) async {
@@ -301,33 +332,31 @@ class VideoRecorderController extends GetxController
       ResolutionPreset.max,
       enableAudio: true,
     );
-    cameraController.initialize().then((_) {
-      cameraDirection.value = camDir;
-      cameraInitialized.value = true;
-    }).catchError((Object e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            // Handle access errors here.
-            break;
-          default:
-            // Handle other errors here.
-            break;
-        }
-      }
-    });
+    cameraController
+        .initialize()
+        .then((_) {
+          cameraDirection.value = camDir;
+          cameraInitialized.value = true;
+        })
+        .catchError((Object e) {
+          if (e is CameraException) {
+            switch (e.code) {
+              case 'CameraAccessDenied':
+                // Handle access errors here.
+                break;
+              default:
+                // Handle other errors here.
+                break;
+            }
+          }
+        });
   }
 
   @override
   void onInit() async {
     initializeCameraController(cameraDirection.value);
     WidgetsBinding.instance.addObserver(this);
-    selectedSound.value = {
-      "url": "",
-      "id": "",
-      "title": "",
-      "thumbnail": "",
-    };
+    selectedSound.value = {"url": "", "id": "", "title": "", "thumbnail": ""};
 
     super.onInit();
   }

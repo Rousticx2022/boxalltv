@@ -75,8 +75,10 @@ class _SocialsTabState extends State<SocialsTab>
               indicatorWeight: 4,
               labelColor: kSocialPrimaryColor,
               unselectedLabelColor: kWhiteColor.withValues(alpha: 0.7),
-              labelStyle:
-                  fontBody(fontSize: 15.sp, fontWeight: FontWeight.w400),
+              labelStyle: fontBody(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
+              ),
               isScrollable: true,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: const [
@@ -89,33 +91,39 @@ class _SocialsTabState extends State<SocialsTab>
           ),
         ),
         actions: [
-          GetX<UploadController>(builder: (uploadController) {
-            return GestureDetector(
-              onTap: uploadController.isUploadingPost.value
-                  ? () {}
-                  : () {
-                      Get.find<AdsService>().showRewardedAd(1);
-                      Get.toNamed("/create_post",
-                          parameters: {"uid": widget.uid});
-                    },
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kBlackColor,
+          GetX<UploadController>(
+            builder: (uploadController) {
+              return GestureDetector(
+                onTap: uploadController.isUploadingPost.value
+                    ? () {}
+                    : () {
+                        Get.find<AdsService>().showRewardedAd(1);
+                        Get.toNamed(
+                          "/create_post",
+                          parameters: {"uid": widget.uid},
+                        );
+                      },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kBlackColor,
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  alignment: Alignment.center,
+                  child: uploadController.isUploadingPost.value
+                      ? SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: customCircularProgress(
+                            strokeColor: kWhiteColor,
+                          ),
+                        )
+                      : const Icon(Icons.add),
                 ),
-                padding: const EdgeInsets.all(12),
-                alignment: Alignment.center,
-                child: uploadController.isUploadingPost.value
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: customCircularProgress(strokeColor: kWhiteColor),
-                      )
-                    : const Icon(Icons.add),
-              ),
-            );
-          }),
+              );
+            },
+          ),
           GestureDetector(
             onTap: () {
               if (Get.find<AdsService>().showRewardedAd(1)) {
@@ -131,25 +139,30 @@ class _SocialsTabState extends State<SocialsTab>
               ),
               padding: const EdgeInsets.all(12),
               alignment: Alignment.center,
-              child: GetX<BottomTabController>(builder: (btController) {
-                return btController.unreadNotifications.value == 0
-                    ? const Icon(Remix.notification_2_line)
-                    : badges.Badge(
-                        position:
-                            badges.BadgePosition.topEnd(top: -10, end: -4),
-                        badgeStyle: badges.BadgeStyle(
-                          shape: badges.BadgeShape.circle,
-                          badgeColor: kStreamPrimaryColor,
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: BorderRadius.circular(20),
-                          elevation: 0,
-                        ),
-                        badgeContent: Text(
+              child: GetX<BottomTabController>(
+                builder: (btController) {
+                  return btController.unreadNotifications.value == 0
+                      ? const Icon(Remix.notification_2_line)
+                      : badges.Badge(
+                          position: badges.BadgePosition.topEnd(
+                            top: -10,
+                            end: -4,
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: kStreamPrimaryColor,
+                            padding: const EdgeInsets.all(5),
+                            borderRadius: BorderRadius.circular(20),
+                            elevation: 0,
+                          ),
+                          badgeContent: Text(
                             btController.unreadNotifications.toString(),
-                            style: fontButton(fontSize: 12)),
-                        child: const Icon(Remix.notification_2_line),
-                      );
-              }),
+                            style: fontButton(fontSize: 12),
+                          ),
+                          child: const Icon(Remix.notification_2_line),
+                        );
+                },
+              ),
             ),
           ),
           Container(
@@ -159,10 +172,13 @@ class _SocialsTabState extends State<SocialsTab>
               color: kBlackColor,
             ),
             child: IconButton(
-                onPressed: () => Get.to(() => Menu(uid: widget.uid),
-                    transition: Transition.cupertino),
-                icon: const Icon(Remix.menu_3_line),
-                color: kWhiteColor),
+              onPressed: () => Get.to(
+                () => Menu(uid: widget.uid),
+                transition: Transition.cupertino,
+              ),
+              icon: const Icon(Remix.menu_3_line),
+              color: kWhiteColor,
+            ),
           ),
         ],
       ),

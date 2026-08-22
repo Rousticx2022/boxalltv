@@ -1,7 +1,6 @@
 part of 'edit_user_profile.dart';
 
 extension EditUserProfileExt on _EditUserProfileState {
-
   Future<void> save() async {
     if (!formKey.currentState!.validate()) return;
 
@@ -16,8 +15,9 @@ extension EditUserProfileExt on _EditUserProfileState {
       int fileName = DateTime.now().millisecondsSinceEpoch;
 
       try {
-        final postRef =
-            storageRef.child("user/${widget.uid}/pp_$fileName.$ext");
+        final postRef = storageRef.child(
+          "user/${widget.uid}/pp_$fileName.$ext",
+        );
         await postRef.putFile(File(imagePath));
         imageURL = await postRef.getDownloadURL();
       } on FirebaseException catch (e) {

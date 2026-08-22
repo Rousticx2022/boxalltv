@@ -38,8 +38,10 @@ class _TrailerState extends State<Trailer> {
 
   @override
   void dispose() async {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     flickManager.dispose();
     super.dispose();
@@ -68,9 +70,7 @@ class _TrailerState extends State<Trailer> {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: FlickAutoHideChild(
-            child: Container(color: Colors.black38),
-          ),
+          child: FlickAutoHideChild(child: Container(color: Colors.black38)),
         ),
         Positioned.fill(
           child: FlickShowControlsAction(
@@ -98,17 +98,23 @@ class _TrailerState extends State<Trailer> {
         Positioned.fill(
           child: FlickAutoHideChild(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 15,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: [
                       Expanded(
-                        child: Text(widget.title,
-                            style: customTextStyleBody(
-                                fontSize: 20, color: Colors.white)),
+                        child: Text(
+                          widget.title,
+                          style: customTextStyleBody(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -129,15 +135,14 @@ class _TrailerState extends State<Trailer> {
                       const Row(
                         children: [
                           FlickCurrentPosition(fontSize: 15),
-                          Text(' / ',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 12)),
+                          Text(
+                            ' / ',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
                           FlickTotalDuration(fontSize: 15),
                         ],
                       ),
-                      Expanded(
-                        child: Container(),
-                      ),
+                      Expanded(child: Container()),
                       const FlickSubtitleToggle(
                         size: 20,
                         padding: EdgeInsets.all(6),

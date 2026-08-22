@@ -63,10 +63,12 @@ class PublicProfile extends GetView<PublicProfileController> {
                           Container(
                             height: context.width,
                             decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [Colors.transparent, kBlackColor],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter)),
+                              gradient: LinearGradient(
+                                colors: [Colors.transparent, kBlackColor],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
                           ),
                           Positioned(
                             bottom: 70,
@@ -82,7 +84,9 @@ class PublicProfile extends GetView<PublicProfileController> {
                                       borderRadius: BorderRadius.circular(100),
                                       color: kBlackColor,
                                       border: Border.all(
-                                          color: kGreyColor2, width: 1.5),
+                                        color: kGreyColor2,
+                                        width: 1.5,
+                                      ),
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
@@ -104,17 +108,25 @@ class PublicProfile extends GetView<PublicProfileController> {
                           ),
                         ],
                       ),
-                      title: Text(controller.userData["name"],
-                          style: fontHeading(
-                              color: kWhiteColor, fontWeight: FontWeight.bold)),
+                      title: Text(
+                        controller.userData["name"],
+                        style: fontHeading(
+                          color: kWhiteColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   SliverToBoxAdapter(
                     child: Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
+                        horizontal: 20,
+                        vertical: 15,
+                      ),
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: kBlackColor,
                         borderRadius: BorderRadius.circular(15),
@@ -127,20 +139,23 @@ class PublicProfile extends GetView<PublicProfileController> {
                               onPressed: () =>
                                   controller.toggleFollowingStatus(),
                               style: ElevatedButton.styleFrom(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
                                 backgroundColor: kButtonColor,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
                               child: Text(
                                 controller.isFollowing.value
                                     ? "Unfollow"
                                     : "Follow",
                                 style: fontButton(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                    color: kWhiteColor),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                  color: kWhiteColor,
+                                ),
                               ),
                             ),
                           ),
@@ -150,21 +165,25 @@ class PublicProfile extends GetView<PublicProfileController> {
                               flex: 1,
                               child: ElevatedButton(
                                 onPressed: () => Get.to(
-                                    () => EditUserProfile(uid: controller.uid)),
+                                  () => EditUserProfile(uid: controller.uid),
+                                ),
                                 style: ElevatedButton.styleFrom(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
                                   backgroundColor: kGreyColor2,
                                   foregroundColor: kSocialPrimaryColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                 ),
                                 child: Text(
                                   "Edit Profile",
                                   style: fontButton(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20,
-                                      color: kSocialPrimaryColor),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                    color: kSocialPrimaryColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -174,19 +193,22 @@ class PublicProfile extends GetView<PublicProfileController> {
                               child: ElevatedButton(
                                 onPressed: () => {},
                                 style: ElevatedButton.styleFrom(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
                                   backgroundColor: kGreyColor2,
                                   foregroundColor: kSocialPrimaryColor,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8)),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                 ),
                                 child: Text(
                                   "Add Friend",
                                   style: fontButton(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 20,
-                                      color: kSocialPrimaryColor),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                    color: kSocialPrimaryColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -208,10 +230,11 @@ class PublicProfile extends GetView<PublicProfileController> {
                         Posts posts = Posts.fromDocument(snapshot);
 
                         return PostContainer(
-                            posts: posts,
-                            uid: controller.uid,
-                            routeToProfile: false,
-                            confirmDelete: controller.confirmDelete);
+                          posts: posts,
+                          uid: controller.uid,
+                          routeToProfile: false,
+                          confirmDelete: controller.confirmDelete,
+                        );
                       },
                     ),
                   ),

@@ -63,13 +63,19 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                         margin: const EdgeInsets.only(right: 10),
                         padding: const EdgeInsets.all(4),
                         decoration: const ShapeDecoration(
-                            color: Colors.white12, shape: CircleBorder()),
+                          color: Colors.white12,
+                          shape: CircleBorder(),
+                        ),
                         child: const Icon(Icons.close),
                       ),
                     ),
-                    Text("Banking Details",
-                        style: fontHeading(
-                            fontSize: 18.sp, fontWeight: FontWeight.w600)),
+                    Text(
+                      "Banking Details",
+                      style: fontHeading(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -80,19 +86,26 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                         controller: controller.accountNameController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
-                            color: Colors.white, fontSize: 16.sp),
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
                         decoration: InputDecoration(
                           fillColor: Colors.white10,
                           filled: true,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           labelText: "Account holder",
                           labelStyle: customTextStyleBody(
-                              color: kWhiteColor, fontSize: 16.sp),
+                            color: kWhiteColor,
+                            fontSize: 16.sp,
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -106,19 +119,26 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                         controller: controller.accountNumberController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
-                            color: Colors.white, fontSize: 16.sp),
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
                         decoration: InputDecoration(
                           fillColor: Colors.white10,
                           filled: true,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           labelText: "Account number",
                           labelStyle: customTextStyleBody(
-                              color: kWhiteColor, fontSize: 16.sp),
+                            color: kWhiteColor,
+                            fontSize: 16.sp,
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -132,19 +152,26 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                         controller: controller.bankNameController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
-                            color: Colors.white, fontSize: 16.sp),
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
                         decoration: InputDecoration(
                           fillColor: Colors.white10,
                           filled: true,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           labelText: "Bank name",
                           labelStyle: customTextStyleBody(
-                              color: kWhiteColor, fontSize: 16.sp),
+                            color: kWhiteColor,
+                            fontSize: 16.sp,
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -158,19 +185,26 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                         controller: controller.branchNameController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
-                            color: Colors.white, fontSize: 16.sp),
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
                         decoration: InputDecoration(
                           fillColor: Colors.white10,
                           filled: true,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           labelText: "Branch",
                           labelStyle: customTextStyleBody(
-                              color: kWhiteColor, fontSize: 16.sp),
+                            color: kWhiteColor,
+                            fontSize: 16.sp,
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -184,19 +218,26 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                         controller: controller.swiftCodeController,
                         keyboardType: TextInputType.text,
                         style: customTextStyleBody(
-                            color: Colors.white, fontSize: 16.sp),
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
                         decoration: InputDecoration(
                           fillColor: Colors.white10,
                           filled: true,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           labelText: "Swift code",
                           labelStyle: customTextStyleBody(
-                              color: kWhiteColor, fontSize: 16.sp),
+                            color: kWhiteColor,
+                            fontSize: 16.sp,
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -209,14 +250,20 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                       TextButton(
                         onPressed: () => controller.updateBankDetails(),
                         style: TextButton.styleFrom(
-                            backgroundColor: kButtonColor,
-                            foregroundColor: kWhiteColor,
-                            padding: const EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12))),
-                        child: Text("Save",
-                            style: fontButton(
-                                fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                          backgroundColor: kButtonColor,
+                          foregroundColor: kWhiteColor,
+                          padding: const EdgeInsets.all(15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          "Save",
+                          style: fontButton(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 15),
                     ],
@@ -237,153 +284,178 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Estimated Revenue"),
-      ),
+      appBar: AppBar(title: const Text("Estimated Revenue")),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             StreamBuilder<DocumentSnapshot>(
-                stream: creatorsCollection.doc(widget.uid).snapshots(),
-                builder: (context, snapshot) {
-                  double generatedRevenue = 0;
-                  if (!snapshot.hasData) {
-                    generatedRevenue = 0;
-                  }
-                  if (snapshot.hasData && snapshot.data!.exists) {
-                    generatedRevenue =
-                        snapshot.data!["totalRevenue"].toDouble();
-                  }
+              stream: creatorsCollection.doc(widget.uid).snapshots(),
+              builder: (context, snapshot) {
+                double generatedRevenue = 0;
+                if (!snapshot.hasData) {
+                  generatedRevenue = 0;
+                }
+                if (snapshot.hasData && snapshot.data!.exists) {
+                  generatedRevenue = snapshot.data!["totalRevenue"].toDouble();
+                }
 
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 20),
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        color: kGreyColor2,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                            "\$${Numeral(generatedRevenue).format(fractionDigits: 2)}",
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: kGreyColor2,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "\$${Numeral(generatedRevenue).format(fractionDigits: 2)}",
+                        style: fontBody(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      if (generatedRevenue < 100)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            "You can request withdraw once you reach \$100 in revenue",
                             style: fontBody(
-                                fontSize: 24.sp, fontWeight: FontWeight.w400)),
-                        if (generatedRevenue < 100)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Text(
-                              "You can request withdraw once you reach \$100 in revenue",
-                              style: fontBody(
-                                  fontSize: 16.sp,
-                                  color: kButtonColor,
-                                  fontWeight: FontWeight.w600),
+                              fontSize: 16.sp,
+                              color: kButtonColor,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        if (generatedRevenue >= 100)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Text(
-                              "You can now withdraw the maximum revenue available",
-                              style: fontBody(
-                                  fontSize: 16.sp,
+                        ),
+                      if (generatedRevenue >= 100)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            "You can now withdraw the maximum revenue available",
+                            style: fontBody(
+                              fontSize: 16.sp,
+                              color: kWhiteColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      if (generatedRevenue >= 100)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              Get.defaultDialog(
+                                title: "Withdraw Revenue",
+                                titleStyle: fontHeading(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20.sp,
                                   color: kWhiteColor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        if (generatedRevenue >= 100)
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                Get.defaultDialog(
-                                    title: "Withdraw Revenue",
-                                    titleStyle: fontHeading(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 20.sp,
-                                        color: kWhiteColor),
-                                    content: Text(
-                                      "Are you sure you want to withdraw your total revenue of \$$generatedRevenue?",
-                                      style: fontBody(),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    barrierDismissible: false,
-                                    backgroundColor: kGreyColor2,
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Get.back(),
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: kBlackColor,
-                                          shape: const StadiumBorder(),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 30),
-                                        ),
-                                        child: Text("Later",
-                                            style: customTextStyleBody(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16.sp)),
+                                ),
+                                content: Text(
+                                  "Are you sure you want to withdraw your total revenue of \$$generatedRevenue?",
+                                  style: fontBody(),
+                                  textAlign: TextAlign.center,
+                                ),
+                                barrierDismissible: false,
+                                backgroundColor: kGreyColor2,
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Get.back(),
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: kBlackColor,
+                                      shape: const StadiumBorder(),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 30,
                                       ),
-                                      TextButton(
-                                        onPressed: () async {
-                                          Get.back();
-                                          await creatorsCollection
-                                              .doc(widget.uid)
-                                              .collection("withdraws")
-                                              .add({
+                                    ),
+                                    child: Text(
+                                      "Later",
+                                      style: customTextStyleBody(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Get.back();
+                                      await creatorsCollection
+                                          .doc(widget.uid)
+                                          .collection("withdraws")
+                                          .add({
                                             "amount": generatedRevenue,
                                             "uid": widget.uid,
                                             "status": "pending",
                                             "date": DateTime.now(),
                                           });
 
-                                          customSnackBar(
-                                              text: "Withdrawal request sent");
-                                          await creatorsCollection
-                                              .doc(widget.uid)
-                                              .update({
-                                            "totalRevenue": 0,
-                                          });
-                                        },
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: kButtonColor,
-                                          shape: const StadiumBorder(),
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 30),
-                                        ),
-                                        child: Text("Yes",
-                                            style: customTextStyleBody(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16.sp)),
+                                      customSnackBar(
+                                        text: "Withdrawal request sent",
+                                      );
+                                      await creatorsCollection
+                                          .doc(widget.uid)
+                                          .update({"totalRevenue": 0});
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: kButtonColor,
+                                      shape: const StadiumBorder(),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 30,
                                       ),
-                                    ]);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: kBlackColor,
-                                  foregroundColor: kButtonColor,
-                                  padding: const EdgeInsets.all(10),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8))),
-                              child: Text("Withdraw",
-                                  style: fontButton(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600)),
+                                    ),
+                                    child: Text(
+                                      "Yes",
+                                      style: customTextStyleBody(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: kBlackColor,
+                              foregroundColor: kButtonColor,
+                              padding: const EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              "Withdraw",
+                              style: fontButton(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                      ],
-                    ),
-                  );
-                }),
-            Text("Withdrawal History",
-                style:
-                    fontHeading(fontWeight: FontWeight.w500, fontSize: 17.sp)),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            Text(
+              "Withdrawal History",
+              style: fontHeading(fontWeight: FontWeight.w500, fontSize: 17.sp),
+            ),
             Expanded(
               child: FirestoreListView(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 emptyBuilder: (C) => Center(
-                  child: Text("No withdrawal done yet!",
-                      style: fontBody(
-                          fontWeight: FontWeight.w600, fontSize: 16.sp)),
+                  child: Text(
+                    "No withdrawal done yet!",
+                    style: fontBody(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
                 query: creatorsCollection
                     .doc(widget.uid)
@@ -391,22 +463,28 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
                     .orderBy("date", descending: true),
                 itemBuilder: (context, snapshot) {
                   return ListTile(
-                    title: Text("\$${snapshot["amount"]}",
-                        style: fontBody(
-                            fontSize: 18.sp, fontWeight: FontWeight.w400)),
+                    title: Text(
+                      "\$${snapshot["amount"]}",
+                      style: fontBody(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     subtitle: Text(
-                      DateFormat("dd//MM/yyy")
-                          .format(snapshot["date"].toDate()),
+                      DateFormat(
+                        "dd//MM/yyy",
+                      ).format(snapshot["date"].toDate()),
                       style: fontBody(fontSize: 15.sp),
                     ),
                     trailing: Text(
                       "${snapshot["status"].toUpperCase()}",
                       style: fontBody(
-                          fontSize: 15.sp,
-                          color: snapshot["status"] == "pending"
-                              ? kButtonColor
-                              : kWhiteColor,
-                          fontWeight: FontWeight.w600),
+                        fontSize: 15.sp,
+                        color: snapshot["status"] == "pending"
+                            ? kButtonColor
+                            : kWhiteColor,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   );
                 },
@@ -423,14 +501,17 @@ class _EstimatedRevenueState extends State<EstimatedRevenue> {
           child: TextButton(
             onPressed: () => modifyBankDetails(),
             style: TextButton.styleFrom(
-                backgroundColor: kButtonColor,
-                foregroundColor: kWhiteColor,
-                padding: const EdgeInsets.all(15),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12))),
-            child: Text("Your Banking Details",
-                style:
-                    fontButton(fontSize: 16.sp, fontWeight: FontWeight.w600)),
+              backgroundColor: kButtonColor,
+              foregroundColor: kWhiteColor,
+              padding: const EdgeInsets.all(15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text(
+              "Your Banking Details",
+              style: fontButton(fontSize: 16.sp, fontWeight: FontWeight.w600),
+            ),
           ),
         ),
       ),

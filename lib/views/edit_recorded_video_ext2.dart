@@ -22,7 +22,9 @@ extension _VideoEditorStateExt2 on _VideoEditorState {
     await ExportService.runFFmpegCommand(
       await config.getExecuteConfig(),
       onProgress: (stats) {
-        _exportingProgress.value = config.getFFmpegProgress(stats.getTime().toInt());
+        _exportingProgress.value = config.getFFmpegProgress(
+          stats.getTime().toInt(),
+        );
       },
       onError: (e, s) => customSnackBar(text: "Error while exporting video"),
       onCompleted: (file) {
@@ -46,27 +48,43 @@ extension _VideoEditorStateExt2 on _VideoEditorState {
                       'vid': widget.vid,
                       "isTrimmed": "trimmed",
                       "path": file.path,
-                      "recordingStartedFrom": widget.recordingStartedFrom.toString(),
+                      "recordingStartedFrom": widget.recordingStartedFrom
+                          .toString(),
                       "type": "video",
                     },
                   );
                 },
-                style: TextButton.styleFrom(backgroundColor: kWhiteColor.withValues(alpha: 0.2), foregroundColor: kWhiteColor),
+                style: TextButton.styleFrom(
+                  backgroundColor: kWhiteColor.withValues(alpha: 0.2),
+                  foregroundColor: kWhiteColor,
+                ),
                 child: Text("Frame", style: fontButton()),
               ),
               TextButton(
                 onPressed: () async {
                   Get.back();
-                  Get.dialog(customCircularProgress(strokeColor: kStreamPrimaryColor), barrierDismissible: false);
-                  await Share.shareXFiles([XFile(file.path)], text: 'I took a video clip from Frame.');
+                  Get.dialog(
+                    customCircularProgress(strokeColor: kStreamPrimaryColor),
+                    barrierDismissible: false,
+                  );
+                  await Share.shareXFiles([
+                    XFile(file.path),
+                  ], text: 'I took a video clip from Frame.');
                   Get.back();
                 },
-                style: TextButton.styleFrom(backgroundColor: kWhiteColor.withValues(alpha: 0.2), foregroundColor: kWhiteColor),
+                style: TextButton.styleFrom(
+                  backgroundColor: kWhiteColor.withValues(alpha: 0.2),
+                  foregroundColor: kWhiteColor,
+                ),
                 child: Text("Social Media", style: fontButton()),
               ),
               TextButton(
-                onPressed: () => Get.find<BottomTabController>().uploadVideoInProfile(file.path),
-                style: TextButton.styleFrom(backgroundColor: kWhiteColor.withValues(alpha: 0.2), foregroundColor: kWhiteColor),
+                onPressed: () => Get.find<BottomTabController>()
+                    .uploadVideoInProfile(file.path),
+                style: TextButton.styleFrom(
+                  backgroundColor: kWhiteColor.withValues(alpha: 0.2),
+                  foregroundColor: kWhiteColor,
+                ),
                 child: Text("Save in profile", style: fontButton()),
               ),
             ],
@@ -95,21 +113,28 @@ extension _VideoEditorStateExt2 on _VideoEditorState {
             const VerticalDivider(endIndent: 22, indent: 22),
             Expanded(
               child: IconButton(
-                onPressed: () => _controller.rotate90Degrees(RotateDirection.left),
+                onPressed: () =>
+                    _controller.rotate90Degrees(RotateDirection.left),
                 icon: const Icon(Icons.rotate_left),
                 tooltip: 'Rotate anticlockwise',
               ),
             ),
             Expanded(
               child: IconButton(
-                onPressed: () => _controller.rotate90Degrees(RotateDirection.right),
+                onPressed: () =>
+                    _controller.rotate90Degrees(RotateDirection.right),
                 icon: const Icon(Icons.rotate_right),
                 tooltip: 'Rotate clockwise',
               ),
             ),
             Expanded(
               child: IconButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute<void>(builder: (context) => CropPage(controller: _controller))),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (context) => CropPage(controller: _controller),
+                  ),
+                ),
                 icon: const Icon(Icons.crop),
                 tooltip: 'Open crop screen',
               ),
@@ -120,8 +145,14 @@ extension _VideoEditorStateExt2 on _VideoEditorState {
                 tooltip: 'Open export menu',
                 icon: const Icon(Icons.save),
                 itemBuilder: (context) => [
-                  PopupMenuItem(onTap: _exportCover, child: const Text('Export Image')),
-                  PopupMenuItem(onTap: _exportVideo, child: const Text('Export video')),
+                  PopupMenuItem(
+                    onTap: _exportCover,
+                    child: const Text('Export Image'),
+                  ),
+                  PopupMenuItem(
+                    onTap: _exportVideo,
+                    child: const Text('Export video'),
+                  ),
                 ],
               ),
             ),

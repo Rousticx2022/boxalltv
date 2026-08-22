@@ -34,67 +34,75 @@ class _ResetPasswordState extends State<ResetPassword> {
         title: const Text('Reset Password'),
       ),
       body: Form(
-          key: formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Formbuilder(
-                      controller: emailController,
-                      validator: emailValidator,
-                      inputType: TextInputType.emailAddress,
-                      pIcon: "assets/email_icon.png",
-                      label: "Enter registered email address")
-                  .buildTextField(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: TextButton.icon(
-                  style: TextButton.styleFrom(
-                    foregroundColor: kWhiteColor,
-                    backgroundColor: kButtonColor,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
+        key: formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Formbuilder(
+              controller: emailController,
+              validator: emailValidator,
+              inputType: TextInputType.emailAddress,
+              pIcon: "assets/email_icon.png",
+              label: "Enter registered email address",
+            ).buildTextField(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: TextButton.icon(
+                style: TextButton.styleFrom(
+                  foregroundColor: kWhiteColor,
+                  backgroundColor: kButtonColor,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 10,
                   ),
-                  icon: loading
-                      ? SizedBox(
-                          height: 18,
-                          width: 18,
-                          child:
-                              customCircularProgress(strokeColor: kWhiteColor))
-                      : const Icon(Icons.arrow_forward_ios, size: 18),
-                  onPressed: () async {
-                    FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (!currentFocus.hasPrimaryFocus) {
-                      currentFocus.unfocus();
-                    }
-                    if (!formKey.currentState!.validate()) {
-                      return;
-                    }
-                    setState(() {
-                      loading = true;
-                    });
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                icon: loading
+                    ? SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: customCircularProgress(strokeColor: kWhiteColor),
+                      )
+                    : const Icon(Icons.arrow_forward_ios, size: 18),
+                onPressed: () async {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
+                  if (!formKey.currentState!.validate()) {
+                    return;
+                  }
+                  setState(() {
+                    loading = true;
+                  });
 
-                    bool status = await UserService.instance
-                        .resetPassword(emailController.text);
-                    if (status) {
-                      Get.back();
-                      customSnackBar(
-                          text:
-                              "Password reset link sent on ${emailController.text}");
-                    } else {
-                      setState(() {
-                        loading = false;
-                      });
-                    }
-                  },
-                  label: const Text("Send reset link",
-                      style: TextStyle(color: Color(0xffe0e0e0))),
+                  bool status = await UserService.instance.resetPassword(
+                    emailController.text,
+                  );
+                  if (status) {
+                    Get.back();
+                    customSnackBar(
+                      text:
+                          "Password reset link sent on ${emailController.text}",
+                    );
+                  } else {
+                    setState(() {
+                      loading = false;
+                    });
+                  }
+                },
+                label: const Text(
+                  "Send reset link",
+                  style: TextStyle(color: Color(0xffe0e0e0)),
                 ),
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

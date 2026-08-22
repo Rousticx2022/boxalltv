@@ -21,16 +21,22 @@ class Signup extends GetView<SignupController> {
           Center(child: Image.asset("assets/logo.jpg", width: 40.w)),
           Padding(
             padding: EdgeInsets.only(top: 2.h, bottom: 20),
-            child: Text("Welcome!",
-                textAlign: TextAlign.center,
-                style: customTextStyleHeadline(fontSize: 22.sp)),
+            child: Text(
+              "Welcome!",
+              textAlign: TextAlign.center,
+              style: customTextStyleHeadline(fontSize: 22.sp),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Text("Create a new account",
-                textAlign: TextAlign.center,
-                style: customTextStyleBody(
-                    color: Colors.grey.shade300, fontSize: 16.sp)),
+            child: Text(
+              "Create a new account",
+              textAlign: TextAlign.center,
+              style: customTextStyleBody(
+                color: Colors.grey.shade300,
+                fontSize: 16.sp,
+              ),
+            ),
           ),
           const SizedBox(height: 30),
           Form(
@@ -39,46 +45,49 @@ class Signup extends GetView<SignupController> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Formbuilder(
-                        controller: controller.usernameController,
-                        validator: nameValidator,
-                        inputType: TextInputType.name,
-                        pIcon: "assets/user_icon.png",
-                        label: "Enter Username")
-                    .buildTextField(),
+                  controller: controller.usernameController,
+                  validator: nameValidator,
+                  inputType: TextInputType.name,
+                  pIcon: "assets/user_icon.png",
+                  label: "Enter Username",
+                ).buildTextField(),
                 Formbuilder(
-                        controller: controller.emailController,
-                        validator: emailValidator,
-                        inputType: TextInputType.emailAddress,
-                        pIcon: "assets/email_icon.png",
-                        label: "Enter Email")
-                    .buildTextField(),
+                  controller: controller.emailController,
+                  validator: emailValidator,
+                  inputType: TextInputType.emailAddress,
+                  pIcon: "assets/email_icon.png",
+                  label: "Enter Email",
+                ).buildTextField(),
                 Formbuilder(
-                        controller: controller.countryController,
-                        readOnly: true,
-                        validator: countryValidator,
-                        inputType: TextInputType.text,
-                        pIcon: "assets/location_icon.png",
-                        onTap: controller.selectCountry,
-                        label: "Select Country")
-                    .buildSelectField(),
+                  controller: controller.countryController,
+                  readOnly: true,
+                  validator: countryValidator,
+                  inputType: TextInputType.text,
+                  pIcon: "assets/location_icon.png",
+                  onTap: controller.selectCountry,
+                  label: "Select Country",
+                ).buildSelectField(),
                 Formbuilder(
-                        controller: controller.zipcodeController,
-                        validator: fieldValidator,
-                        inputType: TextInputType.text,
-                        readOnly: true,
-                        onTap: () => controller.openZipcodeSheet(),
-                        pIcon: "assets/zipcode_icon.png",
-                        label: "Enter Zipcode")
-                    .buildTextField(),
+                  controller: controller.zipcodeController,
+                  validator: fieldValidator,
+                  inputType: TextInputType.text,
+                  readOnly: true,
+                  onTap: () => controller.openZipcodeSheet(),
+                  pIcon: "assets/zipcode_icon.png",
+                  label: "Enter Zipcode",
+                ).buildTextField(),
                 Obx(
-                  () => Formbuilder(
-                          controller: controller.passwordController,
-                          validator: passwordValidator,
-                          inputType: TextInputType.visiblePassword,
-                          pIcon: "assets/lock_icon.png",
-                          label: "Enter Password")
-                      .buildPasswordField(controller.passwordVisible.value,
-                          controller.togglePassword),
+                  () =>
+                      Formbuilder(
+                        controller: controller.passwordController,
+                        validator: passwordValidator,
+                        inputType: TextInputType.visiblePassword,
+                        pIcon: "assets/lock_icon.png",
+                        label: "Enter Password",
+                      ).buildPasswordField(
+                        controller.passwordVisible.value,
+                        controller.togglePassword,
+                      ),
                 ),
                 Obx(
                   () => GestureDetector(
@@ -89,30 +98,38 @@ class Signup extends GetView<SignupController> {
                         controller.loading.value
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Image.asset("assets/button_anim.gif",
-                                    width: context.width - 40,
-                                    height: 80,
-                                    fit: BoxFit.cover),
+                                  horizontal: 20.0,
+                                ),
+                                child: Image.asset(
+                                  "assets/button_anim.gif",
+                                  width: context.width - 40,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
                               )
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Image.asset("assets/button.png",
-                                    width: context.width - 40,
-                                    height: 80,
-                                    fit: BoxFit.cover),
+                                  horizontal: 20.0,
+                                ),
+                                child: Image.asset(
+                                  "assets/button.png",
+                                  width: context.width - 40,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                         Text(
                           "SIGNUP",
                           style: fontButton(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.sp,
-                              shadows: [
-                                Shadow(
-                                    color: kBlackColor.withValues(alpha: 0.6),
-                                    blurRadius: 10)
-                              ]),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.sp,
+                            shadows: [
+                              Shadow(
+                                color: kBlackColor.withValues(alpha: 0.6),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -124,13 +141,16 @@ class Signup extends GetView<SignupController> {
                     text: TextSpan(
                       text: "Already have an account? ",
                       style: customTextStyleBody(
-                          fontSize: 16.sp, color: kWhiteColor),
+                        fontSize: 16.sp,
+                        color: kWhiteColor,
+                      ),
                       children: [
                         TextSpan(
                           text: "Login",
                           style: customTextStyleBody(
-                              fontSize: 16.sp,
-                              color: kWhiteColor.withValues(alpha: 0.7)),
+                            fontSize: 16.sp,
+                            color: kWhiteColor.withValues(alpha: 0.7),
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Get.back();
@@ -139,7 +159,7 @@ class Signup extends GetView<SignupController> {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

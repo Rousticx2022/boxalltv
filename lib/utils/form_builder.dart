@@ -46,19 +46,20 @@ class Formbuilder {
               ? null
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(pIcon, width: 5.w),
-                  ],
+                  children: [Image.asset(pIcon, width: 5.w)],
                 ),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           labelText: label,
           labelStyle: customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
         ),
@@ -80,27 +81,29 @@ class Formbuilder {
           filled: true,
           prefixIcon: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(pIcon, width: 5.w),
-            ],
+            children: [Image.asset(pIcon, width: 5.w)],
           ),
           suffixIcon: IconButton(
-            icon:
-                Icon(passwordVisible ? Icons.visibility_off : Icons.visibility),
+            icon: Icon(
+              passwordVisible ? Icons.visibility_off : Icons.visibility,
+            ),
             color: kWhiteColor.withValues(alpha: 0.7),
             onPressed: () {
               togglePassword();
             },
           ),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           labelText: label,
           labelStyle: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
         ),
@@ -126,19 +129,20 @@ class Formbuilder {
           suffixIcon: const Icon(Icons.arrow_drop_down),
           prefixIcon: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(pIcon, width: 5.w),
-            ],
+            children: [Image.asset(pIcon, width: 5.w)],
           ),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
           labelText: label,
           labelStyle: customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
         ),

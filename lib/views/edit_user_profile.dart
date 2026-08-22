@@ -64,14 +64,18 @@ class _EditUserProfileState extends State<EditUserProfile> {
   }
 
   Future<void> fetchTargetCountries() async {
-    QuerySnapshot countries = await targetCountriesCollection.orderBy("country").get();
+    QuerySnapshot countries = await targetCountriesCollection
+        .orderBy("country")
+        .get();
     targetCountries = countries.docs;
     selectedTargetCountry.value = targetCountries.first["country"];
     setState(() {});
   }
 
   void pickImage({bool gallery = false}) async {
-    final XFile? image = await imagePicker.pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
+    final XFile? image = await imagePicker.pickImage(
+      source: gallery ? ImageSource.gallery : ImageSource.camera,
+    );
     if (image == null) return;
     imageSize = await image.length() ~/ 1000;
     if (imageSize > 5400) {
@@ -87,7 +91,11 @@ class _EditUserProfileState extends State<EditUserProfile> {
 
   void openImageSelect() => Get.defaultDialog(
     title: "Select Profile Picture",
-    titleStyle: customTextStyleHeadline(fontSize: 20, fontWeight: FontWeight.w500, color: kWhiteColor),
+    titleStyle: customTextStyleHeadline(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: kWhiteColor,
+    ),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -96,14 +104,20 @@ class _EditUserProfileState extends State<EditUserProfile> {
             pickImage(gallery: true);
             Get.back();
           },
-          title: const Text("Open Gallery", style: TextStyle(fontSize: 15, color: kButtonColor)),
+          title: const Text(
+            "Open Gallery",
+            style: TextStyle(fontSize: 15, color: kButtonColor),
+          ),
         ),
         ListTile(
           onTap: () {
             pickImage();
             Get.back();
           },
-          title: const Text("Open Camera", style: TextStyle(fontSize: 15, color: kButtonColor)),
+          title: const Text(
+            "Open Camera",
+            style: TextStyle(fontSize: 15, color: kButtonColor),
+          ),
         ),
       ],
     ),
@@ -131,13 +145,19 @@ class _EditUserProfileState extends State<EditUserProfile> {
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
                       padding: const EdgeInsets.all(4),
-                      decoration: const ShapeDecoration(color: Colors.white12, shape: CircleBorder()),
+                      decoration: const ShapeDecoration(
+                        color: Colors.white12,
+                        shape: CircleBorder(),
+                      ),
                       child: const Icon(Icons.close),
                     ),
                   ),
                   Text(
                     "Select Countries",
-                    style: fontHeading(fontSize: 20.sp, fontWeight: FontWeight.w600),
+                    style: fontHeading(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
@@ -146,7 +166,11 @@ class _EditUserProfileState extends State<EditUserProfile> {
               padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
               child: TextFormField(
                 controller: searchCountryController,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: kWhiteColor),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: kWhiteColor,
+                ),
                 keyboardType: TextInputType.text,
                 onChanged: (v) {
                   searchCountry.value = v;
@@ -156,12 +180,25 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   fillColor: Colors.white10,
                   filled: true,
                   isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-                  hintStyle: customTextStyleBody(fontSize: 15, fontWeight: FontWeight.w500, color: kWhiteColor),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 25,
+                    vertical: 25,
+                  ),
+                  hintStyle: customTextStyleBody(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: kWhiteColor,
+                  ),
                   prefixIcon: const Icon(Remix.search_2_fill, size: 20),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
               ),
             ),
@@ -180,8 +217,14 @@ class _EditUserProfileState extends State<EditUserProfile> {
                               Get.back();
                             },
                             minLeadingWidth: 0,
-                            leading: Text(countries[index]["code"], style: customTextStyleBody()),
-                            title: Text(countries[index]["name"], style: customTextStyleBody()),
+                            leading: Text(
+                              countries[index]["code"],
+                              style: customTextStyleBody(),
+                            ),
+                            title: Text(
+                              countries[index]["name"],
+                              style: customTextStyleBody(),
+                            ),
                           );
                         },
                       )
@@ -189,18 +232,36 @@ class _EditUserProfileState extends State<EditUserProfile> {
                         padding: const EdgeInsets.all(15),
                         itemCount: countries.length,
                         itemBuilder: (context, index) {
-                          return countries[index]["name"].contains(RegExp(searchCountry.value, caseSensitive: false)) ||
-                                  countries[index]["code"].contains(RegExp(searchCountry.value, caseSensitive: false))
+                          return countries[index]["name"].contains(
+                                    RegExp(
+                                      searchCountry.value,
+                                      caseSensitive: false,
+                                    ),
+                                  ) ||
+                                  countries[index]["code"].contains(
+                                    RegExp(
+                                      searchCountry.value,
+                                      caseSensitive: false,
+                                    ),
+                                  )
                               ? ListTile(
                                   onTap: () {
-                                    countryController.text = countries[index]["name"];
-                                    codeController.text = countries[index]["code"];
+                                    countryController.text =
+                                        countries[index]["name"];
+                                    codeController.text =
+                                        countries[index]["code"];
                                     searchCountryController.clear();
                                     Get.back();
                                   },
                                   minLeadingWidth: 0,
-                                  leading: Text(countries[index]["code"], style: customTextStyleBody()),
-                                  title: Text(countries[index]["name"], style: customTextStyleBody()),
+                                  leading: Text(
+                                    countries[index]["code"],
+                                    style: customTextStyleBody(),
+                                  ),
+                                  title: Text(
+                                    countries[index]["name"],
+                                    style: customTextStyleBody(),
+                                  ),
                                 )
                               : const SizedBox.shrink();
                         },
@@ -213,7 +274,9 @@ class _EditUserProfileState extends State<EditUserProfile> {
     ),
     isScrollControlled: true,
     barrierColor: Colors.white10,
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+    ),
     backgroundColor: Colors.black,
   );
 
@@ -242,16 +305,27 @@ class _EditUserProfileState extends State<EditUserProfile> {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(colors: [Color(0xff000000), Color(0xff203A43), Color(0xff000000)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+        gradient: LinearGradient(
+          colors: [Color(0xff000000), Color(0xff203A43), Color(0xff000000)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(backgroundColor: Colors.transparent, title: const Text("Edit Profile")),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: const Text("Edit Profile"),
+        ),
         body: StreamBuilder(
           stream: usersCollection.doc(widget.uid).snapshots(),
           builder: (context, userSnapshot) {
             if (!userSnapshot.hasData) {
-              return Center(child: customCircularProgress(strokeColor: Theme.of(context).primaryColor));
+              return Center(
+                child: customCircularProgress(
+                  strokeColor: Theme.of(context).primaryColor,
+                ),
+              );
             }
             DocumentSnapshot userDocs = userSnapshot.data!;
             return Form(
@@ -266,8 +340,18 @@ class _EditUserProfileState extends State<EditUserProfile> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: imagePath.isEmpty
-                              ? CachedNetworkImage(imageUrl: userDocs["profileImage"], fit: BoxFit.cover, width: 32.w, height: 32.w)
-                              : Image.file(File(imagePath), width: 100, height: 100, fit: BoxFit.cover),
+                              ? CachedNetworkImage(
+                                  imageUrl: userDocs["profileImage"],
+                                  fit: BoxFit.cover,
+                                  width: 32.w,
+                                  height: 32.w,
+                                )
+                              : Image.file(
+                                  File(imagePath),
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                         Positioned(
                           bottom: 0,
@@ -276,8 +360,14 @@ class _EditUserProfileState extends State<EditUserProfile> {
                             onTap: openImageSelect,
                             child: Container(
                               padding: const EdgeInsets.all(6),
-                              decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xffdb3445)),
-                              child: const Icon(Remix.camera_2_fill, color: kWhiteColor),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xffdb3445),
+                              ),
+                              child: const Icon(
+                                Remix.camera_2_fill,
+                                color: kWhiteColor,
+                              ),
                             ),
                           ),
                         ),
@@ -318,8 +408,14 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   ).buildTextField(),
                   loading
                       ? Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-                          child: customCircularProgress(strokeColor: kButtonColor, strokeWidth: 5),
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 15,
+                          ),
+                          child: customCircularProgress(
+                            strokeColor: kButtonColor,
+                            strokeWidth: 5,
+                          ),
                         )
                       : GestureDetector(
                           onTap: () {
@@ -329,16 +425,34 @@ class _EditUserProfileState extends State<EditUserProfile> {
                             save();
                           },
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 15,
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical: 15,
+                            ),
                             decoration: const ShapeDecoration(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
-                              gradient: LinearGradient(colors: [Color(0xffdb3445), Color(0xfff71735)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                              ),
+                              gradient: LinearGradient(
+                                colors: [Color(0xffdb3445), Color(0xfff71735)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               "Update",
-                              style: fontBody(fontSize: 17.sp, fontWeight: FontWeight.w600, color: kWhiteColor),
+                              style: fontBody(
+                                fontSize: 17.sp,
+                                fontWeight: FontWeight.w600,
+                                color: kWhiteColor,
+                              ),
                             ),
                           ),
                         ),

@@ -58,20 +58,25 @@ extension _CreateReelStateExt3 on _CreateReelState {
                       child: Stack(
                         alignment: AlignmentDirectional.center,
                         children: [
-                          Text("${selectedRecordTimer}s",
-                              style: fontBody(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: kWhiteColor)),
+                          Text(
+                            "${selectedRecordTimer}s",
+                            style: fontBody(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: kWhiteColor,
+                            ),
+                          ),
                           SizedBox(
                             height: 45,
                             width: 45,
                             child: CircularProgressIndicator(
                               value: selectedRecordTimer / 60,
                               valueColor: const AlwaysStoppedAnimation<Color>(
-                                  kWhiteColor),
-                              backgroundColor:
-                                  Colors.grey.shade900.withValues(alpha: 0.2),
+                                kWhiteColor,
+                              ),
+                              backgroundColor: Colors.grey.shade900.withValues(
+                                alpha: 0.2,
+                              ),
                               strokeWidth: 3,
                             ),
                           ),
@@ -94,7 +99,9 @@ extension _CreateReelStateExt3 on _CreateReelState {
                 decoration: BoxDecoration(
                   color: Colors.grey.shade900.withValues(alpha: 0.2),
                   borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(50), bottom: Radius.circular(50)),
+                    top: Radius.circular(50),
+                    bottom: Radius.circular(50),
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,8 +119,9 @@ extension _CreateReelStateExt3 on _CreateReelState {
                           color: kWhiteColor,
                           shadows: [
                             Shadow(
-                                color: kBlackColor.withValues(alpha: 0.2),
-                                blurRadius: 10)
+                              color: kBlackColor.withValues(alpha: 0.2),
+                              blurRadius: 10,
+                            ),
                           ],
                         ),
                       ),
@@ -128,8 +136,9 @@ extension _CreateReelStateExt3 on _CreateReelState {
                         color: kWhiteColor,
                         shadows: [
                           Shadow(
-                              color: kBlackColor.withValues(alpha: 0.2),
-                              blurRadius: 10)
+                            color: kBlackColor.withValues(alpha: 0.2),
+                            blurRadius: 10,
+                          ),
                         ],
                       ),
                     ),
@@ -145,8 +154,9 @@ extension _CreateReelStateExt3 on _CreateReelState {
                                 color: kWhiteColor,
                                 shadows: [
                                   Shadow(
-                                      color: kBlackColor.withValues(alpha: 0.2),
-                                      blurRadius: 10)
+                                    color: kBlackColor.withValues(alpha: 0.2),
+                                    blurRadius: 10,
+                                  ),
                                 ],
                               )
                             : ClipRRect(
@@ -157,35 +167,38 @@ extension _CreateReelStateExt3 on _CreateReelState {
                                   width: 30,
                                   height: 30,
                                   placeholder: (context, url) => const Icon(
-                                      Remix.music_2_line,
-                                      size: 50,
-                                      color: kWhiteColor),
+                                    Remix.music_2_line,
+                                    size: 50,
+                                    color: kWhiteColor,
+                                  ),
                                 ),
                               ),
                       ),
                     ),
                     const SizedBox(height: 10),
                     IconButton(
-                        tooltip: "Toggle Audio Record",
-                        onPressed: () {
-                          setState(() {
-                            _captureAudioInVideoRecording =
-                                !_captureAudioInVideoRecording;
-                          });
-                          initializeCamera(cameraDirection);
-                        },
-                        icon: Icon(
-                          _captureAudioInVideoRecording
-                              ? Remix.mic_fill
-                              : Remix.mic_off_fill,
-                          size: 30,
-                          color: kWhiteColor,
-                          shadows: [
-                            Shadow(
-                                color: kBlackColor.withValues(alpha: 0.2),
-                                blurRadius: 10)
-                          ],
-                        )),
+                      tooltip: "Toggle Audio Record",
+                      onPressed: () {
+                        setState(() {
+                          _captureAudioInVideoRecording =
+                              !_captureAudioInVideoRecording;
+                        });
+                        initializeCamera(cameraDirection);
+                      },
+                      icon: Icon(
+                        _captureAudioInVideoRecording
+                            ? Remix.mic_fill
+                            : Remix.mic_off_fill,
+                        size: 30,
+                        color: kWhiteColor,
+                        shadows: [
+                          Shadow(
+                            color: kBlackColor.withValues(alpha: 0.2),
+                            blurRadius: 10,
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 20),
                   ],
                 ),
@@ -209,20 +222,21 @@ extension _CreateReelStateExt3 on _CreateReelState {
                         const Icon(Icons.remove, color: kWhiteColor),
                         Expanded(
                           child: Slider(
-                              value: _zoom,
-                              max: maxZoom,
-                              min: 1,
-                              divisions: maxZoom.toInt(),
-                              thumbColor: kReelsPrimaryColor,
-                              activeColor: kReelsPrimaryColor,
-                              inactiveColor: kWhiteColor.withValues(alpha: 0.5),
-                              label: "${_zoom.toInt()}",
-                              onChanged: (v) {
-                                setState(() {
-                                  _zoom = v;
-                                });
-                                cameraController.setZoomLevel(_zoom);
-                              }),
+                            value: _zoom,
+                            max: maxZoom,
+                            min: 1,
+                            divisions: maxZoom.toInt(),
+                            thumbColor: kReelsPrimaryColor,
+                            activeColor: kReelsPrimaryColor,
+                            inactiveColor: kWhiteColor.withValues(alpha: 0.5),
+                            label: "${_zoom.toInt()}",
+                            onChanged: (v) {
+                              setState(() {
+                                _zoom = v;
+                              });
+                              cameraController.setZoomLevel(_zoom);
+                            },
+                          ),
                         ),
                         const Icon(Icons.add, color: kWhiteColor),
                       ],
@@ -263,10 +277,12 @@ extension _CreateReelStateExt3 on _CreateReelState {
                           CircularProgressIndicator(
                             strokeWidth: 4,
                             color: kWhiteColor,
-                            value: (1 / (selectedRecordTimer * 1000)) *
+                            value:
+                                (1 / (selectedRecordTimer * 1000)) *
                                 recordingProgress,
-                            valueColor:
-                                AlwaysStoppedAnimation(Colors.red.shade700),
+                            valueColor: AlwaysStoppedAnimation(
+                              Colors.red.shade700,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () => _isVideoRecording
@@ -292,7 +308,9 @@ extension _CreateReelStateExt3 on _CreateReelState {
                             alignment: Alignment.center,
                             decoration: ShapeDecoration(
                               shape: const CircleBorder(),
-                              color: Colors.grey.shade900.withValues(alpha: 0.2),
+                              color: Colors.grey.shade900.withValues(
+                                alpha: 0.2,
+                              ),
                             ),
                             child: IconButton(
                               onPressed: () async {
@@ -308,7 +326,7 @@ extension _CreateReelStateExt3 on _CreateReelState {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

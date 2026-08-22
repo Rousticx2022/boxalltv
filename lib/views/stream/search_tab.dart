@@ -36,13 +36,17 @@ class _SearchTabState extends State<SearchTab> {
       return;
     }
     http.Response response = await http.get(
-        Uri.parse("http://45.56.74.123:7110/search?q=${searchText.value}"));
+      Uri.parse("http://45.56.74.123:7110/search?q=${searchText.value}"),
+    );
     if (response.statusCode == 200) {
       filmList = jsonDecode(response.body);
       setState(() {});
     }
-    http.Response response2 = await http.get(Uri.parse(
-        "http://45.56.74.123:7110/search_subtitle?q=${searchText.value}"));
+    http.Response response2 = await http.get(
+      Uri.parse(
+        "http://45.56.74.123:7110/search_subtitle?q=${searchText.value}",
+      ),
+    );
     if (response2.statusCode == 200) {
       subtitlesList = jsonDecode(response2.body);
       setState(() {});
@@ -79,8 +83,10 @@ class _SearchTabState extends State<SearchTab> {
             style: fontBody(fontSize: 15.sp),
             decoration: InputDecoration(
               filled: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
               fillColor: Colors.grey.shade900,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -88,8 +94,11 @@ class _SearchTabState extends State<SearchTab> {
               ),
               hintStyle: fontBody(fontSize: 15.sp),
               hintText: "Search Movies, Series...",
-              prefixIcon:
-                  Icon(Remix.search_2_line, color: kWhiteColor, size: 18.sp),
+              prefixIcon: Icon(
+                Remix.search_2_line,
+                color: kWhiteColor,
+                size: 18.sp,
+              ),
               suffixIcon: doSearch
                   ? IconButton(
                       onPressed: () {
@@ -104,7 +113,8 @@ class _SearchTabState extends State<SearchTab> {
                           doSearch = false;
                         });
                       },
-                      icon: const Icon(Icons.close, color: Colors.red))
+                      icon: const Icon(Icons.close, color: Colors.red),
+                    )
                   : null,
             ),
           ),
@@ -114,8 +124,10 @@ class _SearchTabState extends State<SearchTab> {
             children: [
               if (filmList.isNotEmpty)
                 Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 15,
+                  ),
                   height: 20.h,
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
@@ -124,18 +136,20 @@ class _SearchTabState extends State<SearchTab> {
                     itemCount: filmList.length,
                     itemBuilder: (context, index) {
                       return FutureBuilder<DocumentSnapshot>(
-                          future: videosCollection
-                              .doc(filmList[index]["tag"])
-                              .get(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) return const SizedBox();
-                            DocumentSnapshot vdata = snapshot.data!;
-                            if (snapshot.hasData && !vdata.exists) {
-                              return const SizedBox();
-                            }
-                            return ContainerBuilder(uid: widget.uid)
-                                .videoContainerPortrait(context, vdata);
-                          });
+                        future: videosCollection
+                            .doc(filmList[index]["tag"])
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) return const SizedBox();
+                          DocumentSnapshot vdata = snapshot.data!;
+                          if (snapshot.hasData && !vdata.exists) {
+                            return const SizedBox();
+                          }
+                          return ContainerBuilder(
+                            uid: widget.uid,
+                          ).videoContainerPortrait(context, vdata);
+                        },
+                      );
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(width: 10);
@@ -145,106 +159,115 @@ class _SearchTabState extends State<SearchTab> {
               if (subtitlesList.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child: Text("Matching subtitles...",
-                      style: fontHeading(
-                          fontSize: 20.sp,
-                          color: kStreamPrimaryColor,
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    "Matching subtitles...",
+                    style: fontHeading(
+                      fontSize: 20.sp,
+                      color: kStreamPrimaryColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ListView.separated(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15,
+                  horizontal: 15,
+                ),
                 itemCount: subtitlesList.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return FutureBuilder<DocumentSnapshot>(
-                      future: videosCollection
-                          .doc(subtitlesList[index]["info"]["vid"])
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const SizedBox();
-                        DocumentSnapshot vdata = snapshot.data!;
-                        if (snapshot.hasData && !vdata.exists) {
-                          return const SizedBox();
-                        }
-                        return Container(
-                          height: 13.h * 3 / 2 + 20,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              color: kGreyColor2,
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: CachedNetworkImage(
-                                  imageUrl: vdata["poster"],
-                                  height: 13.h * 3 / 2,
-                                  width: 13.h,
-                                ),
+                    future: videosCollection
+                        .doc(subtitlesList[index]["info"]["vid"])
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return const SizedBox();
+                      DocumentSnapshot vdata = snapshot.data!;
+                      if (snapshot.hasData && !vdata.exists) {
+                        return const SizedBox();
+                      }
+                      return Container(
+                        height: 13.h * 3 / 2 + 20,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: kGreyColor2,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: CachedNetworkImage(
+                                imageUrl: vdata["poster"],
+                                height: 13.h * 3 / 2,
+                                width: 13.h,
                               ),
-                              const SizedBox(width: 15),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      subtitlesList[index]["subtitle"],
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: fontBody(
-                                          fontSize: 17.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: kWhiteColor),
+                            ),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    subtitlesList[index]["subtitle"],
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: fontBody(
+                                      fontSize: 17.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: kWhiteColor,
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      "Play time",
-                                      style: fontBody(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: kWhiteColor.withValues(alpha: 0.7)),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    "Play time",
+                                    style: fontBody(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: kWhiteColor.withValues(alpha: 0.7),
                                     ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text:
-                                            "${subtitlesList[index]["info"]["start"]}",
-                                        style: fontBody(),
-                                        children: [
-                                          const TextSpan(text: " -> "),
-                                          TextSpan(
-                                            text:
-                                                "${subtitlesList[index]["info"]["end"]}",
-                                          )
-                                        ],
-                                      ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text:
+                                          "${subtitlesList[index]["info"]["start"]}",
+                                      style: fontBody(),
+                                      children: [
+                                        const TextSpan(text: " -> "),
+                                        TextSpan(
+                                          text:
+                                              "${subtitlesList[index]["info"]["end"]}",
+                                        ),
+                                      ],
                                     ),
-                                    const Spacer(),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: WatchSearchButton(
-                                        startTime: subtitlesList[index]["info"]
-                                            ["start"],
-                                        uid: widget.uid,
-                                        vid: vdata.id,
-                                        pricing: vdata["pricing"],
-                                        title: vdata["title"],
-                                        type: vdata["type"],
-                                        section: vdata["section"],
-                                      ),
+                                  ),
+                                  const Spacer(),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: WatchSearchButton(
+                                      startTime:
+                                          subtitlesList[index]["info"]["start"],
+                                      uid: widget.uid,
+                                      vid: vdata.id,
+                                      pricing: vdata["pricing"],
+                                      title: vdata["title"],
+                                      type: vdata["type"],
+                                      section: vdata["section"],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        );
-                      });
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
                 separatorBuilder: (c, i) => const SizedBox(height: 15),
-              )
+              ),
             ],
           ),
         ),

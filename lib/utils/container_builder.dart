@@ -45,14 +45,15 @@ class ContainerBuilder {
               child: Container(
                 padding: const EdgeInsets.all(6),
                 decoration: ShapeDecoration(
-                    color: kWhiteColor,
-                    shape: const CircleBorder(),
-                    shadows: [
-                      BoxShadow(
-                        color: kGreyColor1.withValues(alpha: 0.3),
-                        blurRadius: 5,
-                      )
-                    ]),
+                  color: kWhiteColor,
+                  shape: const CircleBorder(),
+                  shadows: [
+                    BoxShadow(
+                      color: kGreyColor1.withValues(alpha: 0.3),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
                 child: Text(
                   document['contentRating'],
                   style: fontBody(color: kBlackColor, fontSize: 12.sp),
@@ -66,7 +67,10 @@ class ContainerBuilder {
   }
 
   Widget videoContainer2(
-      BuildContext context, DocumentSnapshot vdata, DocumentSnapshot document) {
+    BuildContext context,
+    DocumentSnapshot vdata,
+    DocumentSnapshot document,
+  ) {
     return WatchWidget(
       uid: uid,
       vid: vdata.id,
@@ -98,57 +102,64 @@ class ContainerBuilder {
                 const Positioned.fill(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Colors.transparent, Colors.black],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter)),
+                      gradient: LinearGradient(
+                        colors: [Colors.transparent, Colors.black],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
                   ),
                 ),
                 if (vdata["section"] == "series")
                   Positioned(
-                      bottom: 5,
-                      left: 5,
-                      child: FutureBuilder<DocumentSnapshot>(
-                          future: videosCollection
-                              .doc(vdata.id)
-                              .collection("episodes")
-                              .doc(document["episodeID"])
-                              .get(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) return const SizedBox();
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                    "S${snapshot.data!["seasonNo"]}•E${snapshot.data!["episodeNo"]}",
-                                    style: GoogleFonts.inter(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w700,
-                                        shadows: <Shadow>[
-                                          const Shadow(
-                                            offset: Offset(0.0, 0.0),
-                                            blurRadius: 3.0,
-                                            color: Colors.black,
-                                          ),
-                                        ])),
-                                Text(
-                                  "${snapshot.data!["episodeName"]}",
-                                  maxLines: 1,
-                                  style: fontBody(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500,
-                                      shadows: <Shadow>[
-                                        const Shadow(
-                                          offset: Offset(0.0, 0.0),
-                                          blurRadius: 3.0,
-                                          color: Colors.black,
-                                        ),
-                                      ]),
-                                ),
-                              ],
-                            );
-                          }))
+                    bottom: 5,
+                    left: 5,
+                    child: FutureBuilder<DocumentSnapshot>(
+                      future: videosCollection
+                          .doc(vdata.id)
+                          .collection("episodes")
+                          .doc(document["episodeID"])
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) return const SizedBox();
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "S${snapshot.data!["seasonNo"]}•E${snapshot.data!["episodeNo"]}",
+                              style: GoogleFonts.inter(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w700,
+                                shadows: <Shadow>[
+                                  const Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 3.0,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              "${snapshot.data!["episodeName"]}",
+                              maxLines: 1,
+                              style: fontBody(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                shadows: <Shadow>[
+                                  const Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 3.0,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
               ],
             ),
             Padding(
@@ -161,22 +172,30 @@ class ContainerBuilder {
               ),
             ),
             Text(
-                "${((document["duration"] - document["position"]) ~/ 60000000)}m remaining",
-                style: const TextStyle(color: Colors.white, fontSize: 10)),
+              "${((document["duration"] - document["position"]) ~/ 60000000)}m remaining",
+              style: const TextStyle(color: Colors.white, fontSize: 10),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget videoContainerPortrait(BuildContext context, DocumentSnapshot document,
-      {bool replace = false}) {
+  Widget videoContainerPortrait(
+    BuildContext context,
+    DocumentSnapshot document, {
+    bool replace = false,
+  }) {
     return GestureDetector(
       onTap: () => replace
-          ? Get.offNamed("/details",
-              parameters: {"uid": uid, "vid": document.id})
-          : Get.toNamed("/details",
-              parameters: {"uid": uid, "vid": document.id}),
+          ? Get.offNamed(
+              "/details",
+              parameters: {"uid": uid, "vid": document.id},
+            )
+          : Get.toNamed(
+              "/details",
+              parameters: {"uid": uid, "vid": document.id},
+            ),
       child: SizedBox(
         width: 20.h * 3 / 4,
         child: Column(

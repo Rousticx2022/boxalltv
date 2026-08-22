@@ -14,8 +14,11 @@ import '../../utils/styles.dart';
 class AddReelDetails extends StatefulWidget {
   final String videoPath;
   final Map audioData;
-  const AddReelDetails(
-      {super.key, required this.videoPath, required this.audioData});
+  const AddReelDetails({
+    super.key,
+    required this.videoPath,
+    required this.audioData,
+  });
 
   @override
   State<AddReelDetails> createState() => _AddReelDetailsState();
@@ -40,7 +43,10 @@ class _AddReelDetailsState extends State<AddReelDetails> {
   }
 
   Future<bool> mergeAudioAndVideo(
-      String videoPath, String audioPath, String outputPath) async {
+    String videoPath,
+    String audioPath,
+    String outputPath,
+  ) async {
     return false;
   }
 
@@ -93,8 +99,11 @@ class _AddReelDetailsState extends State<AddReelDetails> {
               if (thumbnail.isNotEmpty)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.file(File(thumbnail),
-                      width: 100, fit: BoxFit.cover),
+                  child: Image.file(
+                    File(thumbnail),
+                    width: 100,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               const SizedBox(width: 10),
               Expanded(
@@ -109,19 +118,24 @@ class _AddReelDetailsState extends State<AddReelDetails> {
                     border: InputBorder.none,
                   ),
                 ),
-              )
+              ),
             ],
           ),
           Divider(height: 40, color: kWhiteColor.withValues(alpha: 0.5)),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading:
-                const Icon(Remix.message_2_fill, color: kReelsPrimaryColor),
-            title: Text("Enable comments",
-                style: fontBody(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: kWhiteColor)),
+            leading: const Icon(
+              Remix.message_2_fill,
+              color: kReelsPrimaryColor,
+            ),
+            title: Text(
+              "Enable comments",
+              style: fontBody(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: kWhiteColor,
+              ),
+            ),
             trailing: Switch(
               value: enableComment,
               onChanged: (value) {
@@ -136,13 +150,18 @@ class _AddReelDetailsState extends State<AddReelDetails> {
           ),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading:
-                const Icon(Remix.share_forward_fill, color: kReelsPrimaryColor),
-            title: Text("Enable sharing",
-                style: fontBody(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: kWhiteColor)),
+            leading: const Icon(
+              Remix.share_forward_fill,
+              color: kReelsPrimaryColor,
+            ),
+            title: Text(
+              "Enable sharing",
+              style: fontBody(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: kWhiteColor,
+              ),
+            ),
             trailing: Switch(
               value: enableSharing,
               onChanged: (value) {
@@ -154,7 +173,7 @@ class _AddReelDetailsState extends State<AddReelDetails> {
               activeTrackColor: kWhiteColor,
               activeThumbColor: kReelsPrimaryColor,
             ),
-          )
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -164,8 +183,9 @@ class _AddReelDetailsState extends State<AddReelDetails> {
           onPressed: () async {
             if (widget.audioData.isNotEmpty) {
               Get.dialog(
-                  customCircularProgress(strokeColor: kReelsPrimaryColor),
-                  barrierDismissible: false);
+                customCircularProgress(strokeColor: kReelsPrimaryColor),
+                barrierDismissible: false,
+              );
               final File? downloadedFile = await FileDownloader.downloadFile(
                 url: widget.audioData["audio"],
                 name: "audio_${DateTime.now().millisecondsSinceEpoch}.mp3",
@@ -191,33 +211,39 @@ class _AddReelDetailsState extends State<AddReelDetails> {
                 Get.back();
                 Get.back();
                 Get.find<UploadService>().uploadReel(
-                    videoFile: outputPath,
-                    thumbnail: thumbnail,
-                    caption: captionController.text,
-                    enableComment: enableComment,
-                    enableSharing: enableSharing);
+                  videoFile: outputPath,
+                  thumbnail: thumbnail,
+                  caption: captionController.text,
+                  enableComment: enableComment,
+                  enableSharing: enableSharing,
+                );
               });
             } else {
               Get.back();
               Get.find<UploadService>().uploadReel(
-                  videoFile: widget.videoPath,
-                  thumbnail: thumbnail,
-                  caption: captionController.text,
-                  enableComment: enableComment,
-                  enableSharing: enableSharing);
+                videoFile: widget.videoPath,
+                thumbnail: thumbnail,
+                caption: captionController.text,
+                enableComment: enableComment,
+                enableSharing: enableSharing,
+              );
             }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: kReelsPrimaryColor,
             padding: const EdgeInsets.symmetric(vertical: 15),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          child: Text("Upload",
-              style: fontBody(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: kBlackColor)),
+          child: Text(
+            "Upload",
+            style: fontBody(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: kBlackColor,
+            ),
+          ),
         ),
       ),
       floatingActionButton: context.mediaQueryViewInsets.bottom == 0

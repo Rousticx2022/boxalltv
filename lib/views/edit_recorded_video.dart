@@ -44,18 +44,22 @@ class _VideoEditorState extends State<VideoEditor> {
   void initState() {
     super.initState();
     try {
-      _controller = VideoEditorController.file(
-        File(widget.file),
-        minDuration: const Duration(seconds: 0),
-        maxDuration: const Duration(seconds: 120),
-      )..initialize(aspectRatio: 19 / 9).then((_) {
-          setState(() {
-            loading = false;
-          });
-        }).catchError((error) {
-          _controller.maxDuration = _controller.video.value.duration;
-          Get.back();
-        }, test: (e) => e is VideoMinDurationError);
+      _controller =
+          VideoEditorController.file(
+              File(widget.file),
+              minDuration: const Duration(seconds: 0),
+              maxDuration: const Duration(seconds: 120),
+            )
+            ..initialize(aspectRatio: 19 / 9)
+                .then((_) {
+                  setState(() {
+                    loading = false;
+                  });
+                })
+                .catchError((error) {
+                  _controller.maxDuration = _controller.video.value.duration;
+                  Get.back();
+                }, test: (e) => e is VideoMinDurationError);
     } catch (e) {
       customSnackBar(text: e.toString());
       Get.back();
@@ -87,42 +91,46 @@ class _VideoEditorState extends State<VideoEditor> {
         File(widget.file).delete();
 
         Get.defaultDialog(
-            title: "Share Exported Image",
-            titleStyle:
-                fontHeading(fontSize: 16.sp, fontWeight: FontWeight.w600),
-            content: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Get.back();
-                    Get.toNamed("/create_post", parameters: {
+          title: "Share Exported Image",
+          titleStyle: fontHeading(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  Get.toNamed(
+                    "/create_post",
+                    parameters: {
                       'uid': uid,
                       "path": cover.path,
-                      "type": "image"
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: kWhiteColor.withValues(alpha: 0.2),
-                    foregroundColor: kWhiteColor,
-                  ),
-                  child: Text("Frame", style: fontButton()),
+                      "type": "image",
+                    },
+                  );
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: kWhiteColor.withValues(alpha: 0.2),
+                  foregroundColor: kWhiteColor,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Get.back();
-                    Share.shareXFiles([XFile(cover.path)],
-                        text: 'I took this picture from Frame.');
-                    Get.back();
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: kWhiteColor.withValues(alpha: 0.2),
-                    foregroundColor: kWhiteColor,
-                  ),
-                  child: Text("Social Media", style: fontButton()),
+                child: Text("Frame", style: fontButton()),
+              ),
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  Share.shareXFiles([
+                    XFile(cover.path),
+                  ], text: 'I took this picture from Frame.');
+                  Get.back();
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: kWhiteColor.withValues(alpha: 0.2),
+                  foregroundColor: kWhiteColor,
                 ),
-              ],
-            ));
+                child: Text("Social Media", style: fontButton()),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
@@ -155,12 +163,14 @@ class _VideoEditorState extends State<VideoEditor> {
                                         alignment: Alignment.center,
                                         children: [
                                           CropGridViewer.preview(
-                                              controller: _controller),
+                                            controller: _controller,
+                                          ),
                                           AnimatedBuilder(
                                             animation: _controller.video,
                                             builder: (_, _) => AnimatedOpacity(
-                                              opacity:
-                                                  _controller.isPlaying ? 0 : 1,
+                                              opacity: _controller.isPlaying
+                                                  ? 0
+                                                  : 1,
                                               duration: kThemeAnimationDuration,
                                               child: GestureDetector(
                                                 onTap: _controller.video.play,
@@ -169,9 +179,9 @@ class _VideoEditorState extends State<VideoEditor> {
                                                   height: 40,
                                                   decoration:
                                                       const BoxDecoration(
-                                                    color: Colors.white,
-                                                    shape: BoxShape.circle,
-                                                  ),
+                                                        color: Colors.white,
+                                                        shape: BoxShape.circle,
+                                                      ),
                                                   child: const Icon(
                                                     Icons.play_arrow,
                                                     color: Colors.black,
@@ -182,7 +192,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                           ),
                                         ],
                                       ),
-                                      CoverViewer(controller: _controller)
+                                      CoverViewer(controller: _controller),
                                     ],
                                   ),
                                 ),
@@ -195,24 +205,25 @@ class _VideoEditorState extends State<VideoEditor> {
                                         labelColor: kWhiteColor,
                                         tabs: [
                                           Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child: Icon(
-                                                        Icons.content_cut)),
-                                                Text('Trim Video')
-                                              ]),
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child: Icon(Icons.content_cut),
+                                              ),
+                                              Text('Trim Video'),
+                                            ],
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
                                               Padding(
-                                                  padding: EdgeInsets.all(5),
-                                                  child:
-                                                      Icon(Icons.video_label)),
-                                              Text('Select Image')
+                                                padding: EdgeInsets.all(5),
+                                                child: Icon(Icons.video_label),
+                                              ),
+                                              Text('Select Image'),
                                             ],
                                           ),
                                         ],
@@ -238,9 +249,9 @@ class _VideoEditorState extends State<VideoEditor> {
                                   valueListenable: _isExporting,
                                   builder: (_, bool export, Widget? child) =>
                                       AnimatedSize(
-                                    duration: kThemeAnimationDuration,
-                                    child: export ? child : null,
-                                  ),
+                                        duration: kThemeAnimationDuration,
+                                        child: export ? child : null,
+                                      ),
                                   child: AlertDialog(
                                     title: ValueListenableBuilder(
                                       valueListenable: _exportingProgress,
@@ -250,13 +261,13 @@ class _VideoEditorState extends State<VideoEditor> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -265,36 +276,38 @@ class _VideoEditorState extends State<VideoEditor> {
   }
 
   String formatter(Duration duration) => [
-        duration.inMinutes.remainder(60).toString().padLeft(2, '0'),
-        duration.inSeconds.remainder(60).toString().padLeft(2, '0')
-      ].join(":");
+    duration.inMinutes.remainder(60).toString().padLeft(2, '0'),
+    duration.inSeconds.remainder(60).toString().padLeft(2, '0'),
+  ].join(":");
 
   List<Widget> _trimSlider() {
     return [
       AnimatedBuilder(
-        animation: Listenable.merge([
-          _controller,
-          _controller.video,
-        ]),
+        animation: Listenable.merge([_controller, _controller.video]),
         builder: (_, _) {
           final int duration = _controller.videoDuration.inSeconds;
           final double pos = _controller.trimPosition * duration;
 
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: height / 4),
-            child: Row(children: [
-              Text(formatter(Duration(seconds: pos.toInt()))),
-              const Expanded(child: SizedBox()),
-              AnimatedOpacity(
-                opacity: _controller.isTrimming ? 1 : 0,
-                duration: kThemeAnimationDuration,
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(formatter(_controller.startTrim)),
-                  const SizedBox(width: 10),
-                  Text(formatter(_controller.endTrim)),
-                ]),
-              ),
-            ]),
+            child: Row(
+              children: [
+                Text(formatter(Duration(seconds: pos.toInt()))),
+                const Expanded(child: SizedBox()),
+                AnimatedOpacity(
+                  opacity: _controller.isTrimming ? 1 : 0,
+                  duration: kThemeAnimationDuration,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(formatter(_controller.startTrim)),
+                      const SizedBox(width: 10),
+                      Text(formatter(_controller.endTrim)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -310,7 +323,7 @@ class _VideoEditorState extends State<VideoEditor> {
             padding: const EdgeInsets.only(top: 10),
           ),
         ),
-      )
+      ),
     ];
   }
 
@@ -331,7 +344,7 @@ class _VideoEditorState extends State<VideoEditor> {
                   Icon(
                     Icons.check_circle,
                     color: const CoverSelectionStyle().selectedBorderColor,
-                  )
+                  ),
                 ],
               );
             },

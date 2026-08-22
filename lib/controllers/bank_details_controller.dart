@@ -39,7 +39,9 @@ class BankDetailsController extends GetxController {
         final data = doc.data() as Map<String, dynamic>?;
         if (data != null && data.containsKey("bankDetails")) {
           final bankDetails = data["bankDetails"];
-          if (bankDetails != null && bankDetails is Map && bankDetails.isNotEmpty) {
+          if (bankDetails != null &&
+              bankDetails is Map &&
+              bankDetails.isNotEmpty) {
             accountNameController.text = bankDetails["accountName"] ?? '';
             accountNumberController.text = bankDetails["accountNumber"] ?? '';
             bankNameController.text = bankDetails["bankName"] ?? '';
@@ -65,7 +67,7 @@ class BankDetailsController extends GetxController {
           "bankName": bankNameController.text,
           "branch": branchNameController.text,
           "swiftCode": swiftCodeController.text,
-        }
+        },
       });
       Get.back(); // close dialog
       Get.back(); // close bottom sheet

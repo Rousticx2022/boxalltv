@@ -54,15 +54,22 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
   }
 
   Stream<int> fetchUserCartItems() {
-    return usersCollection.doc(uid).collection("cart").snapshots().map((snapshot) {
+    return usersCollection.doc(uid).collection("cart").snapshots().map((
+      snapshot,
+    ) {
       return snapshot.size;
     });
   }
 
   Stream<int> fetchUnreadNotifications() {
-    return usersCollection.doc(uid).collection("notifications").where("unread", isEqualTo: true).snapshots().map((snapshot) {
-      return snapshot.size;
-    });
+    return usersCollection
+        .doc(uid)
+        .collection("notifications")
+        .where("unread", isEqualTo: true)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.size;
+        });
   }
 
   Stream<Map> fetchUserData() {
@@ -84,7 +91,10 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
   }
 
   void shareSocialPosts(String pid, List fileURLs) async {
-    Get.dialog(customCircularProgress(strokeColor: kSocialPrimaryColor), barrierDismissible: false);
+    Get.dialog(
+      customCircularProgress(strokeColor: kSocialPrimaryColor),
+      barrierDismissible: false,
+    );
 
     List<XFile> xFiles = [];
 
@@ -92,7 +102,9 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
       try {
         var response = await http.get(Uri.parse(file["url"]));
         final cacheDirectory = (await getTemporaryDirectory()).path;
-        File imgFile = File('$cacheDirectory/${DateTime.now().millisecondsSinceEpoch}.${file["type"] == "video" ? "mp4" : "png"}');
+        File imgFile = File(
+          '$cacheDirectory/${DateTime.now().millisecondsSinceEpoch}.${file["type"] == "video" ? "mp4" : "png"}',
+        );
         imgFile.writeAsBytesSync(response.bodyBytes);
 
         xFiles.add(XFile(imgFile.path));
@@ -107,7 +119,12 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onInit() {
-    tabs = [StreamTab(uid: uid!), SocialsTab(uid: uid!), ReelsTab(uid: uid!), MusicsTab(uid: uid!)];
+    tabs = [
+      StreamTab(uid: uid!),
+      SocialsTab(uid: uid!),
+      ReelsTab(uid: uid!),
+      MusicsTab(uid: uid!),
+    ];
     initialCheck();
     requestPermissions();
 
@@ -132,7 +149,8 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       customSnackBar(text: "Back again to exit!");
 
@@ -154,40 +172,69 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
   }) async {
     if (position < 2000000) return true;
     String docID = section == "series" ? "${vid}_$episodeID" : vid;
-    DocumentSnapshot data = await usersCollection.doc(uid).collection("continueWatching").doc(docID).get();
+    DocumentSnapshot data = await usersCollection
+        .doc(uid)
+        .collection("continueWatching")
+        .doc(docID)
+        .get();
     if (data.exists) {
-      await usersCollection.doc(uid).collection("continueWatching").doc(docID).update({"position": position, "lastPlayed": DateTime.now(), "type": type});
+      await usersCollection
+          .doc(uid)
+          .collection("continueWatching")
+          .doc(docID)
+          .update({
+            "position": position,
+            "lastPlayed": DateTime.now(),
+            "type": type,
+          });
     } else {
-      await usersCollection.doc(uid).collection("continueWatching").doc(docID).set({
-        "position": position,
-        "duration": duration,
-        "section": section,
-        "episodeID": episodeID,
-        "vid": vid,
-        "lastPlayed": DateTime.now(),
-        "type": type,
-      });
+      await usersCollection
+          .doc(uid)
+          .collection("continueWatching")
+          .doc(docID)
+          .set({
+            "position": position,
+            "duration": duration,
+            "section": section,
+            "episodeID": episodeID,
+            "vid": vid,
+            "lastPlayed": DateTime.now(),
+            "type": type,
+          });
     }
     String month = DateFormat("MMMM yyyy").format(DateTime.now());
-    await videoDataCollection.doc(vid).collection("statistics").doc(month).get().then((value) async {
-      if (value.exists) {
-        await videoDataCollection.doc(vid).collection("statistics").doc(month).update({
-          "views": FieldValue.increment(1),
-          "sort": DateTime.now(),
-          "adsCount": FieldValue.increment(adsCount),
-          "watch": FieldValue.increment(position),
+    await videoDataCollection
+        .doc(vid)
+        .collection("statistics")
+        .doc(month)
+        .get()
+        .then((value) async {
+          if (value.exists) {
+            await videoDataCollection
+                .doc(vid)
+                .collection("statistics")
+                .doc(month)
+                .update({
+                  "views": FieldValue.increment(1),
+                  "sort": DateTime.now(),
+                  "adsCount": FieldValue.increment(adsCount),
+                  "watch": FieldValue.increment(position),
+                });
+          } else {
+            await videoDataCollection
+                .doc(vid)
+                .collection("statistics")
+                .doc(month)
+                .set({
+                  "views": 1,
+                  "sort": DateTime.now(),
+                  "watch": position,
+                  "adsCount": FieldValue.increment(adsCount),
+                  "year": DateFormat("yyyy").format(DateTime.now()),
+                  "month": DateFormat("MMMM").format(DateTime.now()),
+                });
+          }
         });
-      } else {
-        await videoDataCollection.doc(vid).collection("statistics").doc(month).set({
-          "views": 1,
-          "sort": DateTime.now(),
-          "watch": position,
-          "adsCount": FieldValue.increment(adsCount),
-          "year": DateFormat("yyyy").format(DateTime.now()),
-          "month": DateFormat("MMMM").format(DateTime.now()),
-        });
-      }
-    });
     return true;
   }
 
@@ -214,18 +261,30 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
         user: const String.fromEnvironment('FTP_USER'),
         pass: const String.fromEnvironment('FTP_PASS'),
       );
-      String videoURL = "", thumbnailURL = "", filename = DateTime.now().millisecondsSinceEpoch.toString();
+      String videoURL = "",
+          thumbnailURL = "",
+          filename = DateTime.now().millisecondsSinceEpoch.toString();
       await ftpConnect.connect();
       await ftpConnect.changeDirectory("trimmed_videos");
       await ftpConnect.createFolderIfNotExist(uid!);
       await ftpConnect.changeDirectory(uid).then((value) async {
-        bool videoStatus = await ftpConnect.uploadFileWithRetry(mediaInfo!.file!, pRetryCount: 3, pRemoteName: "trim_$filename.mp4");
+        bool videoStatus = await ftpConnect.uploadFileWithRetry(
+          mediaInfo!.file!,
+          pRetryCount: 3,
+          pRemoteName: "trim_$filename.mp4",
+        );
         if (videoStatus) {
-          videoURL = "https://frametv.b-cdn.net/trimmed_videos/$uid/trim_$filename.mp4";
+          videoURL =
+              "https://frametv.b-cdn.net/trimmed_videos/$uid/trim_$filename.mp4";
         }
-        bool thumbStatus = await ftpConnect.uploadFileWithRetry(File(thumbnailData!), pRetryCount: 3, pRemoteName: "thumb_$filename.webp");
+        bool thumbStatus = await ftpConnect.uploadFileWithRetry(
+          File(thumbnailData!),
+          pRetryCount: 3,
+          pRemoteName: "thumb_$filename.webp",
+        );
         if (thumbStatus) {
-          thumbnailURL = "https://frametv.b-cdn.net/trimmed_videos/$uid/thumb_$filename.webp";
+          thumbnailURL =
+              "https://frametv.b-cdn.net/trimmed_videos/$uid/thumb_$filename.webp";
         }
 
         ftpConnect.disconnect();
@@ -260,7 +319,10 @@ class BottomTabController extends GetxController with WidgetsBindingObserver {
   void onReady() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
-        NotificationService().showNotifications(message.notification?.title, message.notification?.body);
+        NotificationService().showNotifications(
+          message.notification?.title,
+          message.notification?.body,
+        );
       }
     });
     //

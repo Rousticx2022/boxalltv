@@ -41,10 +41,10 @@ class _SavedVideosState extends State<SavedVideos> {
           .where('url', isEqualTo: url)
           .get()
           .then((snapshot) {
-        for (DocumentSnapshot ds in snapshot.docs) {
-          ds.reference.delete();
-        }
-      });
+            for (DocumentSnapshot ds in snapshot.docs) {
+              ds.reference.delete();
+            }
+          });
     }
   }
 
@@ -103,8 +103,9 @@ class _SavedVideosState extends State<SavedVideos> {
       String outputPath =
           '${dir!.path}/converted_${DateTime.now().millisecondsSinceEpoch}.ts';
 
-      await FFmpegKit.execute('-i ${file.path} -codec copy $outputPath')
-          .then((session) async {
+      await FFmpegKit.execute('-i ${file.path} -codec copy $outputPath').then((
+        session,
+      ) async {
         final returnCode = await session.getReturnCode();
 
         if (ReturnCode.isSuccess(returnCode)) {
@@ -126,24 +127,27 @@ class _SavedVideosState extends State<SavedVideos> {
     // String mashupOutputPathMKV = '${dir.path}/mashup_${DateTime.now().millisecondsSinceEpoch}.mkv';
 
     await FFmpegKit.execute(
-            '-i "concat:${convertedPaths.join("|")}" -codec copy $mashupOutputPath')
-        .then((session) async {
+      '-i "concat:${convertedPaths.join("|")}" -codec copy $mashupOutputPath',
+    ).then((session) async {
       final returnCode = await session.getReturnCode();
 
       if (ReturnCode.isSuccess(returnCode)) {
         await FFmpegKit.execute(
-                '-i $mashupOutputPath -codec copy $mashupOutputPathMP4')
-            .then((session) async {
+          '-i $mashupOutputPath -codec copy $mashupOutputPathMP4',
+        ).then((session) async {
           final returnCode = await session.getReturnCode();
 
           if (ReturnCode.isSuccess(returnCode)) {
             Get.back();
             // Get.off(() => VideoEditor(file: File(mashupOutputPathMP4)));
-            Get.offNamed("/create_post", parameters: {
-              'uid': widget.uid,
-              "path": mashupOutputPathMP4,
-              "type": "video"
-            });
+            Get.offNamed(
+              "/create_post",
+              parameters: {
+                'uid': widget.uid,
+                "path": mashupOutputPathMP4,
+                "type": "video",
+              },
+            );
             // SUCCESS
           } else if (ReturnCode.isCancel(returnCode)) {
             Get.back();
@@ -169,9 +173,7 @@ class _SavedVideosState extends State<SavedVideos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Saved Videos'),
-      ),
+      appBar: AppBar(title: const Text('Saved Videos')),
       body: FirestoreQueryBuilder<Map<String, dynamic>>(
         query: usersCollection
             .doc(widget.uid)
@@ -203,37 +205,44 @@ class _SavedVideosState extends State<SavedVideos> {
                   ],
                 ),
                 footer: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.vertical(bottom: Radius.circular(15)),
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(15),
+                  ),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                     child: Container(
                       decoration: BoxDecoration(
                         color: kWhiteColor.withValues(alpha: 0.2),
                         borderRadius: const BorderRadius.vertical(
-                            bottom: Radius.circular(15)),
+                          bottom: Radius.circular(15),
+                        ),
                       ),
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(video["title"],
-                          style: fontBody(fontSize: 16.sp)),
+                      child: Text(
+                        video["title"],
+                        style: fontBody(fontSize: 16.sp),
+                      ),
                     ),
                   ),
                 ),
                 child: GestureDetector(
                   onTap: () {
                     if (!isSelecting) {
-                      Get.to(() =>
-                          Trailer(video: video["url"], title: video["title"]));
+                      Get.to(
+                        () =>
+                            Trailer(video: video["url"], title: video["title"]),
+                      );
                     }
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: kGreyColor2,
-                        borderRadius: BorderRadius.circular(15),
-                        image: DecorationImage(
-                          image: NetworkImage(video["thumbnail"]),
-                          fit: BoxFit.cover,
-                        )),
+                      color: kGreyColor2,
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(
+                        image: NetworkImage(video["thumbnail"]),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     child: Stack(
                       alignment: AlignmentDirectional.center,
                       children: [
@@ -263,13 +272,14 @@ class _SavedVideosState extends State<SavedVideos> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isSelecting = false;
-                            selectedVideos.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel)),
+                      onPressed: () {
+                        setState(() {
+                          isSelecting = false;
+                          selectedVideos.clear();
+                        });
+                      },
+                      icon: const Icon(Icons.cancel),
+                    ),
                     Expanded(
                       flex: 1,
                       child: ElevatedButton(
@@ -281,13 +291,20 @@ class _SavedVideosState extends State<SavedVideos> {
                           foregroundColor: kWhiteColor,
                           elevation: 0,
                           padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 20),
+                            vertical: 15,
+                            horizontal: 20,
+                          ),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
-                        child: Text("Delete",
-                            style: fontButton(
-                                fontSize: 15.sp, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          "Delete",
+                          style: fontButton(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -309,13 +326,20 @@ class _SavedVideosState extends State<SavedVideos> {
                           foregroundColor: kWhiteColor,
                           elevation: 0,
                           padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 20),
+                            vertical: 15,
+                            horizontal: 20,
+                          ),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
-                        child: Text("Create Mashup",
-                            style: fontButton(
-                                fontSize: 15.sp, fontWeight: FontWeight.w600)),
+                        child: Text(
+                          "Create Mashup",
+                          style: fontButton(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -336,13 +360,20 @@ class _SavedVideosState extends State<SavedVideos> {
                     foregroundColor: kWhiteColor,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 20),
+                      vertical: 15,
+                      horizontal: 20,
+                    ),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  child: Text("Select videos",
-                      style: fontButton(
-                          fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                  child: Text(
+                    "Select videos",
+                    style: fontButton(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
         ),
       ),

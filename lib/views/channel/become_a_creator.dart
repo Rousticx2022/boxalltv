@@ -13,9 +13,7 @@ class BecomeACreator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -27,7 +25,9 @@ class BecomeACreator extends StatelessWidget {
         ),
         child: ListView(
           padding: const EdgeInsets.symmetric(
-              horizontal: 20, vertical: kToolbarHeight + 20),
+            horizontal: 20,
+            vertical: kToolbarHeight + 20,
+          ),
           children: [
             Center(
               child: ClipRRect(
@@ -36,8 +36,10 @@ class BecomeACreator extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20),
+              padding: const EdgeInsets.symmetric(
+                vertical: 50.0,
+                horizontal: 20,
+              ),
               child: Text(
                 "Step into the future with Frame, where creators aren't just a part of the platform — they are the platform. In an era where content is king, we're revolutionizing the realm by flipping the script on traditional revenue models. Frame is where creativity meets prosperity, ensuring that those who light up our digital world with their artistry receive the lion's share of the profits. Say goodbye to meager percentages and hello to a roaring majority. With Frame, your passion is not just showcased; it's handsomely rewarded. Unleash your potential where every pixel of your creativity contributes to your prosperity. Welcome to Frame — where your talent isn't just seen, it's valued.",
                 style: fontBody(fontSize: 15.sp),
@@ -52,23 +54,28 @@ class BecomeACreator extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kWhiteColor,
                   foregroundColor: kBlackColor,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 50,
+                  ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
-                child: Text("Apply Now",
-                    style: fontButton(
-                        fontSize: 18.sp, fontWeight: FontWeight.w600)),
+                child: Text(
+                  "Apply Now",
+                  style: fontButton(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
             Center(
               child: TextButton(
                 onPressed: () {},
-                style: TextButton.styleFrom(
-                  foregroundColor: kWhiteColor,
-                ),
+                style: TextButton.styleFrom(foregroundColor: kWhiteColor),
                 child: Text("Terms & Conditions", style: fontButton()),
               ),
             ),

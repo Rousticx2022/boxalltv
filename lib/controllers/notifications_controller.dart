@@ -9,19 +9,18 @@ import 'package:http/http.dart' as http;
 class NotificationsController extends GetxController {
   String? uid = Get.parameters["uid"];
 
-  Future<void> acceptFriendRequest(String friendID, String notificationID) async {
+  Future<void> acceptFriendRequest(
+    String friendID,
+    String notificationID,
+  ) async {
     customSnackBar(text: "You are now friends");
 
-    await usersCollection
-        .doc(uid)
-        .collection("friends")
-        .doc(friendID)
-        .update({"status": "friends"});
-    await usersCollection
-        .doc(friendID)
-        .collection("friends")
-        .doc(uid)
-        .update({"status": "friends"});
+    await usersCollection.doc(uid).collection("friends").doc(friendID).update({
+      "status": "friends",
+    });
+    await usersCollection.doc(friendID).collection("friends").doc(uid).update({
+      "status": "friends",
+    });
     await usersCollection
         .doc(uid!)
         .collection("notifications")
@@ -55,7 +54,10 @@ class NotificationsController extends GetxController {
     );
   }
 
-  Future<void> rejectFriendRequest(String friendID, String notificationID) async {
+  Future<void> rejectFriendRequest(
+    String friendID,
+    String notificationID,
+  ) async {
     customSnackBar(text: "Friend request rejected");
     await usersCollection
         .doc(uid!)
@@ -91,10 +93,10 @@ class NotificationsController extends GetxController {
         .where("unread", isEqualTo: true)
         .get()
         .then((value) async {
-      for (DocumentSnapshot doc in value.docs) {
-        doc.reference.update({"unread": false});
-      }
-    });
+          for (DocumentSnapshot doc in value.docs) {
+            doc.reference.update({"unread": false});
+          }
+        });
     super.onReady();
   }
 }

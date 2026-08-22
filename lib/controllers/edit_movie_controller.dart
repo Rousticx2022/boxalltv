@@ -55,7 +55,10 @@ class EditMovieController extends GetxController {
         titleController.text = snapshot['title'] ?? '';
         storylineController.text = snapshot['storyline'] ?? '';
         durationController.text = snapshot['duration'] ?? '';
-        releaseYearController.text = (snapshot.data() as Map<String, dynamic>).containsKey('publish') ? snapshot['publish'].toString() : '';
+        releaseYearController.text =
+            (snapshot.data() as Map<String, dynamic>).containsKey('publish')
+            ? snapshot['publish'].toString()
+            : '';
         selectedGenres.value = snapshot['genres'] ?? [];
         genresController.text = selectedGenres.join(",");
 
@@ -91,8 +94,12 @@ class EditMovieController extends GetxController {
         "contentUrl": contentUrlController.text,
         "contentRating": ratingController.text,
         "pricing": {
-          "amount": selectedType.value == "PREMIUM" ? double.parse(amountController.text) : 0,
-          "validity": selectedType.value == "PREMIUM" ? int.parse(validityController.text) : 0,
+          "amount": selectedType.value == "PREMIUM"
+              ? double.parse(amountController.text)
+              : 0,
+          "validity": selectedType.value == "PREMIUM"
+              ? int.parse(validityController.text)
+              : 0,
         },
         "addedAt": DateTime.now(),
       });
@@ -100,7 +107,10 @@ class EditMovieController extends GetxController {
       Get.back();
     } catch (e) {
       customSnackBar(text: "Failed to submit content");
-      throw AppException("Failed to update and submit movie", originalException: e);
+      throw AppException(
+        "Failed to update and submit movie",
+        originalException: e,
+      );
     } finally {
       loading.value = false;
     }

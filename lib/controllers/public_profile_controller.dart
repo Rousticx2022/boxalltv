@@ -17,54 +17,68 @@ class PublicProfileController extends GetxController {
 
   Stream<Map> fetchUser() {
     Stream data = usersCollection.doc(userID).snapshots();
-    return data.map((doc) => {
-          "name": doc["name"],
-          "followers": doc["followers"],
-          "thumbnail": doc["thumbnail"],
-          "profileImage": doc["profileImage"],
-        });
+    return data.map(
+      (doc) => {
+        "name": doc["name"],
+        "followers": doc["followers"],
+        "thumbnail": doc["thumbnail"],
+        "profileImage": doc["profileImage"],
+      },
+    );
   }
 
   void confirmDelete(String postID) {
     Get.defaultDialog(
-        title: "Delete Post",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Are you sure you want to delete this post?",
-          style: fontBody(),
-          textAlign: TextAlign.center,
+      title: "Delete Post",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Are you sure you want to delete this post?",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          ),
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
         ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+        TextButton(
+          onPressed: () async {
+            await postsCollection.doc(postID).update({"active": false});
+            Get.back();
+            customSnackBar(text: "Post deleted successfully");
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-          TextButton(
-            onPressed: () async {
-              await postsCollection.doc(postID).update({"active": false});
-              Get.back();
-              customSnackBar(text: "Post deleted successfully");
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          child: Text(
+            "Delete",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
             ),
-            child: Text("Delete",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
           ),
-        ]);
+        ),
+      ],
+    );
   }
 
   Future<void> fetchFollowingStatus() async {
@@ -129,5 +143,4 @@ class PublicProfileController extends GetxController {
     fetchFollowingStatus();
     super.onInit();
   }
-
 }

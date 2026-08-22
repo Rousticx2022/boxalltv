@@ -22,11 +22,11 @@ class AdvertiserController extends GetxController {
         .limit(10)
         .get()
         .then((value) {
-      if (value.docs.isEmpty) return;
+          if (value.docs.isEmpty) return;
 
-      publishedAds.clear();
-      publishedAds.addAll(value.docs);
-    });
+          publishedAds.clear();
+          publishedAds.addAll(value.docs);
+        });
 
     await customVideoAdsCollection
         .where("uid", isEqualTo: uid)
@@ -35,11 +35,11 @@ class AdvertiserController extends GetxController {
         .limit(10)
         .get()
         .then((value) {
-      if (value.docs.isEmpty) return;
+          if (value.docs.isEmpty) return;
 
-      pendingAds.clear();
-      pendingAds.addAll(value.docs);
-    });
+          pendingAds.clear();
+          pendingAds.addAll(value.docs);
+        });
     loadingStats.value = false;
   }
 

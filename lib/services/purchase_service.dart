@@ -10,20 +10,28 @@ import 'package:boxalltv/utils/ui_widgets.dart';
 class PurchaseService extends GetxService {
   Map<String, dynamic>? paymentIntent;
 
-  Future<void> makePayment(
-      {required double amount,
-      required String uid,
-      required String vid,
-      required int validity}) async {
+  Future<void> makePayment({
+    required double amount,
+    required String uid,
+    required String vid,
+    required int validity,
+  }) async {
     try {
-      paymentIntent =
-          await createPaymentIntent(amount, 'USD', uid, vid, validity);
+      paymentIntent = await createPaymentIntent(
+        amount,
+        'USD',
+        uid,
+        vid,
+        validity,
+      );
       await Stripe.instance
           .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  paymentIntentClientSecret: paymentIntent!['client_secret'],
-                  style: ThemeMode.light,
-                  merchantDisplayName: 'Frame'))
+            paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret: paymentIntent!['client_secret'],
+              style: ThemeMode.light,
+              merchantDisplayName: 'Frame',
+            ),
+          )
           .then((value) {});
       displayPaymentSheet(amount, uid, vid, validity);
     } catch (e, s) {
@@ -32,13 +40,18 @@ class PurchaseService extends GetxService {
     }
   }
 
-  Future<dynamic> createPaymentIntent(double amount, String currency, String uid, String vid,
-      int validity) async {
+  Future<dynamic> createPaymentIntent(
+    double amount,
+    String currency,
+    String uid,
+    String vid,
+    int validity,
+  ) async {
     try {
       Map<String, dynamic> body = {
         'amount': (amount * 100).toInt().toString(),
         'currency': currency,
-        'payment_method_types[]': 'card'
+        'payment_method_types[]': 'card',
       };
 
       var response = await http.post(
@@ -46,7 +59,7 @@ class PurchaseService extends GetxService {
         headers: {
           'Authorization':
               'Bearer ${const String.fromEnvironment('STRIPE_KEY')}',
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: body,
       );
@@ -58,24 +71,35 @@ class PurchaseService extends GetxService {
   }
 
   Future<void> displayPaymentSheet(
-      double amount, String uid, String vid, int validity) async {
+    double amount,
+    String uid,
+    String vid,
+    int validity,
+  ) async {
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) async {
-        await usersCollection.doc(uid).collection("purchases").doc(vid).set({
-          "validity": DateTime.now().add(Duration(days: validity)),
-          "amount": amount,
-          "vid": vid,
-          "purchaseDate": DateTime.now(),
-        });
-        Get.back();
-        customSnackBar(text: "Purchased Successfully");
+      await Stripe.instance
+          .presentPaymentSheet()
+          .then((value) async {
+            await usersCollection
+                .doc(uid)
+                .collection("purchases")
+                .doc(vid)
+                .set({
+                  "validity": DateTime.now().add(Duration(days: validity)),
+                  "amount": amount,
+                  "vid": vid,
+                  "purchaseDate": DateTime.now(),
+                });
+            Get.back();
+            customSnackBar(text: "Purchased Successfully");
 
-        paymentIntent = null;
-      }).onError((error, stackTrace) {
-        Get.back();
+            paymentIntent = null;
+          })
+          .onError((error, stackTrace) {
+            Get.back();
 
-        customSnackBar(text: "No Payment Done");
-      });
+            customSnackBar(text: "No Payment Done");
+          });
     } on StripeException catch (e) {
       Get.back();
       customSnackBar(text: "${e.error}");

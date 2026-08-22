@@ -51,146 +51,167 @@ class _SocialSearchTabState extends State<SocialSearchTab> {
               filled: true,
               prefixIcon: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/search_icon.png", width: 5.w),
-                ],
+                children: [Image.asset("assets/search_icon.png", width: 5.w)],
               ),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-              enabledBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-              focusedBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
               hintText: "Search people...",
               hintStyle: fontBody(color: kWhiteColor, fontSize: 16.sp),
             ),
           ),
           Expanded(
             child: FirestoreListView(
-                pageSize: 5,
-                query: usersCollection.orderBy("active"),
-                itemBuilder: (context, snapshot) {
-                  if (snapshot.id == widget.uid) return const SizedBox();
+              pageSize: 5,
+              query: usersCollection.orderBy("active"),
+              itemBuilder: (context, snapshot) {
+                if (snapshot.id == widget.uid) return const SizedBox();
 
-                  if (searchText.isNotEmpty &&
-                      !snapshot["name"]
-                          .contains(RegExp(searchText, caseSensitive: false))) {
-                    return const SizedBox();
-                  }
+                if (searchText.isNotEmpty &&
+                    !snapshot["name"].contains(
+                      RegExp(searchText, caseSensitive: false),
+                    )) {
+                  return const SizedBox();
+                }
 
-                  return GestureDetector(
-                    onTap: () => Get.toNamed("/public_profile",
-                        parameters: {"userID": snapshot.id}),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: kBlackColor,
-                              border:
-                                  Border.all(color: kGreyColor2, width: 1.5),
+                return GestureDetector(
+                  onTap: () => Get.toNamed(
+                    "/public_profile",
+                    parameters: {"userID": snapshot.id},
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: kBlackColor,
+                            border: Border.all(color: kGreyColor2, width: 1.5),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              imageUrl: snapshot["profileImage"],
+                              fit: BoxFit.cover,
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: CachedNetworkImage(
-                                imageUrl: snapshot["profileImage"],
-                                fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(width: 2.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot["name"],
+                                maxLines: 1,
+                                style: fontBody(
+                                  color: kWhiteColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17.sp,
+                                ),
                               ),
-                            ),
+                              Text(
+                                snapshot["active"]
+                                    ? "Active Now"
+                                    : timeago.format(
+                                        snapshot["lastSeen"].toDate(),
+                                      ),
+                                maxLines: 1,
+                                style: fontBody(
+                                  color: kWhiteColor,
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 2.w),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(snapshot["name"],
-                                    maxLines: 1,
-                                    style: fontBody(
-                                        color: kWhiteColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17.sp)),
-                                Text(
-                                    snapshot["active"]
-                                        ? "Active Now"
-                                        : timeago.format(
-                                            snapshot["lastSeen"].toDate()),
-                                    maxLines: 1,
-                                    style: fontBody(
-                                        color: kWhiteColor, fontSize: 13.sp)),
-                              ],
-                            ),
-                          ),
-                          const Spacer(),
-                          StreamBuilder<DocumentSnapshot>(
-                              stream: usersCollection
-                                  .doc(widget.uid)
-                                  .collection("friends")
-                                  .doc(snapshot.id)
-                                  .snapshots(),
-                              builder: (context, fsnapshot) {
-                                if (!fsnapshot.hasData) return const SizedBox();
+                        ),
+                        const Spacer(),
+                        StreamBuilder<DocumentSnapshot>(
+                          stream: usersCollection
+                              .doc(widget.uid)
+                              .collection("friends")
+                              .doc(snapshot.id)
+                              .snapshots(),
+                          builder: (context, fsnapshot) {
+                            if (!fsnapshot.hasData) return const SizedBox();
 
-                                DocumentSnapshot fdata = fsnapshot.data!;
+                            DocumentSnapshot fdata = fsnapshot.data!;
 
-                                if (fsnapshot.hasData && fdata.exists) {
-                                  if (fdata["status"] == "friends") {
-                                    return ElevatedButton(
-                                      onPressed: () => openChat(snapshot.id),
-                                      style: TextButton.styleFrom(
-                                          backgroundColor: kGreyColor2,
-                                          foregroundColor: kSocialPrimaryColor),
-                                      child: Text("Chat",
-                                          style: fontBody(
-                                              color: kSocialPrimaryColor,
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.w600)),
-                                    );
-                                  }
-                                  return const SizedBox();
-                                }
+                            if (fsnapshot.hasData && fdata.exists) {
+                              if (fdata["status"] == "friends") {
                                 return ElevatedButton(
-                                  onPressed: () async {
-                                    customSnackBar(text: "Request sent");
-                                    await usersCollection
-                                        .doc(widget.uid)
-                                        .collection("friends")
-                                        .doc(snapshot.id)
-                                        .set({
+                                  onPressed: () => openChat(snapshot.id),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: kGreyColor2,
+                                    foregroundColor: kSocialPrimaryColor,
+                                  ),
+                                  child: Text(
+                                    "Chat",
+                                    style: fontBody(
+                                      color: kSocialPrimaryColor,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                );
+                              }
+                              return const SizedBox();
+                            }
+                            return ElevatedButton(
+                              onPressed: () async {
+                                customSnackBar(text: "Request sent");
+                                await usersCollection
+                                    .doc(widget.uid)
+                                    .collection("friends")
+                                    .doc(snapshot.id)
+                                    .set({
                                       "status": "requested",
                                       "addedAt": DateTime.now(),
                                     });
 
-                                    http.Response response = await http.post(
-                                      Uri.parse(
-                                          "http://65.109.39.177:7110/send_notification"),
-                                      body: jsonEncode({
-                                        "title": "New friend request",
-                                        "message":
-                                            "${snapshot["name"]} send you a friend request",
-                                        "uid": snapshot.id,
-                                      }),
-                                    );
-                                  },
-                                  style: TextButton.styleFrom(
-                                      backgroundColor: kGreyColor2,
-                                      foregroundColor: kSocialPrimaryColor),
-                                  child: Text("Add",
-                                      style: fontBody(
-                                          color: kSocialPrimaryColor,
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w600)),
+                                http.Response response = await http.post(
+                                  Uri.parse(
+                                    "http://65.109.39.177:7110/send_notification",
+                                  ),
+                                  body: jsonEncode({
+                                    "title": "New friend request",
+                                    "message":
+                                        "${snapshot["name"]} send you a friend request",
+                                    "uid": snapshot.id,
+                                  }),
                                 );
-                              }),
-                        ],
-                      ),
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: kGreyColor2,
+                                foregroundColor: kSocialPrimaryColor,
+                              ),
+                              child: Text(
+                                "Add",
+                                style: fontBody(
+                                  color: kSocialPrimaryColor,
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -204,11 +225,14 @@ class _SocialSearchTabState extends State<SocialSearchTab> {
         .doc(fid)
         .get();
     if (snapshot.exists) {
-      Get.toNamed("/messages", parameters: {
-        "uid": widget.uid,
-        "fid": fid,
-        "chatID": snapshot["chatID"]
-      });
+      Get.toNamed(
+        "/messages",
+        parameters: {
+          "uid": widget.uid,
+          "fid": fid,
+          "chatID": snapshot["chatID"],
+        },
+      );
     } else {
       var doc = await chatsCollection.add({
         "friends": [widget.uid, fid],
@@ -222,27 +246,29 @@ class _SocialSearchTabState extends State<SocialSearchTab> {
           .collection("messages")
           .doc(fid)
           .set({
-        "chatID": doc.id,
-        "lastMessage": "Start a new chat",
-        "unreadCount": 0,
-        "lastMessageBy": "",
-        "lastMessageOn": now,
-        "status": "normal",
-      });
-      Get.toNamed("/messages",
-          parameters: {"uid": widget.uid, "fid": fid, "chatID": doc.id});
+            "chatID": doc.id,
+            "lastMessage": "Start a new chat",
+            "unreadCount": 0,
+            "lastMessageBy": "",
+            "lastMessageOn": now,
+            "status": "normal",
+          });
+      Get.toNamed(
+        "/messages",
+        parameters: {"uid": widget.uid, "fid": fid, "chatID": doc.id},
+      );
       await usersCollection
           .doc(fid)
           .collection("messages")
           .doc(widget.uid)
           .set({
-        "chatID": doc.id,
-        "lastMessage": "Start a new chat",
-        "unreadCount": 0,
-        "lastMessageBy": "",
-        "lastMessageOn": now,
-        "status": "normal",
-      });
+            "chatID": doc.id,
+            "lastMessage": "Start a new chat",
+            "unreadCount": 0,
+            "lastMessageBy": "",
+            "lastMessageOn": now,
+            "status": "normal",
+          });
     }
   }
 }

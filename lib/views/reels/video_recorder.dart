@@ -31,9 +31,13 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: AspectRatio(
-                        aspectRatio: context.width /
+                        aspectRatio:
+                            context.width /
                             controller
-                                .cameraController.value.previewSize!.height,
+                                .cameraController
+                                .value
+                                .previewSize!
+                                .height,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: CameraPreview(controller.cameraController),
@@ -57,17 +61,21 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                     onPressed: () {
                       if (controller.isRecording.value) {
                         customSnackBar(
-                            text: "Cannot switch camera while recording");
+                          text: "Cannot switch camera while recording",
+                        );
                         return;
                       }
                       controller.cameraInitialized.value = false;
                       controller.cameraController.dispose();
                       controller.initializeCameraController(
-                          controller.cameraDirection.value == 0 ? 1 : 0);
+                        controller.cameraDirection.value == 0 ? 1 : 0,
+                      );
                     },
                     padding: const EdgeInsets.all(5),
-                    constraints:
-                        const BoxConstraints(maxHeight: 35, maxWidth: 35),
+                    constraints: const BoxConstraints(
+                      maxHeight: 35,
+                      maxWidth: 35,
+                    ),
                     icon: const Icon(
                       Remix.refresh_line,
                       color: kWhiteColor,
@@ -90,8 +98,10 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                       controller.selectSound();
                     },
                     padding: const EdgeInsets.all(5),
-                    constraints:
-                        const BoxConstraints(maxHeight: 35, maxWidth: 35),
+                    constraints: const BoxConstraints(
+                      maxHeight: 35,
+                      maxWidth: 35,
+                    ),
                     icon: const Icon(
                       Remix.music_2_line,
                       color: kWhiteColor,
@@ -111,7 +121,7 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                             fontWeight: FontWeight.w500,
                             fontSize: 17.sp,
                             shadows: const [
-                              Shadow(color: kGreyColor1, blurRadius: 10)
+                              Shadow(color: kGreyColor1, blurRadius: 10),
                             ],
                           ),
                         ),
@@ -138,54 +148,60 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                       width: 15.w,
                       padding: const EdgeInsets.all(10),
                       decoration: ShapeDecoration(
-                          shape: const CircleBorder(),
-                          color: kReelsPrimaryColor.withValues(alpha: 0.3)),
-                      child: Icon(Remix.image_2_fill,
-                          color: kWhiteColor, size: 20.sp),
+                        shape: const CircleBorder(),
+                        color: kReelsPrimaryColor.withValues(alpha: 0.3),
+                      ),
+                      child: Icon(
+                        Remix.image_2_fill,
+                        color: kWhiteColor,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                   Container(
-                      height: 20.w,
-                      width: 20.w,
-                      color: Colors.transparent,
-                      child: Obx(
-                        () => Stack(
-                          fit: StackFit.expand,
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            CircularProgressIndicator(
-                              strokeWidth: 5,
-                              color: kWhiteColor.withValues(alpha: 0.5),
-                              value: 1,
+                    height: 20.w,
+                    width: 20.w,
+                    color: Colors.transparent,
+                    child: Obx(
+                      () => Stack(
+                        fit: StackFit.expand,
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          CircularProgressIndicator(
+                            strokeWidth: 5,
+                            color: kWhiteColor.withValues(alpha: 0.5),
+                            value: 1,
+                          ),
+                          CircularProgressIndicator(
+                            strokeWidth: 5,
+                            color: kWhiteColor,
+                            value:
+                                (1 / controller.currentRecodingMode.value) *
+                                controller.recordingProgress.value,
+                            valueColor: const AlwaysStoppedAnimation(
+                              kReelsPrimaryColor,
                             ),
-                            CircularProgressIndicator(
-                              strokeWidth: 5,
-                              color: kWhiteColor,
-                              value:
-                                  (1 / controller.currentRecodingMode.value) *
-                                      controller.recordingProgress.value,
-                              valueColor: const AlwaysStoppedAnimation(
-                                  kReelsPrimaryColor),
-                            ),
-                            GestureDetector(
-                              onTap: () => controller.isRecording.value
-                                  ? controller.pauseRecording()
-                                  : controller.isPaused.value
-                                      ? controller.resumeRecording()
-                                      : controller.startRecording(),
-                              child: Container(
-                                margin: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: controller.isRecording.value
-                                      ? kWhiteColor
-                                      : kButtonColor,
-                                ),
+                          ),
+                          GestureDetector(
+                            onTap: () => controller.isRecording.value
+                                ? controller.pauseRecording()
+                                : controller.isPaused.value
+                                ? controller.resumeRecording()
+                                : controller.startRecording(),
+                            child: Container(
+                              margin: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: controller.isRecording.value
+                                    ? kWhiteColor
+                                    : kButtonColor,
                               ),
                             ),
-                          ],
-                        ),
-                      )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Obx(
                     () => controller.isPaused.value
                         ? GestureDetector(
@@ -195,10 +211,16 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                               width: 15.w,
                               padding: const EdgeInsets.all(10),
                               decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
-                                  color: kReelsPrimaryColor.withValues(alpha: 0.3)),
-                              child: Icon(Remix.arrow_right_s_line,
-                                  color: kWhiteColor, size: 20.sp),
+                                shape: const CircleBorder(),
+                                color: kReelsPrimaryColor.withValues(
+                                  alpha: 0.3,
+                                ),
+                              ),
+                              child: Icon(
+                                Remix.arrow_right_s_line,
+                                color: kWhiteColor,
+                                size: 20.sp,
+                              ),
                             ),
                           )
                         : SizedBox(width: 15.w),
@@ -221,10 +243,14 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                     padding: const EdgeInsets.all(5),
                     margin: const EdgeInsets.only(left: 20),
                     decoration: ShapeDecoration(
-                        shape: const CircleBorder(),
-                        color: kBlackColor.withValues(alpha: 0.4)),
-                    child:
-                        Icon(Remix.close_line, color: kWhiteColor, size: 22.sp),
+                      shape: const CircleBorder(),
+                      color: kBlackColor.withValues(alpha: 0.4),
+                    ),
+                    child: Icon(
+                      Remix.close_line,
+                      color: kWhiteColor,
+                      size: 22.sp,
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -233,14 +259,21 @@ class VideoRecorder extends GetView<VideoRecorderController> {
                     padding: const EdgeInsets.all(5),
                     margin: const EdgeInsets.only(right: 20),
                     decoration: ShapeDecoration(
-                        shape: const CircleBorder(),
-                        color: kBlackColor.withValues(alpha: 0.4)),
+                      shape: const CircleBorder(),
+                      color: kBlackColor.withValues(alpha: 0.4),
+                    ),
                     child: Obx(
                       () => controller.isFlashing.value
-                          ? Icon(Remix.flashlight_fill,
-                              color: kWhiteColor, size: 22.sp)
-                          : Icon(Remix.flashlight_line,
-                              color: kWhiteColor, size: 22.sp),
+                          ? Icon(
+                              Remix.flashlight_fill,
+                              color: kWhiteColor,
+                              size: 22.sp,
+                            )
+                          : Icon(
+                              Remix.flashlight_line,
+                              color: kWhiteColor,
+                              size: 22.sp,
+                            ),
                     ),
                   ),
                 ),

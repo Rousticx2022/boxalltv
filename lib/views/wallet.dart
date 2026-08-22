@@ -57,27 +57,34 @@ class _WalletState extends State<Wallet> {
     if (checkInLastDate.isEmpty || checkInFirstDate.isEmpty) {
       box.write("checkInFirstDate", today.toIso8601String());
       checkInFirstDate = today.toIso8601String();
-      box.write("checkInLastDate",
-          today.add(const Duration(days: 6)).toIso8601String());
+      box.write(
+        "checkInLastDate",
+        today.add(const Duration(days: 6)).toIso8601String(),
+      );
     } else {
       if (today.isAfter(DateTime.parse(checkInLastDate))) {
         box.write("checkInFirstDate", today.toIso8601String());
         checkInFirstDate = today.toIso8601String();
-        box.write("checkInLastDate",
-            today.add(const Duration(days: 6)).toIso8601String());
+        box.write(
+          "checkInLastDate",
+          today.add(const Duration(days: 6)).toIso8601String(),
+        );
       }
     }
 
-    to7Days = List.generate(7,
-        (index) => DateTime.parse(checkInFirstDate).add(Duration(days: index)));
+    to7Days = List.generate(
+      7,
+      (index) => DateTime.parse(checkInFirstDate).add(Duration(days: index)),
+    );
     setState(() {});
 
     fetchCheckInDates();
   }
 
   Future<void> openWithdrawSheet(BottomTabController btController) async {
-    DocumentSnapshot generalDoc =
-        await generalCollection.doc("5eAxTtCgFCYlm0Z131mt").get();
+    DocumentSnapshot generalDoc = await generalCollection
+        .doc("5eAxTtCgFCYlm0Z131mt")
+        .get();
     double coinsValuation = generalDoc["coinsValuation"].toDouble();
     double minWithdraw = generalDoc["minWithdraw"].toDouble();
 
@@ -88,9 +95,10 @@ class _WalletState extends State<Wallet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Withdraw balance",
-                style:
-                    fontBody(fontSize: 17.sp, color: const Color(0xfff71735))),
+            Text(
+              "Withdraw balance",
+              style: fontBody(fontSize: 17.sp, color: const Color(0xfff71735)),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: RichText(
@@ -98,38 +106,48 @@ class _WalletState extends State<Wallet> {
                   text:
                       "\$${(btController.userData["wallet"] * coinsValuation).toStringAsFixed(2)}",
                   style: fontBody(
-                      fontSize: 24.sp,
-                      color: kWhiteColor,
-                      fontWeight: FontWeight.w400),
+                    fontSize: 24.sp,
+                    color: kWhiteColor,
+                    fontWeight: FontWeight.w400,
+                  ),
                   children: [
                     TextSpan(
                       text:
                           " (${btController.userData["wallet"].toStringAsFixed(2)} coins)",
                       style: fontBody(
-                          fontSize: 18.sp,
-                          color: kWhiteColor,
-                          fontWeight: FontWeight.w500),
+                        fontSize: 18.sp,
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-            Text("1 coin = \$$coinsValuation",
-                style: fontBody(
-                    fontSize: 16.sp, color: kWhiteColor.withValues(alpha: 0.7))),
+            Text(
+              "1 coin = \$$coinsValuation",
+              style: fontBody(
+                fontSize: 16.sp,
+                color: kWhiteColor.withValues(alpha: 0.7),
+              ),
+            ),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () async {
                 if ((btController.userData["wallet"] * coinsValuation) <
                     minWithdraw) {
                   customSnackBar(
-                      text: "Minimum withdrawal amount is \$$minWithdraw");
+                    text: "Minimum withdrawal amount is \$$minWithdraw",
+                  );
                   return;
                 }
-                Get.off(() => Withdraw(
+                Get.off(
+                  () => Withdraw(
                     amount: btController.userData["wallet"] * coinsValuation,
                     minWithdraw: minWithdraw,
-                    coinsValuation: coinsValuation));
+                    coinsValuation: coinsValuation,
+                  ),
+                );
               },
               child: Container(
                 padding: const EdgeInsets.all(15.0),
@@ -144,11 +162,14 @@ class _WalletState extends State<Wallet> {
                   ),
                 ),
                 alignment: Alignment.center,
-                child: Text("Withdraw balance",
-                    style: fontBody(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: kWhiteColor)),
+                child: Text(
+                  "Withdraw balance",
+                  style: fontBody(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: kWhiteColor,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -165,8 +186,10 @@ class _WalletState extends State<Wallet> {
                 }
 
                 Get.back();
-                Get.dialog(customCircularProgress(strokeColor: kButtonColor),
-                    barrierDismissible: false);
+                Get.dialog(
+                  customCircularProgress(strokeColor: kButtonColor),
+                  barrierDismissible: false,
+                );
                 await usersCollection.doc(uid).update({
                   "wallet": FieldValue.increment((5 / coinsValuation) * -1),
                 });
@@ -181,18 +204,21 @@ class _WalletState extends State<Wallet> {
                   gradient: LinearGradient(
                     colors: [
                       kWhiteColor.withValues(alpha: 0.05),
-                      kWhiteColor.withValues(alpha: 0.1)
+                      kWhiteColor.withValues(alpha: 0.1),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                 ),
                 alignment: Alignment.center,
-                child: Text("Buy subscription for \$5",
-                    style: fontBody(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: kWhiteColor)),
+                child: Text(
+                  "Buy subscription for \$5",
+                  style: fontBody(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: kWhiteColor,
+                  ),
+                ),
               ),
             ),
           ],

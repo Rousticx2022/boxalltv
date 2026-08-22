@@ -22,11 +22,12 @@ part 'upload_video_ext.dart';
 class UploadVideo extends StatefulWidget {
   final String uid, videoPath;
   final Map soundData;
-  const UploadVideo(
-      {super.key,
-      required this.uid,
-      required this.videoPath,
-      required this.soundData});
+  const UploadVideo({
+    super.key,
+    required this.uid,
+    required this.videoPath,
+    required this.soundData,
+  });
 
   @override
   State<UploadVideo> createState() => _UploadVideoState();
@@ -91,13 +92,14 @@ class _UploadVideoState extends State<UploadVideo> {
       backgroundColor: kGreyColor2,
       title: "Uploading reel...",
       titleStyle: fontHeading(
-          fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
       content: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(color: kReelsPrimaryColor),
-          ],
+          children: [CircularProgressIndicator(color: kReelsPrimaryColor)],
         ),
       ),
       onWillPop: () => Future.value(false),
@@ -106,41 +108,44 @@ class _UploadVideoState extends State<UploadVideo> {
     String videoPath = widget.videoPath;
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-    if (selectedSound["url"] != null && selectedSound["url"].toString().isNotEmpty) {
+    if (selectedSound["url"] != null &&
+        selectedSound["url"].toString().isNotEmpty) {
       String audioPath = await _getAudioFilePath(fileName);
       try {
         audioTrimmer.loadAudio(audioFile: File(audioPath));
         await audioTrimmer.saveTrimmedAudio(
-            startValue: 0.0,
-            endValue:
-                videoPlayerController.value.duration.inSeconds.toDouble() *
-                    1000,
-            audioFileName: "trimmed_$fileName",
-            onSave: (outputPath) {
-              if (outputPath == null) {
-                customSnackBar(text: "Cannot export audio");
-                return;
-              }
+          startValue: 0.0,
+          endValue:
+              videoPlayerController.value.duration.inSeconds.toDouble() * 1000,
+          audioFileName: "trimmed_$fileName",
+          onSave: (outputPath) {
+            if (outputPath == null) {
+              customSnackBar(text: "Cannot export audio");
+              return;
+            }
 
-              controller.createReel(
-                  fileName: fileName,
-                  videoPath: videoPath,
-                  thumbnailImagePath: thumbnailImagePath,
-                  captionController: captionController,
-                  selectedSound: selectedSound,
-                  audioPath: outputPath);
-            });
+            controller.createReel(
+              fileName: fileName,
+              videoPath: videoPath,
+              thumbnailImagePath: thumbnailImagePath,
+              captionController: captionController,
+              selectedSound: selectedSound,
+              audioPath: outputPath,
+            );
+          },
+        );
       } catch (e) {
         Get.back();
         debugPrint(e.toString());
       }
     } else {
       controller.createReel(
-                  fileName: fileName,
-                  videoPath: videoPath,
-                  thumbnailImagePath: thumbnailImagePath,
-                  captionController: captionController,
-                  selectedSound: selectedSound);
+        fileName: fileName,
+        videoPath: videoPath,
+        thumbnailImagePath: thumbnailImagePath,
+        captionController: captionController,
+        selectedSound: selectedSound,
+      );
     }
   }
 
@@ -152,7 +157,9 @@ class _UploadVideoState extends State<UploadVideo> {
         });
         pauseVideoPlay();
         pageController.nextPage(
-            duration: const Duration(milliseconds: 100), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeIn,
+        );
         generateThumbnail();
         break;
       case 2:
@@ -255,7 +262,10 @@ class _UploadVideoState extends State<UploadVideo> {
                                     size: 32.sp,
                                     color: kWhiteColor,
                                     shadows: const [
-                                      Shadow(color: kGreyColor1, blurRadius: 10)
+                                      Shadow(
+                                        color: kGreyColor1,
+                                        blurRadius: 10,
+                                      ),
                                     ],
                                   ),
                               ],
@@ -278,10 +288,14 @@ class _UploadVideoState extends State<UploadVideo> {
                               padding: const EdgeInsets.all(5),
                               margin: const EdgeInsets.only(left: 20),
                               decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
-                                  color: kBlackColor.withValues(alpha: 0.4)),
-                              child: Icon(Remix.close_line,
-                                  color: kWhiteColor, size: 22.sp),
+                                shape: const CircleBorder(),
+                                color: kBlackColor.withValues(alpha: 0.4),
+                              ),
+                              child: Icon(
+                                Remix.close_line,
+                                color: kWhiteColor,
+                                size: 22.sp,
+                              ),
                             ),
                           ),
                           GestureDetector(
@@ -290,10 +304,14 @@ class _UploadVideoState extends State<UploadVideo> {
                               padding: const EdgeInsets.all(5),
                               margin: const EdgeInsets.only(right: 20),
                               decoration: ShapeDecoration(
-                                  shape: const CircleBorder(),
-                                  color: kBlackColor.withValues(alpha: 0.4)),
-                              child: Icon(Remix.music_2_line,
-                                  color: kWhiteColor, size: 22.sp),
+                                shape: const CircleBorder(),
+                                color: kBlackColor.withValues(alpha: 0.4),
+                              ),
+                              child: Icon(
+                                Remix.music_2_line,
+                                color: kWhiteColor,
+                                size: 22.sp,
+                              ),
                             ),
                           ),
                         ],
@@ -304,14 +322,18 @@ class _UploadVideoState extends State<UploadVideo> {
               : customCircularProgress(strokeColor: kReelsPrimaryColor),
           ListView(
             padding: const EdgeInsets.symmetric(
-                vertical: kToolbarHeight, horizontal: 20),
+              vertical: kToolbarHeight,
+              horizontal: 20,
+            ),
             children: [
               if (thumbnailImagePath.isNotEmpty)
                 Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.file(File(thumbnailImagePath),
-                        width: context.width / 2.5),
+                    child: Image.file(
+                      File(thumbnailImagePath),
+                      width: context.width / 2.5,
+                    ),
                   ),
                 ),
               const SizedBox(height: 30),
@@ -326,7 +348,7 @@ class _UploadVideoState extends State<UploadVideo> {
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -345,35 +367,50 @@ class _UploadVideoState extends State<UploadVideo> {
                   onPressed: () {
                     currentPage = 1;
                     pageController.previousPage(
-                        duration: const Duration(milliseconds: 100),
-                        curve: Curves.easeIn);
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeIn,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kReelsPrimaryColor.withValues(alpha: 0.3),
                     foregroundColor: kWhiteColor,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
+                      vertical: 10,
+                      horizontal: 15,
+                    ),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   icon: Icon(Remix.edit_circle_fill, size: 18.sp),
-                  label: Text('Edit Video',
-                      style: fontButton(
-                          fontSize: 16.sp, fontWeight: FontWeight.w500)),
+                  label: Text(
+                    'Edit Video',
+                    style: fontButton(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ElevatedButton.icon(
                 onPressed: () => nextButton(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kReelsPrimaryColor.withValues(alpha: 0.3),
                   foregroundColor: kWhiteColor,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 15,
+                  ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                icon: Text('Next',
-                    style: fontButton(
-                        fontSize: 16.sp, fontWeight: FontWeight.w500)),
+                icon: Text(
+                  'Next',
+                  style: fontButton(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 label: Icon(Remix.arrow_right_s_line, size: 18.sp),
               ),
             ],

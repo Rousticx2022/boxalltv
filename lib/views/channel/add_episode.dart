@@ -60,9 +60,7 @@ class _AddEpisodeState extends State<AddEpisode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Add Episode"),
-      ),
+      appBar: AppBar(title: const Text("Add Episode")),
       body: Form(
         key: formKey,
         child: ListView(
@@ -75,19 +73,26 @@ class _AddEpisodeState extends State<AddEpisode> {
                     controller: seasonNoController,
                     keyboardType: TextInputType.number,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Season No.",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -98,19 +103,26 @@ class _AddEpisodeState extends State<AddEpisode> {
                     controller: episodeNoController,
                     keyboardType: TextInputType.number,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Episode No.",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -126,15 +138,20 @@ class _AddEpisodeState extends State<AddEpisode> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Episode Description (optional)",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
             const SizedBox(height: 15),
@@ -144,21 +161,30 @@ class _AddEpisodeState extends State<AddEpisode> {
                   child: TextFormField(
                     controller: releaseDateController,
                     keyboardType: const TextInputType.numberWithOptions(
-                        signed: false, decimal: false),
+                      signed: false,
+                      decimal: false,
+                    ),
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Release Date",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -169,19 +195,26 @@ class _AddEpisodeState extends State<AddEpisode> {
                     controller: durationController,
                     keyboardType: TextInputType.number,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Screen Time",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -190,27 +223,37 @@ class _AddEpisodeState extends State<AddEpisode> {
             ),
             const SizedBox(height: 15),
             Text(
-                "Please provide these files: 1. Video (HD or 4K), 2. Banner (3:2), 3. Optional Trailer (HD), 4. Optional Subtitle (srt)\nPlease upload all in a single google drive and share the url here.",
-                style: fontBody(
-                    fontSize: 15.sp, color: kWhiteColor.withValues(alpha: 0.7))),
+              "Please provide these files: 1. Video (HD or 4K), 2. Banner (3:2), 3. Optional Trailer (HD), 4. Optional Subtitle (srt)\nPlease upload all in a single google drive and share the url here.",
+              style: fontBody(
+                fontSize: 15.sp,
+                color: kWhiteColor.withValues(alpha: 0.7),
+              ),
+            ),
             const SizedBox(height: 10),
             TextFormField(
               controller: contentUrlController,
               keyboardType: const TextInputType.numberWithOptions(
-                  signed: false, decimal: false),
+                signed: false,
+                decimal: false,
+              ),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Content URL",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -237,9 +280,13 @@ class _AddEpisodeState extends State<AddEpisode> {
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
-                  child: Text("Submit",
-                      style: fontButton(
-                          fontWeight: FontWeight.w600, fontSize: 16.sp)),
+                  child: Text(
+                    "Submit",
+                    style: fontButton(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
         ),
       ),

@@ -81,24 +81,30 @@ class _StreamTabState extends State<StreamTab>
               ),
               padding: const EdgeInsets.all(12),
               alignment: Alignment.center,
-              child: GetX<BottomTabController>(builder: (btController) {
-                return btController.unreadNotifications.value == 0
-                    ? const Icon(Icons.shopping_cart_outlined)
-                    : badges.Badge(
-                        position:
-                            badges.BadgePosition.topEnd(top: -10, end: -4),
-                        badgeStyle: badges.BadgeStyle(
-                          shape: badges.BadgeShape.circle,
-                          badgeColor: kStreamPrimaryColor,
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: BorderRadius.circular(20),
-                          elevation: 0,
-                        ),
-                        badgeContent: Text(btController.cartItems.toString(),
-                            style: fontButton(fontSize: 12)),
-                        child: const Icon(Icons.shopping_cart_outlined),
-                      );
-              }),
+              child: GetX<BottomTabController>(
+                builder: (btController) {
+                  return btController.unreadNotifications.value == 0
+                      ? const Icon(Icons.shopping_cart_outlined)
+                      : badges.Badge(
+                          position: badges.BadgePosition.topEnd(
+                            top: -10,
+                            end: -4,
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: kStreamPrimaryColor,
+                            padding: const EdgeInsets.all(5),
+                            borderRadius: BorderRadius.circular(20),
+                            elevation: 0,
+                          ),
+                          badgeContent: Text(
+                            btController.cartItems.toString(),
+                            style: fontButton(fontSize: 12),
+                          ),
+                          child: const Icon(Icons.shopping_cart_outlined),
+                        );
+                },
+              ),
             ),
           ),
           GestureDetector(
@@ -116,25 +122,30 @@ class _StreamTabState extends State<StreamTab>
               ),
               padding: const EdgeInsets.all(12),
               alignment: Alignment.center,
-              child: GetX<BottomTabController>(builder: (btController) {
-                return btController.unreadNotifications.value == 0
-                    ? const Icon(Remix.notification_2_line)
-                    : badges.Badge(
-                        position:
-                            badges.BadgePosition.topEnd(top: -10, end: -4),
-                        badgeStyle: badges.BadgeStyle(
-                          shape: badges.BadgeShape.circle,
-                          badgeColor: kStreamPrimaryColor,
-                          padding: const EdgeInsets.all(5),
-                          borderRadius: BorderRadius.circular(20),
-                          elevation: 0,
-                        ),
-                        badgeContent: Text(
+              child: GetX<BottomTabController>(
+                builder: (btController) {
+                  return btController.unreadNotifications.value == 0
+                      ? const Icon(Remix.notification_2_line)
+                      : badges.Badge(
+                          position: badges.BadgePosition.topEnd(
+                            top: -10,
+                            end: -4,
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: kStreamPrimaryColor,
+                            padding: const EdgeInsets.all(5),
+                            borderRadius: BorderRadius.circular(20),
+                            elevation: 0,
+                          ),
+                          badgeContent: Text(
                             btController.unreadNotifications.toString(),
-                            style: fontButton(fontSize: 12)),
-                        child: const Icon(Remix.notification_2_line),
-                      );
-              }),
+                            style: fontButton(fontSize: 12),
+                          ),
+                          child: const Icon(Remix.notification_2_line),
+                        );
+                },
+              ),
             ),
           ),
           Container(
@@ -145,10 +156,13 @@ class _StreamTabState extends State<StreamTab>
             ),
             alignment: Alignment.center,
             child: IconButton(
-                onPressed: () => Get.to(() => Menu(uid: widget.uid),
-                    transition: Transition.cupertino),
-                icon: const Icon(Remix.menu_3_line),
-                color: kWhiteColor),
+              onPressed: () => Get.to(
+                () => Menu(uid: widget.uid),
+                transition: Transition.cupertino,
+              ),
+              icon: const Icon(Remix.menu_3_line),
+              color: kWhiteColor,
+            ),
           ),
         ],
         bottom: PreferredSize(
@@ -165,10 +179,14 @@ class _StreamTabState extends State<StreamTab>
               indicatorWeight: 4,
               labelColor: kStreamPrimaryColor,
               unselectedLabelColor: kWhiteColor.withValues(alpha: 0.7),
-              labelStyle:
-                  fontBody(fontSize: 16.sp, fontWeight: FontWeight.w600),
-              unselectedLabelStyle:
-                  fontBody(fontSize: 15.sp, fontWeight: FontWeight.w400),
+              labelStyle: fontBody(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: fontBody(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w400,
+              ),
               isScrollable: true,
               indicatorSize: TabBarIndicatorSize.label,
               tabs: const [

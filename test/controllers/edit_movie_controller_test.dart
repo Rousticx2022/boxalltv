@@ -16,7 +16,7 @@ void main() {
     reviewVideosCollection = fakeFirestore.collection('reviewVideos');
     genresCollection = fakeFirestore.collection('genres');
     Get.testMode = true;
-    
+
     controller = EditMovieController(uid: testUid, videoID: testVideoId);
     Get.put(controller);
   });

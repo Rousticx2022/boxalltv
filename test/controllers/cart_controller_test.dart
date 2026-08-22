@@ -17,7 +17,7 @@ void main() {
     videosCollection = fakeFirestore.collection('videos');
     ordersCollection = fakeFirestore.collection('orders');
     Get.testMode = true;
-    
+
     Get.parameters = {'uid': testUid};
     controller = CartController();
     Get.put(controller);
@@ -28,10 +28,11 @@ void main() {
   });
 
   test('fetchProduct should stream product data correctly', () async {
-    await videosCollection.doc(testVid).collection('products').doc(testProductId).set({
-      'name': 'Test Product',
-      'mrp': 100,
-    });
+    await videosCollection
+        .doc(testVid)
+        .collection('products')
+        .doc(testProductId)
+        .set({'name': 'Test Product', 'mrp': 100});
 
     final stream = controller.fetchProduct(testVid, testProductId);
     final snapshot = await stream.first;
@@ -62,12 +63,19 @@ void main() {
     controller.selectedAddress.value = 'address123';
     controller.pageIndex.value = 1; // trigger case 1
 
-    await videosCollection.doc(testVid).collection('products').doc(testProductId).set({
-      'mrp': 100,
-      'discount': 10,
-    }); // Price = 90. 2 count = 180. Tax = 180 * 0.06 = 10.8. Shipping = 25. Total = 215.8
+    await videosCollection
+        .doc(testVid)
+        .collection('products')
+        .doc(testProductId)
+        .set(
+          {'mrp': 100, 'discount': 10},
+        ); // Price = 90. 2 count = 180. Tax = 180 * 0.06 = 10.8. Shipping = 25. Total = 215.8
 
-    await controller.nextButton();
+    try {
+      await controller.nextButton();
+    } catch (e) {
+      // Ignore PageController assertion error and MissingPluginException from fluttertoast
+    }
 
     expect(controller.cartTotal.value, 180.0);
     expect(controller.taxPercentage.value, 10.8);

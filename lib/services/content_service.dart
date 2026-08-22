@@ -11,10 +11,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ContentService {
   static ContentService instance = ContentService();
 
-  void toggleFavourites(
-      {required String vid,
-      required String utilsd,
-      required bool status}) async {
+  void toggleFavourites({
+    required String vid,
+    required String utilsd,
+    required bool status,
+  }) async {
     if (status) {
       await usersCollection
           .doc(utilsd)
@@ -31,17 +32,18 @@ class ContentService {
   }
 
   void updateGenrePopularity(String genreID) async {
-    await genresCollection
-        .doc(genreID)
-        .update({"popularity": FieldValue.increment(1)});
+    await genresCollection.doc(genreID).update({
+      "popularity": FieldValue.increment(1),
+    });
   }
 
   void contentReports(String vid, String utilsd, String issue) async {
     Get.back();
-    await videosCollection
-        .doc(vid)
-        .collection("reports")
-        .add({"utilsd": utilsd, "reportDate": DateTime.now(), "issue": issue});
+    await videosCollection.doc(vid).collection("reports").add({
+      "utilsd": utilsd,
+      "reportDate": DateTime.now(),
+      "issue": issue,
+    });
 
     customSnackBar(text: "We will review your issue shortly");
   }
@@ -56,10 +58,11 @@ class ContentService {
     }
   }
 
-  void shareReel(
-      {required String id,
-      required String fileUrl,
-      required String page}) async {
+  void shareReel({
+    required String id,
+    required String fileUrl,
+    required String page,
+  }) async {
     String url = "https://frame-f5635.web.app//#/$page/$id";
     String fileName = DateTime.now().toString();
     try {
@@ -67,8 +70,9 @@ class ContentService {
       final cacheDirectory = (await getExternalStorageDirectory())!.path;
       File imgFile = File('$cacheDirectory/$fileName.png');
       imgFile.writeAsBytesSync(response.bodyBytes);
-      Share.shareXFiles([XFile('$cacheDirectory/$fileName.png')],
-          text: "Check out this reel on Frame app. $url");
+      Share.shareXFiles([
+        XFile('$cacheDirectory/$fileName.png'),
+      ], text: "Check out this reel on Frame app. $url");
     } catch (e) {
       customSnackBar(text: e.toString());
     }

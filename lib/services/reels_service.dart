@@ -9,11 +9,9 @@ class ReelsService {
   }
 
   Future<void> likeReel(String reelId, String uid) async {
-    await reelsCollection
-        .doc(reelId)
-        .collection("likes")
-        .doc(uid)
-        .set({"createdAt": FieldValue.serverTimestamp()});
+    await reelsCollection.doc(reelId).collection("likes").doc(uid).set({
+      "createdAt": FieldValue.serverTimestamp(),
+    });
   }
 
   Future<void> unlikeReel(String reelId, String uid) async {
@@ -48,10 +46,7 @@ class ReelsService {
         .doc(targetUid)
         .collection("followers")
         .doc(currentUid)
-        .set({
-      "userID": currentUid,
-      "followedAt": DateTime.now(),
-    });
+        .set({"userID": currentUid, "followedAt": DateTime.now()});
     await usersCollection.doc(targetUid).update({
       "followers": FieldValue.increment(1),
     });
@@ -63,10 +58,7 @@ class ReelsService {
         .doc(currentUid)
         .collection("following")
         .doc(targetUid)
-        .set({
-      "userID": targetUid,
-      "followedAt": DateTime.now(),
-    });
+        .set({"userID": targetUid, "followedAt": DateTime.now()});
   }
 
   Future<void> unfollowUser(String currentUid, String targetUid) async {
@@ -90,7 +82,9 @@ class ReelsService {
   }
 
   Stream<DocumentSnapshot> getFollowingStream(
-      String currentUid, String targetUid) {
+    String currentUid,
+    String targetUid,
+  ) {
     return usersCollection
         .doc(currentUid)
         .collection("following")

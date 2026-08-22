@@ -21,16 +21,22 @@ class Login extends GetView<LoginController> {
           Center(child: Image.asset("assets/logo.jpg", width: 40.w)),
           Padding(
             padding: EdgeInsets.only(top: 2.h, bottom: 20),
-            child: Text("Welcome!",
-                textAlign: TextAlign.center,
-                style: customTextStyleHeadline(fontSize: 22.sp)),
+            child: Text(
+              "Welcome!",
+              textAlign: TextAlign.center,
+              style: customTextStyleHeadline(fontSize: 22.sp),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Text("Login with your credentials",
-                textAlign: TextAlign.center,
-                style: customTextStyleBody(
-                    color: Colors.grey.shade300, fontSize: 16.sp)),
+            child: Text(
+              "Login with your credentials",
+              textAlign: TextAlign.center,
+              style: customTextStyleBody(
+                color: Colors.grey.shade300,
+                fontSize: 16.sp,
+              ),
+            ),
           ),
           const SizedBox(height: 30),
           Form(
@@ -40,35 +46,43 @@ class Login extends GetView<LoginController> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Formbuilder(
-                        controller: controller.emailController,
-                        validator: emailValidator,
-                        inputType: TextInputType.emailAddress,
-                        pIcon: "assets/email_icon.png",
-                        label: "Enter Email")
-                    .buildTextField(),
+                  controller: controller.emailController,
+                  validator: emailValidator,
+                  inputType: TextInputType.emailAddress,
+                  pIcon: "assets/email_icon.png",
+                  label: "Enter Email",
+                ).buildTextField(),
                 Obx(
-                  () => Formbuilder(
-                          controller: controller.passwordController,
-                          validator: passwordValidator,
-                          inputType: TextInputType.visiblePassword,
-                          pIcon: "assets/lock_icon.png",
-                          label: "Enter Password")
-                      .buildPasswordField(controller.passwordVisible.value,
-                          controller.togglePassword),
+                  () =>
+                      Formbuilder(
+                        controller: controller.passwordController,
+                        validator: passwordValidator,
+                        inputType: TextInputType.visiblePassword,
+                        pIcon: "assets/lock_icon.png",
+                        label: "Enter Password",
+                      ).buildPasswordField(
+                        controller.passwordVisible.value,
+                        controller.togglePassword,
+                      ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: TextButton(
-                      onPressed: () => Get.to(() => ResetPassword(
-                          email: controller.emailController.text)),
+                      onPressed: () => Get.to(
+                        () => ResetPassword(
+                          email: controller.emailController.text,
+                        ),
+                      ),
                       style: TextButton.styleFrom(
                         foregroundColor: kWhiteColor,
                         backgroundColor: Colors.black,
                       ),
-                      child: Text("Forgot password?",
-                          style: customTextStyleBody(fontSize: 15.sp)),
+                      child: Text(
+                        "Forgot password?",
+                        style: customTextStyleBody(fontSize: 15.sp),
+                      ),
                     ),
                   ),
                 ),
@@ -81,30 +95,38 @@ class Login extends GetView<LoginController> {
                         controller.loading.value
                             ? Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Image.asset("assets/button_anim.gif",
-                                    width: context.width - 40,
-                                    height: 80,
-                                    fit: BoxFit.cover),
+                                  horizontal: 20.0,
+                                ),
+                                child: Image.asset(
+                                  "assets/button_anim.gif",
+                                  width: context.width - 40,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
                               )
                             : Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Image.asset("assets/button.png",
-                                    width: context.width - 40,
-                                    height: 80,
-                                    fit: BoxFit.cover),
+                                  horizontal: 20.0,
+                                ),
+                                child: Image.asset(
+                                  "assets/button.png",
+                                  width: context.width - 40,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                         Text(
                           "LOGIN",
                           style: fontButton(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.sp,
-                              shadows: [
-                                Shadow(
-                                    color: kBlackColor.withValues(alpha: 0.6),
-                                    blurRadius: 10)
-                              ]),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.sp,
+                            shadows: [
+                              Shadow(
+                                color: kBlackColor.withValues(alpha: 0.6),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -116,13 +138,16 @@ class Login extends GetView<LoginController> {
                     text: TextSpan(
                       text: "Don't have an account? ",
                       style: customTextStyleBody(
-                          fontSize: 16.sp, color: kWhiteColor),
+                        fontSize: 16.sp,
+                        color: kWhiteColor,
+                      ),
                       children: [
                         TextSpan(
                           text: "Signup",
                           style: customTextStyleBody(
-                              fontSize: 16.sp,
-                              color: kWhiteColor.withValues(alpha: 0.7)),
+                            fontSize: 16.sp,
+                            color: kWhiteColor.withValues(alpha: 0.7),
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Get.toNamed("/signup");

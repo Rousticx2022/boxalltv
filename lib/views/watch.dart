@@ -29,9 +29,7 @@ class Watch extends GetView<WatchController> {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: FlickAutoHideChild(
-            child: Container(color: Colors.black38),
-          ),
+          child: FlickAutoHideChild(child: Container(color: Colors.black38)),
         ),
         const Positioned.fill(child: FlickShowControlsAction()),
         Positioned.fill(
@@ -43,28 +41,32 @@ class Watch extends GetView<WatchController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
-                        color: kWhiteColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(10)),
-                    child:
-                        Text("Playing ad", style: fontBody(color: kWhiteColor)),
+                      color: kWhiteColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      "Playing ad",
+                      style: fontBody(color: kWhiteColor),
+                    ),
                   ),
                   Row(
                     children: <Widget>[
                       Row(
                         children: [
                           FlickCurrentPosition(fontSize: 15.sp),
-                          const Text(' / ',
-                              style:
-                                  TextStyle(color: kWhiteColor, fontSize: 12)),
+                          const Text(
+                            ' / ',
+                            style: TextStyle(color: kWhiteColor, fontSize: 12),
+                          ),
                           FlickTotalDuration(fontSize: 15.sp),
                         ],
                       ),
-                      Expanded(
-                        child: Container(),
-                      ),
+                      Expanded(child: Container()),
                       FlickSoundToggle(
                         size: 20.sp,
                         padding: const EdgeInsets.all(6),
@@ -97,9 +99,7 @@ class Watch extends GetView<WatchController> {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: FlickAutoHideChild(
-            child: Container(color: Colors.black38),
-          ),
+          child: FlickAutoHideChild(child: Container(color: Colors.black38)),
         ),
         Positioned.fill(
           child: FlickShowControlsAction(
@@ -136,15 +136,14 @@ class Watch extends GetView<WatchController> {
                       Row(
                         children: [
                           FlickCurrentPosition(fontSize: 13.sp),
-                          const Text(' / ',
-                              style:
-                                  TextStyle(color: kWhiteColor, fontSize: 12)),
+                          const Text(
+                            ' / ',
+                            style: TextStyle(color: kWhiteColor, fontSize: 12),
+                          ),
                           FlickTotalDuration(fontSize: 13.sp),
                         ],
                       ),
-                      Expanded(
-                        child: Container(),
-                      ),
+                      Expanded(child: Container()),
                       FlickSubtitleToggle(
                         size: 17.sp,
                         padding: const EdgeInsets.all(6),
@@ -197,9 +196,7 @@ class Watch extends GetView<WatchController> {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          child: FlickAutoHideChild(
-            child: Container(color: Colors.black38),
-          ),
+          child: FlickAutoHideChild(child: Container(color: Colors.black38)),
         ),
         Positioned.fill(
           child: FlickShowControlsAction(
@@ -227,17 +224,26 @@ class Watch extends GetView<WatchController> {
         Positioned.fill(
           child: FlickAutoHideChild(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 15,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Row(
                     children: [
                       Expanded(
-                          child: Obx(() => Text(controller.title.value,
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 18.sp, color: kWhiteColor)))),
+                        child: Obx(
+                          () => Text(
+                            controller.title.value,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 18.sp,
+                              color: kWhiteColor,
+                            ),
+                          ),
+                        ),
+                      ),
                       Obx(
                         () => controller.isFullscreen.value
                             ? TextButton.icon(
@@ -250,23 +256,29 @@ class Watch extends GetView<WatchController> {
                                 },
                                 style: TextButton.styleFrom(
                                   foregroundColor: kBlackColor,
-                                  backgroundColor: kWhiteColor.withValues(alpha: 0.7),
+                                  backgroundColor: kWhiteColor.withValues(
+                                    alpha: 0.7,
+                                  ),
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                                 icon: Icon(
-                                    controller.recordingStarted.value
-                                        ? Icons.stop_circle
-                                        : Icons.circle_rounded,
-                                    color: Colors.red,
-                                    size: 15.sp),
+                                  controller.recordingStarted.value
+                                      ? Icons.stop_circle
+                                      : Icons.circle_rounded,
+                                  color: Colors.red,
+                                  size: 15.sp,
+                                ),
                                 label: Text(
-                                    controller.recordingStarted.value
-                                        ? "${controller.elapsedSeconds.value}s"
-                                        : "Record Clip",
-                                    style: fontButton(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w500)),
+                                  controller.recordingStarted.value
+                                      ? "${controller.elapsedSeconds.value}s"
+                                      : "Record Clip",
+                                  style: fontButton(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               )
                             : const SizedBox.shrink(),
                       ),
@@ -289,15 +301,14 @@ class Watch extends GetView<WatchController> {
                       Row(
                         children: [
                           FlickCurrentPosition(fontSize: 15.sp),
-                          const Text(' / ',
-                              style:
-                                  TextStyle(color: kWhiteColor, fontSize: 12)),
+                          const Text(
+                            ' / ',
+                            style: TextStyle(color: kWhiteColor, fontSize: 12),
+                          ),
                           FlickTotalDuration(fontSize: 15.sp),
                         ],
                       ),
-                      Expanded(
-                        child: Container(),
-                      ),
+                      Expanded(child: Container()),
                       FlickSubtitleToggle(
                         size: 20.sp,
                         padding: const EdgeInsets.all(6),

@@ -10,8 +10,9 @@ class CreatePostController extends GetxController {
   String? uid = Get.parameters["uid"],
       path = Get.parameters["path"],
       type = Get.parameters["type"];
-  int? recordingStartedFrom =
-      int.parse(Get.parameters["recordingStartedFrom"] ?? "0");
+  int? recordingStartedFrom = int.parse(
+    Get.parameters["recordingStartedFrom"] ?? "0",
+  );
   String isTrimmed = Get.parameters["isTrimmed"] ?? "normal",
       vid = Get.parameters["vid"] ?? "";
 
@@ -31,10 +32,7 @@ class CreatePostController extends GetxController {
     if (images.isEmpty) return;
 
     for (var element in images) {
-      content.add({
-        "path": element.path,
-        "type": "image",
-      });
+      content.add({"path": element.path, "type": "image"});
     }
     // content.value = content.sublist(0, 10);
     Get.back();
@@ -45,13 +43,11 @@ class CreatePostController extends GetxController {
       customSnackBar(text: "Max upload limit 10");
       return;
     }
-    final XFile? video =
-        await imagePicker.pickVideo(source: ImageSource.gallery);
+    final XFile? video = await imagePicker.pickVideo(
+      source: ImageSource.gallery,
+    );
     if (video == null) return;
-    content.add({
-      "path": video.path,
-      "type": "video",
-    });
+    content.add({"path": video.path, "type": "video"});
     // content.value = content.sublist(0, 10);
     Get.back();
   }
@@ -72,10 +68,7 @@ class CreatePostController extends GetxController {
     ];
 
     if (path != null) {
-      content.add({
-        "path": path,
-        "type": type,
-      });
+      content.add({"path": path, "type": type});
     }
 
     super.onInit();
@@ -88,37 +81,46 @@ class CreatePostController extends GetxController {
     }
 
     Get.find<UploadController>().createPost(
-        uid: uid!,
-        vid: vid,
-        recordingStartedFrom: recordingStartedFrom!,
-        isTrimmed: isTrimmed,
-        caption: captionController.text,
-        content: content);
+      uid: uid!,
+      vid: vid,
+      recordingStartedFrom: recordingStartedFrom!,
+      isTrimmed: isTrimmed,
+      caption: captionController.text,
+      content: content,
+    );
     Get.back();
     Get.defaultDialog(
-        title: "Uploading post",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Your post will be uploaded in few minutes. Please Do not close the application now.",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Uploading post",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Your post will be uploaded in few minutes. Please Do not close the application now.",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   void openOptionSheet() {
@@ -134,8 +136,11 @@ class CreatePostController extends GetxController {
           children: <Widget>[
             IconButton(
               onPressed: () => Get.back(),
-              icon: const Icon(Icons.keyboard_arrow_down,
-                  size: 30, color: Colors.white),
+              icon: const Icon(
+                Icons.keyboard_arrow_down,
+                size: 30,
+                color: Colors.white,
+              ),
             ),
             Expanded(
               child: ListView.builder(
@@ -147,7 +152,7 @@ class CreatePostController extends GetxController {
                   title: Text(icons[index]["text"]),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

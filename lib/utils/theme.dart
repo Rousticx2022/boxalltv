@@ -14,7 +14,9 @@ ThemeData customAppTheme = ThemeData(
     elevation: 0,
     backgroundColor: Colors.transparent,
     centerTitle: false,
-    titleTextStyle:
-        GoogleFonts.montserrat(fontSize: 20, fontWeight: FontWeight.bold),
+    titleTextStyle: GoogleFonts.montserrat(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
   ),
 );

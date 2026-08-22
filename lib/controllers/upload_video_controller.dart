@@ -23,30 +23,39 @@ class UploadVideoController extends GetxController {
     String videoURL = '', thumbnailURL = '', audioURL = '';
 
     try {
-      FTPConnect ftpConnect = FTPConnect("storage.bunnycdn.com",
-          user: const String.fromEnvironment('FTP_USER'),
-          pass: const String.fromEnvironment('FTP_PASS'));
+      FTPConnect ftpConnect = FTPConnect(
+        "storage.bunnycdn.com",
+        user: const String.fromEnvironment('FTP_USER'),
+        pass: const String.fromEnvironment('FTP_PASS'),
+      );
 
       await ftpConnect.connect();
       await ftpConnect.changeDirectory("reels");
       await ftpConnect.createFolderIfNotExist(uid);
       await ftpConnect.changeDirectory(uid).then((value) async {
-        bool videoStatus = await ftpConnect.uploadFileWithRetry(File(videoPath),
-            pRetryCount: 3, pRemoteName: "reel_$fileName.mp4");
+        bool videoStatus = await ftpConnect.uploadFileWithRetry(
+          File(videoPath),
+          pRetryCount: 3,
+          pRemoteName: "reel_$fileName.mp4",
+        );
         if (videoStatus) {
           videoURL = "https://frametv.b-cdn.net/reels/$uid/reel_$fileName.mp4";
         }
         bool thumbStatus = await ftpConnect.uploadFileWithRetry(
-            File(thumbnailImagePath),
-            pRetryCount: 3,
-            pRemoteName: "thumbnail_$fileName.webp");
+          File(thumbnailImagePath),
+          pRetryCount: 3,
+          pRemoteName: "thumbnail_$fileName.webp",
+        );
         if (thumbStatus) {
           thumbnailURL =
               "https://frametv.b-cdn.net/reels/$uid/thumbnail_$fileName.webp";
         }
         if (audioPath.isNotEmpty) {
-          bool audioStatus = await ftpConnect.uploadFileWithRetry(File(audioPath),
-              pRetryCount: 3, pRemoteName: "audio_$fileName.mp3");
+          bool audioStatus = await ftpConnect.uploadFileWithRetry(
+            File(audioPath),
+            pRetryCount: 3,
+            pRemoteName: "audio_$fileName.mp3",
+          );
           if (audioStatus) {
             audioURL =
                 "https://frametv.b-cdn.net/reels/$uid/audio_$fileName.mp3";
@@ -77,14 +86,17 @@ class UploadVideoController extends GetxController {
               },
         'totalLikes': 0,
         'totalComments': 0,
-        'totalShares': 0
+        'totalShares': 0,
       });
       Get.back();
       Get.back();
       customSnackBar(text: "Reel uploaded successfully!");
     } catch (e) {
       Get.back();
-      throw AppException("Failed to add reel to Firestore", originalException: e);
+      throw AppException(
+        "Failed to add reel to Firestore",
+        originalException: e,
+      );
     }
   }
 }

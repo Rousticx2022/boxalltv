@@ -30,23 +30,31 @@ class LoginController extends GetxController with WidgetsBindingObserver {
       try {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(
-                email: emailController.text, password: passwordController.text)
+              email: emailController.text,
+              password: passwordController.text,
+            )
             .then((currentUser) async {
-          DocumentSnapshot generalDoc =
-              await generalCollection.doc("RCVdTHFlVIVCUjuiD1pm").get();
+              DocumentSnapshot generalDoc = await generalCollection
+                  .doc("RCVdTHFlVIVCUjuiD1pm")
+                  .get();
 
-          customSnackBar(text: "Login successful");
+              customSnackBar(text: "Login successful");
 
-          if (!generalDoc["isLive"] || !generalDoc["isUnderMaintenance"]) {
-            Get.offAll(() => Maintenance(
-                isLive: generalDoc["isLive"],
-                isUnderMaintenance: generalDoc["isUnderMaintenance"]));
-            return;
-          }
+              if (!generalDoc["isLive"] || !generalDoc["isUnderMaintenance"]) {
+                Get.offAll(
+                  () => Maintenance(
+                    isLive: generalDoc["isLive"],
+                    isUnderMaintenance: generalDoc["isUnderMaintenance"],
+                  ),
+                );
+                return;
+              }
 
-          Get.offAllNamed("/bottom_tab",
-              parameters: {"uid": currentUser.user!.uid});
-        });
+              Get.offAllNamed(
+                "/bottom_tab",
+                parameters: {"uid": currentUser.user!.uid},
+              );
+            });
       } on FirebaseAuthException catch (e) {
         loading.value = false;
 

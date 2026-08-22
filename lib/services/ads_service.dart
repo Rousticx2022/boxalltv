@@ -17,8 +17,9 @@ import '../utils/collections.dart';
 class AdsService extends GetxService {
   AdRequest request = const AdRequest();
   List<DocumentSnapshot> videoAdsList = [];
-  DateTime lastSocialAdLoaded =
-      DateTime.now().subtract(const Duration(seconds: 20));
+  DateTime lastSocialAdLoaded = DateTime.now().subtract(
+    const Duration(seconds: 20),
+  );
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
@@ -59,7 +60,8 @@ class AdsService extends GetxService {
     });
     if (forSharing) {
       Share.share(
-          "Download Frame app and earn coins. https://play.google.com/store/apps/details?id=com.shaderbytes.frame");
+        "Download Frame app and earn coins. https://play.google.com/store/apps/details?id=com.shaderbytes.frame",
+      );
     }
   }
 
@@ -69,24 +71,25 @@ class AdsService extends GetxService {
     }
 
     RewardedAd.load(
-        adUnitId: Platform.isAndroid
-            ? 'ca-app-pub-2406494975800826/1247341631'
-            : 'ca-app-pub-2406494975800826/9020452811',
-        request: request,
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-          onAdLoaded: (RewardedAd ad) {
-            rewardedAd = ad;
-            _numInterstitialLoadAttempts = 0;
-            rewardedAd!.setImmersiveMode(true);
-          },
-          onAdFailedToLoad: (LoadAdError error) {
-            _numInterstitialLoadAttempts += 1;
-            rewardedAd = null;
-            if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
-              createRewardedAd();
-            }
-          },
-        ));
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-2406494975800826/1247341631'
+          : 'ca-app-pub-2406494975800826/9020452811',
+      request: request,
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (RewardedAd ad) {
+          rewardedAd = ad;
+          _numInterstitialLoadAttempts = 0;
+          rewardedAd!.setImmersiveMode(true);
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          _numInterstitialLoadAttempts += 1;
+          rewardedAd = null;
+          if (_numInterstitialLoadAttempts < maxFailedLoadAttempts) {
+            createRewardedAd();
+          }
+        },
+      ),
+    );
   }
 
   bool showRewardedAd(int coins) {
@@ -122,9 +125,10 @@ class AdsService extends GetxService {
       },
     );
     rewardedAd?.show(
-        onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
-      updateReward(coins);
-    });
+      onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
+        updateReward(coins);
+      },
+    );
     rewardedAd = null;
     return res;
   }
@@ -156,9 +160,10 @@ class AdsService extends GetxService {
       },
     );
     rewardedAd?.show(
-        onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
-      updateReward(coins, forSharing: forSharing);
-    });
+      onUserEarnedReward: (AdWithoutView ad, RewardItem rewardItem) {
+        updateReward(coins, forSharing: forSharing);
+      },
+    );
     rewardedAd = null;
     return res;
   }
@@ -168,8 +173,10 @@ class AdsService extends GetxService {
         .where("active", isEqualTo: true)
         .where("status", isEqualTo: "ongoing")
         .where("totalBudget", isGreaterThan: 0)
-        .where("zipcodes",
-            arrayContains: Get.find<BottomTabController>().userData["zipcode"])
+        .where(
+          "zipcodes",
+          arrayContains: Get.find<BottomTabController>().userData["zipcode"],
+        )
         .orderBy("budgetPerAds", descending: true)
         .limit(10)
         .get();
@@ -226,8 +233,9 @@ class _CustomVideoAdState extends State<CustomVideoAd> {
   @override
   void initState() {
     flickManager = FlickManager(
-      videoPlayerController:
-          VideoPlayerController.networkUrl(Uri.parse(widget.url)),
+      videoPlayerController: VideoPlayerController.networkUrl(
+        Uri.parse(widget.url),
+      ),
       onVideoEnd: () {
         Get.back();
         customSnackBar(text: "Removing custom ads");
@@ -252,28 +260,33 @@ class _CustomVideoAdState extends State<CustomVideoAd> {
           children: [
             Positioned.fill(
               child: Center(
-                  child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: FlickVideoPlayer(
-                  flickManager: flickManager,
-                  flickVideoWithControls: const FlickVideoWithControls(
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: FlickVideoPlayer(
+                    flickManager: flickManager,
+                    flickVideoWithControls: const FlickVideoWithControls(
                       // controls: FlickPortraitControls(),
-                      ),
-                  flickVideoWithControlsFullscreen: const FlickVideoWithControls(
-                      // controls: FlickLandscapeControls(),
-                      ),
+                    ),
+                    flickVideoWithControlsFullscreen:
+                        const FlickVideoWithControls(
+                          // controls: FlickLandscapeControls(),
+                        ),
+                  ),
                 ),
-              )),
+              ),
             ),
             Positioned(
               bottom: 10,
               left: 10,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                    color: kWhiteColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10)),
+                  color: kWhiteColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Text("Playing ad", style: fontBody(color: kWhiteColor)),
               ),
             ),
@@ -343,14 +356,16 @@ class _NativeAdWidgetState extends State<NativeAdWidget>
         mainBackgroundColor: kBlackColor,
         cornerRadius: 20.0,
         callToActionTextStyle: NativeTemplateTextStyle(
-            textColor: kBlackColor,
-            backgroundColor: kSocialPrimaryColor,
-            style: NativeTemplateFontStyle.monospace,
-            size: 16.0),
+          textColor: kBlackColor,
+          backgroundColor: kSocialPrimaryColor,
+          style: NativeTemplateFontStyle.monospace,
+          size: 16.0,
+        ),
         primaryTextStyle: NativeTemplateTextStyle(
-            textColor: kBlackColor,
-            backgroundColor: kSocialPrimaryColor,
-            size: 16.0),
+          textColor: kBlackColor,
+          backgroundColor: kSocialPrimaryColor,
+          size: 16.0,
+        ),
       ),
     )..load();
   }

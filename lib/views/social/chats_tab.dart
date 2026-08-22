@@ -29,73 +29,84 @@ class _ChatTabState extends State<ChatTab> {
       padding: const EdgeInsets.symmetric(vertical: 20),
       itemBuilder: (context, snapshot) {
         return FutureBuilder<DocumentSnapshot>(
-            future: usersCollection.doc(snapshot.id).get(),
-            builder: (context, usnapshot) {
-              if (!usnapshot.hasData) return const SizedBox.shrink();
-              if (usnapshot.hasData && !usnapshot.data!.exists) {
-                return const SizedBox.shrink();
-              }
-              DocumentSnapshot udata = usnapshot.data!;
-              return ListTile(
-                onTap: () => Get.toNamed("/messages", parameters: {
+          future: usersCollection.doc(snapshot.id).get(),
+          builder: (context, usnapshot) {
+            if (!usnapshot.hasData) return const SizedBox.shrink();
+            if (usnapshot.hasData && !usnapshot.data!.exists) {
+              return const SizedBox.shrink();
+            }
+            DocumentSnapshot udata = usnapshot.data!;
+            return ListTile(
+              onTap: () => Get.toNamed(
+                "/messages",
+                parameters: {
                   "uid": widget.uid,
                   "fid": snapshot.id,
-                  "chatID": snapshot["chatID"]
-                }),
-                leading: Container(
-                  height: 40,
-                  width: 40,
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: kBlackColor,
-                    border: Border.all(
-                        color: snapshot["unreadCount"] > 0
-                            ? kSocialPrimaryColor
-                            : kGreyColor2,
-                        width: 1.5),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      imageUrl: udata["profileImage"],
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
-                    ),
+                  "chatID": snapshot["chatID"],
+                },
+              ),
+              leading: Container(
+                height: 40,
+                width: 40,
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: kBlackColor,
+                  border: Border.all(
+                    color: snapshot["unreadCount"] > 0
+                        ? kSocialPrimaryColor
+                        : kGreyColor2,
+                    width: 1.5,
                   ),
                 ),
-                title: RichText(
-                  text: TextSpan(
-                      text: udata["name"],
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                    imageUrl: udata["profileImage"],
+                    height: 40,
+                    width: 40,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              title: RichText(
+                text: TextSpan(
+                  text: udata["name"],
+                  style: fontBody(fontSize: 16.sp, fontWeight: FontWeight.w500),
+                  children: [
+                    TextSpan(
+                      text:
+                          " • ${timeago.format(snapshot["lastMessageOn"].toDate())}",
                       style: fontBody(
-                          fontSize: 16.sp, fontWeight: FontWeight.w500),
-                      children: [
-                        TextSpan(
-                          text:
-                              " • ${timeago.format(snapshot["lastMessageOn"].toDate())}",
-                          style: fontBody(
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w400,
-                              color: kWhiteColor.withValues(alpha: 0.6)),
-                        ),
-                      ]),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                        color: kWhiteColor.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  ],
                 ),
-                subtitle: Text(snapshot["lastMessage"],
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: fontBody(fontSize: 15.sp, color: kWhiteColor)),
-                trailing: snapshot["unreadCount"] > 0
-                    ? Text(
-                        Numeral(snapshot["unreadCount"])
-                            .format(fractionDigits: 2),
-                        style: fontBody(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: kSocialPrimaryColor))
-                    : null,
-              );
-            });
+              ),
+              subtitle: Text(
+                snapshot["lastMessage"],
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: fontBody(fontSize: 15.sp, color: kWhiteColor),
+              ),
+              trailing: snapshot["unreadCount"] > 0
+                  ? Text(
+                      Numeral(
+                        snapshot["unreadCount"],
+                      ).format(fractionDigits: 2),
+                      style: fontBody(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: kSocialPrimaryColor,
+                      ),
+                    )
+                  : null,
+            );
+          },
+        );
       },
     );
   }

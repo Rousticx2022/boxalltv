@@ -25,53 +25,59 @@ class Messages extends GetView<MessagesController> {
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.only(left: 20),
             decoration: const ShapeDecoration(
-                shape: CircleBorder(), color: Colors.white10),
-            child:
-                const Icon(Remix.arrow_left_line, color: kSocialPrimaryColor),
+              shape: CircleBorder(),
+              color: Colors.white10,
+            ),
+            child: const Icon(
+              Remix.arrow_left_line,
+              color: kSocialPrimaryColor,
+            ),
           ),
         ),
         title: StreamBuilder<DocumentSnapshot>(
-            stream: usersCollection.doc(controller.fid).snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return const SizedBox.shrink();
-              DocumentSnapshot udoc = snapshot.data!;
-              return ListTile(
-                onTap: () => {},
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                leading: Container(
-                  height: 40,
-                  width: 40,
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: kBlackColor,
-                    border: Border.all(color: kGreyColor2, width: 1.5),
+          stream: usersCollection.doc(controller.fid).snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const SizedBox.shrink();
+            DocumentSnapshot udoc = snapshot.data!;
+            return ListTile(
+              onTap: () => {},
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+              leading: Container(
+                height: 40,
+                width: 40,
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: kBlackColor,
+                  border: Border.all(color: kGreyColor2, width: 1.5),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                    imageUrl: udoc["profileImage"],
+                    height: 40,
+                    width: 40,
+                    fit: BoxFit.cover,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      imageUrl: udoc["profileImage"],
-                      height: 40,
-                      width: 40,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
                 ),
-                title: Text(
-                  udoc["name"],
-                  style: fontBody(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              title: Text(
+                udoc["name"],
+                style: fontBody(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              subtitle: Text(
+                udoc["active"]
+                    ? "Online"
+                    : "Active ${time_ago.format(udoc["lastSeen"].toDate())}",
+                style: fontBody(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xff9FB5C6),
                 ),
-                subtitle: Text(
-                  udoc["active"]
-                      ? "Online"
-                      : "Active ${time_ago.format(udoc["lastSeen"].toDate())}",
-                  style: fontBody(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xff9FB5C6)),
-                ),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -96,9 +102,7 @@ class Messages extends GetView<MessagesController> {
             height: kBottomNavigationBarHeight,
             padding: const EdgeInsets.symmetric(horizontal: 25),
             width: context.width,
-            decoration: const BoxDecoration(
-              color: kSocialPrimaryColor,
-            ),
+            decoration: const BoxDecoration(color: kSocialPrimaryColor),
             child: Row(
               children: [
                 Expanded(
@@ -112,15 +116,17 @@ class Messages extends GetView<MessagesController> {
                       }
                     },
                     style: fontBody(
-                        fontSize: 15,
-                        color: kBlackColor,
-                        fontWeight: FontWeight.w400),
+                      fontSize: 15,
+                      color: kBlackColor,
+                      fontWeight: FontWeight.w400,
+                    ),
                     decoration: InputDecoration(
                       hintText: "Say something nice...",
                       hintStyle: fontBody(
-                          fontSize: 15,
-                          color: kBlackColor,
-                          fontWeight: FontWeight.w400),
+                        fontSize: 15,
+                        color: kBlackColor,
+                        fontWeight: FontWeight.w400,
+                      ),
                       border: InputBorder.none,
                     ),
                   ),
@@ -137,7 +143,7 @@ class Messages extends GetView<MessagesController> {
                 InkWell(
                   onTap: () => controller.sendMessage(),
                   child: Image.asset("assets/send_chat_icon.png", width: 40),
-                )
+                ),
               ],
             ),
           ),

@@ -22,13 +22,14 @@ class _YourMoviesState extends State<YourMovies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Your Movies"),
-      ),
+      appBar: AppBar(title: const Text("Your Movies")),
       body: FirestoreListView(
         emptyBuilder: (context) => Center(
-            child: Text("No movies found",
-                style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600))),
+          child: Text(
+            "No movies found",
+            style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600),
+          ),
+        ),
         padding: const EdgeInsets.all(20.0),
         query: videosCollection
             .where('creatorID', isEqualTo: widget.uid)
@@ -48,12 +49,17 @@ class _YourMoviesState extends State<YourMovies> {
               const SizedBox(height: 10.0),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text(snapshot['title'],
-                    style:
-                        fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600)),
-                subtitle: Text(snapshot['genres'].join(", "),
-                    style: fontBody(
-                        fontSize: 15.5.sp, fontWeight: FontWeight.w400)),
+                title: Text(
+                  snapshot['title'],
+                  style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  snapshot['genres'].join(", "),
+                  style: fontBody(
+                    fontSize: 15.5.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
               const SizedBox(height: 10.0),
               Row(
@@ -69,12 +75,13 @@ class _YourMoviesState extends State<YourMovies> {
                   Expanded(
                     child: TextButton(
                       onPressed: () => Get.to(
-                          () =>
-                              EditMovie(videoID: snapshot.id, uid: widget.uid),
-                          transition: Transition.cupertino),
+                        () => EditMovie(videoID: snapshot.id, uid: widget.uid),
+                        transition: Transition.cupertino,
+                      ),
                       style: TextButton.styleFrom(
-                          backgroundColor: kGreyColor2,
-                          foregroundColor: kWhiteColor),
+                        backgroundColor: kGreyColor2,
+                        foregroundColor: kWhiteColor,
+                      ),
                       child: Text("Edit", style: fontButton(fontSize: 17.sp)),
                     ),
                   ),
@@ -82,18 +89,22 @@ class _YourMoviesState extends State<YourMovies> {
                   Expanded(
                     child: TextButton(
                       onPressed: () async {
-                        snapshot.reference
-                            .update({"active": !snapshot["active"]});
+                        snapshot.reference.update({
+                          "active": !snapshot["active"],
+                        });
                       },
                       style: TextButton.styleFrom(
-                          backgroundColor: kButtonColor,
-                          foregroundColor: kWhiteColor),
-                      child: Text(snapshot["active"] ? "Disable" : "Enable",
-                          style: fontButton(fontSize: 17.sp)),
+                        backgroundColor: kButtonColor,
+                        foregroundColor: kWhiteColor,
+                      ),
+                      child: Text(
+                        snapshot["active"] ? "Disable" : "Enable",
+                        style: fontButton(fontSize: 17.sp),
+                      ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           );
         },

@@ -67,34 +67,38 @@ class _AddMovieState extends State<AddMovie> {
             title: Text('Select Genres', style: customTextStyleHeadline()),
           ),
           Expanded(
-            child: StatefulBuilder(builder: (context, setState) {
-              return FirestoreListView(
-                query: genresCollection.orderBy("name"),
-                loadingBuilder: (c) =>
-                    customCircularProgress(strokeColor: kStreamPrimaryColor),
-                itemBuilder: (context, snapshot) {
-                  return ListTile(
-                    title: Text(snapshot["name"],
-                        style: fontButton(fontSize: 18.sp)),
-                    trailing: IconButton(
-                      onPressed: () {
-                        if (selectedGenres.contains(snapshot["name"])) {
-                          selectedGenres.remove(snapshot["name"]);
-                          genresController.text = selectedGenres.join(",");
-                        } else {
-                          selectedGenres.add(snapshot["name"]);
-                          genresController.text = selectedGenres.join(",");
-                        }
-                        setState(() {});
-                      },
-                      icon: selectedGenres.contains(snapshot["name"])
-                          ? const Icon(Icons.check_circle)
-                          : const Icon(Icons.circle_outlined),
-                    ),
-                  );
-                },
-              );
-            }),
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return FirestoreListView(
+                  query: genresCollection.orderBy("name"),
+                  loadingBuilder: (c) =>
+                      customCircularProgress(strokeColor: kStreamPrimaryColor),
+                  itemBuilder: (context, snapshot) {
+                    return ListTile(
+                      title: Text(
+                        snapshot["name"],
+                        style: fontButton(fontSize: 18.sp),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          if (selectedGenres.contains(snapshot["name"])) {
+                            selectedGenres.remove(snapshot["name"]);
+                            genresController.text = selectedGenres.join(",");
+                          } else {
+                            selectedGenres.add(snapshot["name"]);
+                            genresController.text = selectedGenres.join(",");
+                          }
+                          setState(() {});
+                        },
+                        icon: selectedGenres.contains(snapshot["name"])
+                            ? const Icon(Icons.check_circle)
+                            : const Icon(Icons.circle_outlined),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
@@ -135,15 +139,20 @@ class _AddMovieState extends State<AddMovie> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Title",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -156,15 +165,20 @@ class _AddMovieState extends State<AddMovie> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Storyline",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -172,20 +186,27 @@ class _AddMovieState extends State<AddMovie> {
             TextFormField(
               controller: releaseYearController,
               keyboardType: const TextInputType.numberWithOptions(
-                  signed: false, decimal: false),
+                signed: false,
+                decimal: false,
+              ),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Release year",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -197,19 +218,26 @@ class _AddMovieState extends State<AddMovie> {
                     controller: durationController,
                     keyboardType: TextInputType.text,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Screen time",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -220,19 +248,26 @@ class _AddMovieState extends State<AddMovie> {
                     controller: ratingController,
                     keyboardType: TextInputType.text,
                     style: customTextStyleBody(
-                        color: Colors.white, fontSize: 16.sp),
+                      color: Colors.white,
+                      fontSize: 16.sp,
+                    ),
                     decoration: InputDecoration(
                       fillColor: Colors.white10,
                       filled: true,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                       labelText: "Rating",
                       labelStyle: customTextStyleBody(
-                          color: kWhiteColor, fontSize: 16.sp),
+                        color: kWhiteColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     validator: fieldValidator,
                   ),
@@ -250,15 +285,20 @@ class _AddMovieState extends State<AddMovie> {
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Genres",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -297,19 +337,26 @@ class _AddMovieState extends State<AddMovie> {
                       controller: amountController,
                       keyboardType: TextInputType.text,
                       style: customTextStyleBody(
-                          color: Colors.white, fontSize: 16.sp),
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
                       decoration: InputDecoration(
                         fillColor: Colors.white10,
                         filled: true,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         labelText: "Amount (dollar)",
                         labelStyle: customTextStyleBody(
-                            color: kWhiteColor, fontSize: 16.sp),
+                          color: kWhiteColor,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       validator: fieldValidator,
                     ),
@@ -319,21 +366,30 @@ class _AddMovieState extends State<AddMovie> {
                     child: TextFormField(
                       controller: validityController,
                       keyboardType: const TextInputType.numberWithOptions(
-                          signed: false, decimal: false),
+                        signed: false,
+                        decimal: false,
+                      ),
                       style: customTextStyleBody(
-                          color: Colors.white, fontSize: 16.sp),
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                      ),
                       decoration: InputDecoration(
                         fillColor: Colors.white10,
                         filled: true,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                         labelText: "Validity (days)",
                         labelStyle: customTextStyleBody(
-                            color: kWhiteColor, fontSize: 16.sp),
+                          color: kWhiteColor,
+                          fontSize: 16.sp,
+                        ),
                       ),
                       validator: fieldValidator,
                     ),
@@ -342,27 +398,37 @@ class _AddMovieState extends State<AddMovie> {
               ),
             const SizedBox(height: 15),
             Text(
-                "Please provide these files: 1. Video (HD or 4K), 2. Banner (3:2), 3. Poster (3:4), 4. N.O.C (PDF format), 5. Optional Trailer (HD), 6. Optional Subtitle (srt)\nPlease upload all in a single google drive and share the url here.",
-                style: fontBody(
-                    fontSize: 15.sp, color: kWhiteColor.withValues(alpha: 0.7))),
+              "Please provide these files: 1. Video (HD or 4K), 2. Banner (3:2), 3. Poster (3:4), 4. N.O.C (PDF format), 5. Optional Trailer (HD), 6. Optional Subtitle (srt)\nPlease upload all in a single google drive and share the url here.",
+              style: fontBody(
+                fontSize: 15.sp,
+                color: kWhiteColor.withValues(alpha: 0.7),
+              ),
+            ),
             const SizedBox(height: 10),
             TextFormField(
               controller: contentUrlController,
               keyboardType: const TextInputType.numberWithOptions(
-                  signed: false, decimal: false),
+                signed: false,
+                decimal: false,
+              ),
               style: customTextStyleBody(color: Colors.white, fontSize: 16.sp),
               decoration: InputDecoration(
                 fillColor: Colors.white10,
                 filled: true,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                enabledBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-                focusedBorder:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 labelText: "Content URL",
-                labelStyle:
-                    customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                labelStyle: customTextStyleBody(
+                  color: kWhiteColor,
+                  fontSize: 16.sp,
+                ),
               ),
               validator: fieldValidator,
             ),
@@ -384,12 +450,17 @@ class _AddMovieState extends State<AddMovie> {
               : TextButton(
                   onPressed: () => uploadForm(),
                   style: TextButton.styleFrom(
-                      backgroundColor: kButtonColor,
-                      shape: const StadiumBorder(),
-                      padding: const EdgeInsets.symmetric(vertical: 15)),
-                  child: Text("Submit",
-                      style: customTextStyleBody(
-                          fontWeight: FontWeight.bold, fontSize: 16.sp)),
+                    backgroundColor: kButtonColor,
+                    shape: const StadiumBorder(),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: Text(
+                    "Submit",
+                    style: customTextStyleBody(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
         ),
       ),

@@ -57,8 +57,9 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
     int fileName = DateTime.now().millisecondsSinceEpoch;
     String imageURL = "";
     try {
-      final postRef = storageRef
-          .child("advertisers/${widget.uid}/agreement_$fileName.$ext");
+      final postRef = storageRef.child(
+        "advertisers/${widget.uid}/agreement_$fileName.$ext",
+      );
       await postRef.putFile(File(signedAdAgreementPath));
       imageURL = await postRef.getDownloadURL();
     } on FirebaseException catch (e) {
@@ -86,29 +87,37 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
     Get.back();
 
     Get.defaultDialog(
-        title: "Submitted",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Your request to become a advertiser has been submitted successfully. Documents verification can take up to 3-4 business days",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Submitted",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Your request to become a advertiser has been submitted successfully. Documents verification can take up to 3-4 business days",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -151,77 +160,87 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
                       ),
                     ),
                   ),
-                  Image.asset(
-                    "assets/ads.png",
-                    width: context.width / 3,
-                  ),
+                  Image.asset("assets/ads.png", width: context.width / 3),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 20),
                 child: Text(
-                    "You need to provide valid documents and information about your business. Our team will verify your documents within 3 business days.",
-                    style: fontPoppins(
-                        color: kWhiteColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.sp)),
-              ),
-              Text("Fill in the form below to\nbecome an advertiser",
+                  "You need to provide valid documents and information about your business. Our team will verify your documents within 3 business days.",
                   style: fontPoppins(
-                      color: kWhiteColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18.sp)),
+                    color: kWhiteColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15.sp,
+                  ),
+                ),
+              ),
+              Text(
+                "Fill in the form below to\nbecome an advertiser",
+                style: fontPoppins(
+                  color: kWhiteColor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18.sp,
+                ),
+              ),
               Divider(
-                  color: kWhiteColor.withValues(alpha: 0.5),
-                  thickness: 6,
-                  endIndent: context.width / 2),
+                color: kWhiteColor.withValues(alpha: 0.5),
+                thickness: 6,
+                endIndent: context.width / 2,
+              ),
               const SizedBox(height: 20),
               Formbuilder(
-                      controller: businessNameController,
-                      validator: fieldValidator,
-                      inputType: TextInputType.text,
-                      noPadding: true,
-                      label: "Business Name")
-                  .buildTextField(),
+                controller: businessNameController,
+                validator: fieldValidator,
+                inputType: TextInputType.text,
+                noPadding: true,
+                label: "Business Name",
+              ).buildTextField(),
               const SizedBox(height: 20),
               Formbuilder(
-                      controller: businessAddressController,
-                      validator: fieldValidator,
-                      inputType: TextInputType.multiline,
-                      noPadding: true,
-                      maxLines: 3,
-                      label: "Business Address")
-                  .buildTextField(),
+                controller: businessAddressController,
+                validator: fieldValidator,
+                inputType: TextInputType.multiline,
+                noPadding: true,
+                maxLines: 3,
+                label: "Business Address",
+              ).buildTextField(),
               const SizedBox(height: 20),
               Formbuilder(
-                      controller: businessIDController,
-                      validator: fieldValidator,
-                      inputType: TextInputType.text,
-                      noPadding: true,
-                      label: "Business ID")
-                  .buildTextField(),
+                controller: businessIDController,
+                validator: fieldValidator,
+                inputType: TextInputType.text,
+                noPadding: true,
+                label: "Business ID",
+              ).buildTextField(),
               const SizedBox(height: 20),
               TextFormField(
                 controller: signedAdAgreementController,
                 keyboardType: TextInputType.text,
                 readOnly: true,
-                style:
-                    customTextStyleBody(color: Colors.white, fontSize: 16.sp),
+                style: customTextStyleBody(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                ),
                 decoration: InputDecoration(
                   fillColor: Colors.white10,
                   filled: true,
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none),
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none),
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none),
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
                   labelText: "Signed Ad Agreement",
-                  labelStyle:
-                      customTextStyleBody(color: kWhiteColor, fontSize: 16.sp),
+                  labelStyle: customTextStyleBody(
+                    color: kWhiteColor,
+                    fontSize: 16.sp,
+                  ),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.upload_file),
                     color: kWhiteColor.withValues(alpha: 0.7),
@@ -233,9 +252,13 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
               loading
                   ? Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 20),
+                        horizontal: 20.0,
+                        vertical: 20,
+                      ),
                       child: customCircularProgress(
-                          strokeColor: kButtonColor, strokeWidth: 5),
+                        strokeColor: kButtonColor,
+                        strokeWidth: 5,
+                      ),
                     )
                   : GestureDetector(
                       onTap: () {
@@ -244,11 +267,13 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 20),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15),
+                          horizontal: 20.0,
+                          vertical: 15,
+                        ),
                         decoration: const ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15))),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                          ),
                           gradient: LinearGradient(
                             colors: [Color(0xffdb3445), Color(0xfff71735)],
                             begin: Alignment.topLeft,
@@ -259,9 +284,10 @@ class _BecomeAnAdvertiserState extends State<BecomeAnAdvertiser> {
                         child: Text(
                           "Submit",
                           style: fontBody(
-                              fontSize: 17.sp,
-                              fontWeight: FontWeight.w600,
-                              color: kWhiteColor),
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.w600,
+                            color: kWhiteColor,
+                          ),
                         ),
                       ),
                     ),

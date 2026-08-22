@@ -8,35 +8,37 @@ import '../utils/collections.dart';
 
 class LikeButton extends StatefulWidget {
   final String uid, postOwner, postID;
-  const LikeButton(
-      {super.key,
-      required this.uid,
-      required this.postID,
-      required this.postOwner});
+  const LikeButton({
+    super.key,
+    required this.uid,
+    required this.postID,
+    required this.postOwner,
+  });
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
 }
 
 class _LikeButtonState extends State<LikeButton> {
-  void toggleLikes(
-      {required String uid,
-      required String postID,
-      required bool liked}) async {
+  void toggleLikes({
+    required String uid,
+    required String postID,
+    required bool liked,
+  }) async {
     if (liked) {
       await postDataCollection.doc(postID).update({
-        "likes": FieldValue.arrayRemove([uid])
+        "likes": FieldValue.arrayRemove([uid]),
       });
-      await postsCollection
-          .doc(postID)
-          .update({"likes": FieldValue.increment(-1)});
+      await postsCollection.doc(postID).update({
+        "likes": FieldValue.increment(-1),
+      });
     } else {
       await postDataCollection.doc(postID).update({
-        "likes": FieldValue.arrayUnion([uid])
+        "likes": FieldValue.arrayUnion([uid]),
       });
-      await postsCollection
-          .doc(postID)
-          .update({"likes": FieldValue.increment(1)});
+      await postsCollection.doc(postID).update({
+        "likes": FieldValue.increment(1),
+      });
 
       // if (uid != widget.postOwner) {
       //   await sendNotification
@@ -48,42 +50,46 @@ class _LikeButtonState extends State<LikeButton> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
-        stream: postDataCollection.doc(widget.postID).snapshots(),
-        builder: (context, snapshot) {
-          bool liked = false;
-          int likes = 0;
-          if (!snapshot.hasData) {
-            liked = false;
-            likes = 0;
-          }
+      stream: postDataCollection.doc(widget.postID).snapshots(),
+      builder: (context, snapshot) {
+        bool liked = false;
+        int likes = 0;
+        if (!snapshot.hasData) {
+          liked = false;
+          likes = 0;
+        }
 
-          if (snapshot.hasData) {
-            likes = snapshot.data!["likes"].length;
-          }
+        if (snapshot.hasData) {
+          likes = snapshot.data!["likes"].length;
+        }
 
-          if (snapshot.hasData &&
-              snapshot.data!["likes"].contains(widget.uid)) {
-            liked = true;
-          }
+        if (snapshot.hasData && snapshot.data!["likes"].contains(widget.uid)) {
+          liked = true;
+        }
 
-          return TextButton.icon(
-            onPressed: () {
-              toggleLikes(uid: widget.uid, postID: widget.postID, liked: liked);
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.white10,
-              foregroundColor: kSocialPrimaryColor,
-              shape: const StadiumBorder(),
+        return TextButton.icon(
+          onPressed: () {
+            toggleLikes(uid: widget.uid, postID: widget.postID, liked: liked);
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white10,
+            foregroundColor: kSocialPrimaryColor,
+            shape: const StadiumBorder(),
+          ),
+          label: Text(
+            Numeral(likes).format(fractionDigits: 2),
+            style: customTextStyleBody(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
             ),
-            label: Text(Numeral(likes).format(fractionDigits: 2),
-                style: customTextStyleBody(
-                    fontSize: 14, fontWeight: FontWeight.w400)),
-            icon: Icon(
-              liked ? Remix.thumb_up_fill : Remix.thumb_up_line,
-              size: 20,
-              color: liked ? kSocialPrimaryColor : kWhiteColor,
-            ),
-          );
-        });
+          ),
+          icon: Icon(
+            liked ? Remix.thumb_up_fill : Remix.thumb_up_line,
+            size: 20,
+            color: liked ? kSocialPrimaryColor : kWhiteColor,
+          ),
+        );
+      },
+    );
   }
 }

@@ -86,9 +86,13 @@ class CartController extends GetxController {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ListTile(
-                title: Text("Add address",
-                    style: customTextStyleHeadline(
-                        fontSize: 18.sp, fontWeight: FontWeight.w600)),
+                title: Text(
+                  "Add address",
+                  style: customTextStyleHeadline(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
                 leading: IconButton(
                   onPressed: () => Get.back(),
                   color: kButtonColor,
@@ -110,7 +114,9 @@ class CartController extends GetxController {
                         controller: contactController,
                         validator: fieldValidator,
                         inputType: const TextInputType.numberWithOptions(
-                            signed: true, decimal: true),
+                          signed: true,
+                          decimal: true,
+                        ),
                         label: "Contact Number",
                       ).buildTextField(),
                       Formbuilder(
@@ -154,8 +160,10 @@ class CartController extends GetxController {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: ElevatedButton(
                   onPressed: () async {
                     if (!formKey.currentState!.validate()) return;
@@ -163,16 +171,16 @@ class CartController extends GetxController {
                         .doc(uid!)
                         .collection("addresses")
                         .add({
-                      "name": nameController.text,
-                      "contact": contactController.text,
-                      "addressLine1": addressLine1Controller.text,
-                      "addressLine2": addressLine2Controller.text,
-                      "city": cityController.text,
-                      "postalCode": postalCodeController.text,
-                      "state": stateController.text,
-                      "country": countryController.text,
-                      "mostUsed": 0,
-                    });
+                          "name": nameController.text,
+                          "contact": contactController.text,
+                          "addressLine1": addressLine1Controller.text,
+                          "addressLine2": addressLine2Controller.text,
+                          "city": cityController.text,
+                          "postalCode": postalCodeController.text,
+                          "state": stateController.text,
+                          "country": countryController.text,
+                          "mostUsed": 0,
+                        });
                     Get.back();
                     customSnackBar(text: "Address added successfully");
                     nameController.clear();
@@ -189,11 +197,16 @@ class CartController extends GetxController {
                     foregroundColor: kWhiteColor,
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  child: Text("Save",
-                      style: fontButton(
-                          fontSize: 16.sp, fontWeight: FontWeight.w600)),
+                  child: Text(
+                    "Save",
+                    style: fontButton(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -214,7 +227,9 @@ class CartController extends GetxController {
           return;
         }
         pageController.nextPage(
-            duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
         break;
       case 1:
         if (selectedAddress.value.isEmpty) {
@@ -235,7 +250,7 @@ class CartController extends GetxController {
 
           cartTotal.value +=
               (prodDoc["mrp"] - (prodDoc["mrp"] * prodDoc["discount"] / 100)) *
-                  item["count"];
+              item["count"];
         }
         taxPercentage.value = (cartTotal * 6 / 100).toPrecision(2);
         shippingCharge.value = 25;
@@ -244,13 +259,12 @@ class CartController extends GetxController {
                 .toPrecision(2);
 
         pageController.nextPage(
-            duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
         break;
       case 2:
-        Get.dialog(
-          progressIndicator(),
-          barrierDismissible: false,
-        );
+        Get.dialog(progressIndicator(), barrierDismissible: false);
         makePayment(amount: subtotal.value);
 
         break;
@@ -265,10 +279,12 @@ class CartController extends GetxController {
       paymentIntent = await createPaymentIntent(amount, 'USD');
       await Stripe.instance
           .initPaymentSheet(
-              paymentSheetParameters: SetupPaymentSheetParameters(
-                  paymentIntentClientSecret: paymentIntent!['client_secret'],
-                  style: ThemeMode.light,
-                  merchantDisplayName: 'Frame'))
+            paymentSheetParameters: SetupPaymentSheetParameters(
+              paymentIntentClientSecret: paymentIntent!['client_secret'],
+              style: ThemeMode.light,
+              merchantDisplayName: 'Frame',
+            ),
+          )
           .then((value) {});
       displayPaymentSheet(amount);
     } catch (e, s) {
@@ -282,7 +298,7 @@ class CartController extends GetxController {
       Map<String, dynamic> body = {
         'amount': (amount * 100).toInt().toString(),
         'currency': currency,
-        'payment_method_types[]': 'card'
+        'payment_method_types[]': 'card',
       };
 
       var response = await http.post(
@@ -290,7 +306,7 @@ class CartController extends GetxController {
         headers: {
           'Authorization':
               'Bearer ${const String.fromEnvironment('STRIPE_KEY')}',
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: body,
       );
@@ -303,37 +319,42 @@ class CartController extends GetxController {
 
   Future<void> displayPaymentSheet(double amount) async {
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) async {
-        await ordersCollection.add({
-          "userID": uid,
-          "shippingAddress": selectedAddress.value,
-          "orderPlaced": {'status': true, 'date': DateTime.now()},
-          'outForDelivery': {'status': false, 'date': null},
-          'delivered': {'status': false, 'date': null},
-          'shipped': {'status': false, 'date': null},
-          'cancelled': {'status': false, 'date': null},
-          "totalAmountPaid": amount,
-          "purchasedAt": DateTime.now(),
-          "cartItems": cartItems,
-        });
-        Get.back();
-        customSnackBar(text: "Payment Successful");
-        pageController.nextPage(
-            duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-        for (var item in cartItems) {
-          await usersCollection
-              .doc(uid!)
-              .collection("cart")
-              .doc("${item["vid"]}_${item["productID"]}")
-              .delete();
-        }
+      await Stripe.instance
+          .presentPaymentSheet()
+          .then((value) async {
+            await ordersCollection.add({
+              "userID": uid,
+              "shippingAddress": selectedAddress.value,
+              "orderPlaced": {'status': true, 'date': DateTime.now()},
+              'outForDelivery': {'status': false, 'date': null},
+              'delivered': {'status': false, 'date': null},
+              'shipped': {'status': false, 'date': null},
+              'cancelled': {'status': false, 'date': null},
+              "totalAmountPaid": amount,
+              "purchasedAt": DateTime.now(),
+              "cartItems": cartItems,
+            });
+            Get.back();
+            customSnackBar(text: "Payment Successful");
+            pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+            );
+            for (var item in cartItems) {
+              await usersCollection
+                  .doc(uid!)
+                  .collection("cart")
+                  .doc("${item["vid"]}_${item["productID"]}")
+                  .delete();
+            }
 
-        paymentIntent = null;
-      }).onError((error, stackTrace) {
-        Get.back();
+            paymentIntent = null;
+          })
+          .onError((error, stackTrace) {
+            Get.back();
 
-        customSnackBar(text: "No Payment Done");
-      });
+            customSnackBar(text: "No Payment Done");
+          });
     } on StripeException catch (e) {
       Get.back();
       customSnackBar(text: "${e.error}");

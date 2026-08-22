@@ -46,8 +46,9 @@ class _CreatorFormState extends State<CreatorForm> {
     final storageRef = FirebaseStorage.instance.ref();
     for (Map file in files) {
       try {
-        final postRef =
-            storageRef.child("creators/${widget.uid}/doc_${file["name"]}");
+        final postRef = storageRef.child(
+          "creators/${widget.uid}/doc_${file["name"]}",
+        );
         await postRef.putFile(File(file["path"]));
         documents.add(await postRef.getDownloadURL());
       } on FirebaseException catch (e) {
@@ -73,49 +74,61 @@ class _CreatorFormState extends State<CreatorForm> {
     Get.back();
 
     Get.defaultDialog(
-        title: "Submitted",
-        titleStyle: fontHeading(
-            fontWeight: FontWeight.w600, fontSize: 20.sp, color: kWhiteColor),
-        content: Text(
-          "Your request to become a creator has been submitted successfully. Documents verification can take up to 3-4 business days",
-          style: fontBody(),
-          textAlign: TextAlign.center,
-        ),
-        barrierDismissible: false,
-        backgroundColor: kGreyColor2,
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            style: TextButton.styleFrom(
-              backgroundColor: kButtonColor,
-              shape: const StadiumBorder(),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            ),
-            child: Text("Close",
-                style: customTextStyleBody(
-                    fontWeight: FontWeight.bold, fontSize: 16.sp)),
+      title: "Submitted",
+      titleStyle: fontHeading(
+        fontWeight: FontWeight.w600,
+        fontSize: 20.sp,
+        color: kWhiteColor,
+      ),
+      content: Text(
+        "Your request to become a creator has been submitted successfully. Documents verification can take up to 3-4 business days",
+        style: fontBody(),
+        textAlign: TextAlign.center,
+      ),
+      barrierDismissible: false,
+      backgroundColor: kGreyColor2,
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          style: TextButton.styleFrom(
+            backgroundColor: kButtonColor,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           ),
-        ]);
+          child: Text(
+            "Close",
+            style: customTextStyleBody(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Future<void> pickFiles() async {
     List<PlatformFile> result = await FilePicker.pickFiles(
-
-        type: FileType.custom,
-        allowedExtensions: ["pdf", "doc", "docx", "jpeg", " jpg", "png"]);
+      type: FileType.custom,
+      allowedExtensions: ["pdf", "doc", "docx", "jpeg", " jpg", "png"],
+    );
     if (result.isEmpty) {
       return;
     }
 
     setState(() {
-      files.addAll(result
-          .map((file) => {
+      files.addAll(
+        result
+            .map(
+              (file) => {
                 "path": file.path!,
                 "name": file.name,
                 "size": 0,
-                "ext": file.name.split(".").last
-              })
-          .toList());
+                "ext": file.name.split(".").last,
+              },
+            )
+            .toList(),
+      );
     });
   }
 
@@ -145,47 +158,53 @@ class _CreatorFormState extends State<CreatorForm> {
         child: ListView(
           children: [
             Formbuilder(
-                    controller: nameController,
-                    validator: nameValidator,
-                    inputType: TextInputType.name,
-                    pIcon: "assets/user_icon.png",
-                    label: "Enter Full Name")
-                .buildTextField(),
+              controller: nameController,
+              validator: nameValidator,
+              inputType: TextInputType.name,
+              pIcon: "assets/user_icon.png",
+              label: "Enter Full Name",
+            ).buildTextField(),
             Formbuilder(
-                    controller: emailController,
-                    validator: emailValidator,
-                    inputType: TextInputType.emailAddress,
-                    pIcon: "assets/email_icon.png",
-                    label: "Enter Email")
-                .buildTextField(),
+              controller: emailController,
+              validator: emailValidator,
+              inputType: TextInputType.emailAddress,
+              pIcon: "assets/email_icon.png",
+              label: "Enter Email",
+            ).buildTextField(),
             Formbuilder(
-                    controller: channelController,
-                    validator: fieldValidator,
-                    inputType: TextInputType.text,
-                    pIcon: "assets/channel_icon.png",
-                    label: "Enter Channel Name")
-                .buildTextField(),
+              controller: channelController,
+              validator: fieldValidator,
+              inputType: TextInputType.text,
+              pIcon: "assets/channel_icon.png",
+              label: "Enter Channel Name",
+            ).buildTextField(),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 5, 5, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Submit documents",
-                      style: customTextStyleBody(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17.sp)),
+                  Text(
+                    "Submit documents",
+                    style: customTextStyleBody(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17.sp,
+                    ),
+                  ),
                   IconButton(
-                      onPressed: () => pickFiles(),
-                      icon: const Icon(Icons.add_circle)),
+                    onPressed: () => pickFiles(),
+                    icon: const Icon(Icons.add_circle),
+                  ),
                 ],
               ),
             ),
             ...List.generate(
               files.length,
               (index) => Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 10,
+                ),
                 child: ListTile(
                   onTap: () {
                     setState(() {
@@ -194,12 +213,16 @@ class _CreatorFormState extends State<CreatorForm> {
                   },
                   tileColor: Colors.white10,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  title: Text("${files[index]["name"]}",
-                      style: fontBody(fontWeight: FontWeight.w600)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  title: Text(
+                    "${files[index]["name"]}",
+                    style: fontBody(fontWeight: FontWeight.w600),
+                  ),
                   subtitle: Text(
-                      "${(files[index]["size"] / 1000).toStringAsFixed(2)}kb",
-                      style: fontBody(fontWeight: FontWeight.w400)),
+                    "${(files[index]["size"] / 1000).toStringAsFixed(2)}kb",
+                    style: fontBody(fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.remove_circle),
                 ),
               ),
@@ -222,12 +245,17 @@ class _CreatorFormState extends State<CreatorForm> {
               : TextButton(
                   onPressed: () => uploadForm(),
                   style: TextButton.styleFrom(
-                      backgroundColor: kButtonColor,
-                      shape: const StadiumBorder(),
-                      padding: const EdgeInsets.symmetric(vertical: 15)),
-                  child: Text("Submit",
-                      style: customTextStyleBody(
-                          fontWeight: FontWeight.bold, fontSize: 16.sp)),
+                    backgroundColor: kButtonColor,
+                    shape: const StadiumBorder(),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: Text(
+                    "Submit",
+                    style: customTextStyleBody(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                    ),
+                  ),
                 ),
         ),
       ),

@@ -10,8 +10,11 @@ import '../services/user_service.dart';
 
 class Maintenance extends StatefulWidget {
   final bool isLive, isUnderMaintenance;
-  const Maintenance(
-      {super.key, required this.isLive, required this.isUnderMaintenance});
+  const Maintenance({
+    super.key,
+    required this.isLive,
+    required this.isUnderMaintenance,
+  });
 
   @override
   State<Maintenance> createState() => _MaintenanceState();
@@ -43,10 +46,14 @@ class _MaintenanceState extends State<Maintenance> {
             children: !widget.isLive
                 ? [
                     Image.asset("assets/logo.png", width: 200),
-                    Text("Frame TV is coming soon",
-                        textAlign: TextAlign.center,
-                        style: fontBody(
-                            fontSize: 20.sp, fontWeight: FontWeight.w600)),
+                    Text(
+                      "Frame TV is coming soon",
+                      textAlign: TextAlign.center,
+                      style: fontBody(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
                       onPressed: () async {
@@ -59,21 +66,33 @@ class _MaintenanceState extends State<Maintenance> {
                         foregroundColor: kWhiteColor,
                         shape: const StadiumBorder(),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
                       ),
-                      icon:
-                          const Icon(Remix.mail_fill, color: Color(0xffdb3445)),
-                      label: Text("Contact Support",
-                          style: fontPoppins(
-                              fontSize: 17.sp, fontWeight: FontWeight.w400)),
+                      icon: const Icon(
+                        Remix.mail_fill,
+                        color: Color(0xffdb3445),
+                      ),
+                      label: Text(
+                        "Contact Support",
+                        style: fontPoppins(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                     ),
                   ]
                 : [
                     Image.asset("assets/logo.png", width: 200),
-                    Text("Frame TV is under maintenance",
-                        textAlign: TextAlign.center,
-                        style: fontBody(
-                            fontSize: 20.sp, fontWeight: FontWeight.w600)),
+                    Text(
+                      "Frame TV is under maintenance",
+                      textAlign: TextAlign.center,
+                      style: fontBody(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 30),
                     ElevatedButton.icon(
                       onPressed: () async {
@@ -86,13 +105,21 @@ class _MaintenanceState extends State<Maintenance> {
                         foregroundColor: kWhiteColor,
                         shape: const StadiumBorder(),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
                       ),
-                      icon:
-                          const Icon(Remix.mail_fill, color: Color(0xffdb3445)),
-                      label: Text("Contact Us",
-                          style: fontPoppins(
-                              fontSize: 17.sp, fontWeight: FontWeight.w400)),
+                      icon: const Icon(
+                        Remix.mail_fill,
+                        color: Color(0xffdb3445),
+                      ),
+                      label: Text(
+                        "Contact Us",
+                        style: fontPoppins(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
                     ),
                   ],
           ),

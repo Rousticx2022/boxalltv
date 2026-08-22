@@ -30,11 +30,13 @@ class DetailsController extends GetxController {
   Stream<Map> fetchInteraction() {
     Stream<DocumentSnapshot> stream = videoDataCollection.doc(vid).snapshots();
 
-    return stream.map((event) => {
-          "views": event["views"],
-          "likes": event["likes"],
-          "dislikes": event["dislikes"],
-        });
+    return stream.map(
+      (event) => {
+        "views": event["views"],
+        "likes": event["likes"],
+        "dislikes": event["dislikes"],
+      },
+    );
   }
 
   Stream<List> fetchReviews() {
@@ -91,7 +93,10 @@ class DetailsController extends GetxController {
         ),
         submitButtonText: 'Submit',
         submitButtonTextStyle: customTextStyleBody(
-            fontSize: 17.sp, fontWeight: FontWeight.bold, color: kButtonColor),
+          fontSize: 17.sp,
+          fontWeight: FontWeight.bold,
+          color: kButtonColor,
+        ),
         commentHint: 'Review here...',
         onCancelled: () => {},
         onSubmitted: (response) async {
@@ -100,12 +105,12 @@ class DetailsController extends GetxController {
               .collection("reviews")
               .doc(uid!)
               .set({
-            "uid": uid!,
-            "rating": response.rating,
-            "review": response.comment,
-            "postDate": DateTime.now(),
-            "active": false,
-          });
+                "uid": uid!,
+                "rating": response.rating,
+                "review": response.comment,
+                "postDate": DateTime.now(),
+                "active": false,
+              });
           customSnackBar(text: "Review has been submitted");
         },
       ),
@@ -113,8 +118,11 @@ class DetailsController extends GetxController {
   }
 
   Future<void> fetchFavouritesStatus() async {
-    DocumentSnapshot streamData =
-        await usersCollection.doc(uid).collection("favourites").doc(vid).get();
+    DocumentSnapshot streamData = await usersCollection
+        .doc(uid)
+        .collection("favourites")
+        .doc(vid)
+        .get();
     if (streamData.exists) {
       isFavourite.value = true;
     } else {
@@ -124,51 +132,83 @@ class DetailsController extends GetxController {
 
   void toggleLike() async {
     if (videoInteraction["likes"].contains(uid)) {
-      await videoDataCollection.doc(vid).update({
-        "likes": FieldValue.arrayRemove([uid])
-      }).then((value) {
-        videosCollection.doc(vid).update({"likes": FieldValue.increment(-1)});
-      });
+      await videoDataCollection
+          .doc(vid)
+          .update({
+            "likes": FieldValue.arrayRemove([uid]),
+          })
+          .then((value) {
+            videosCollection.doc(vid).update({
+              "likes": FieldValue.increment(-1),
+            });
+          });
     } else if (videoInteraction["dislikes"].contains(uid)) {
-      await videoDataCollection.doc(vid).update({
-        "dislikes": FieldValue.arrayRemove([uid]),
-        "likes": FieldValue.arrayUnion([uid])
-      }).then((value) {
-        videosCollection
-            .doc(vid)
-            .update({"dislikes": FieldValue.increment(-1)});
-        videosCollection.doc(vid).update({"likes": FieldValue.increment(1)});
-      });
+      await videoDataCollection
+          .doc(vid)
+          .update({
+            "dislikes": FieldValue.arrayRemove([uid]),
+            "likes": FieldValue.arrayUnion([uid]),
+          })
+          .then((value) {
+            videosCollection.doc(vid).update({
+              "dislikes": FieldValue.increment(-1),
+            });
+            videosCollection.doc(vid).update({
+              "likes": FieldValue.increment(1),
+            });
+          });
     } else {
-      await videoDataCollection.doc(vid).update({
-        "likes": FieldValue.arrayUnion([uid])
-      }).then((value) {
-        videosCollection.doc(vid).update({"likes": FieldValue.increment(1)});
-      });
+      await videoDataCollection
+          .doc(vid)
+          .update({
+            "likes": FieldValue.arrayUnion([uid]),
+          })
+          .then((value) {
+            videosCollection.doc(vid).update({
+              "likes": FieldValue.increment(1),
+            });
+          });
     }
   }
 
   void toggleDisLike() async {
     if (videoInteraction["dislikes"].contains(uid)) {
-      await videoDataCollection.doc(vid).update({
-        "dislikes": FieldValue.arrayRemove([uid])
-      }).then((value) {
-        videosCollection.doc(vid).update({"dislikes": FieldValue.increment(1)});
-      });
+      await videoDataCollection
+          .doc(vid)
+          .update({
+            "dislikes": FieldValue.arrayRemove([uid]),
+          })
+          .then((value) {
+            videosCollection.doc(vid).update({
+              "dislikes": FieldValue.increment(1),
+            });
+          });
     } else if (videoInteraction["likes"].contains(uid)) {
-      await videoDataCollection.doc(vid).update({
-        "likes": FieldValue.arrayRemove([uid]),
-        "dislikes": FieldValue.arrayUnion([uid])
-      }).then((value) {
-        videosCollection.doc(vid).update({"likes": FieldValue.increment(-1)});
-        videosCollection.doc(vid).update({"dislikes": FieldValue.increment(1)});
-      });
+      await videoDataCollection
+          .doc(vid)
+          .update({
+            "likes": FieldValue.arrayRemove([uid]),
+            "dislikes": FieldValue.arrayUnion([uid]),
+          })
+          .then((value) {
+            videosCollection.doc(vid).update({
+              "likes": FieldValue.increment(-1),
+            });
+            videosCollection.doc(vid).update({
+              "dislikes": FieldValue.increment(1),
+            });
+          });
     } else {
-      await videoDataCollection.doc(vid).update({
-        "dislikes": FieldValue.arrayUnion([uid])
-      }).then((value) {
-        videosCollection.doc(vid).update({"dislikes": FieldValue.increment(1)});
-      });
+      await videoDataCollection
+          .doc(vid)
+          .update({
+            "dislikes": FieldValue.arrayUnion([uid]),
+          })
+          .then((value) {
+            videosCollection.doc(vid).update({
+              "dislikes": FieldValue.increment(1),
+            });
+          });
     }
   }
 
@@ -191,13 +231,21 @@ class DetailsController extends GetxController {
     Get.bottomSheet(
       Padding(
         padding: const EdgeInsets.only(
-            top: kToolbarHeight, left: 20, right: 20, bottom: 30),
+          top: kToolbarHeight,
+          left: 20,
+          right: 20,
+          bottom: 30,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("All Reviews",
-                style: GoogleFonts.cabin(
-                    fontSize: 18.sp, fontWeight: FontWeight.bold)),
+            Text(
+              "All Reviews",
+              style: GoogleFonts.cabin(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 20),
           ],
         ),
@@ -213,10 +261,17 @@ class DetailsController extends GetxController {
   }
 
   Stream<DocumentSnapshot> fetchWatchlistStatus() {
-    return usersCollection.doc(uid).collection("watchlist").doc(vid).snapshots();
+    return usersCollection
+        .doc(uid)
+        .collection("watchlist")
+        .doc(vid)
+        .snapshots();
   }
 
-  Future<void> toggleWatchlist(bool exists, DocumentSnapshot videoDetails) async {
+  Future<void> toggleWatchlist(
+    bool exists,
+    DocumentSnapshot videoDetails,
+  ) async {
     if (exists) {
       await usersCollection.doc(uid).collection("watchlist").doc(vid).delete();
     } else {

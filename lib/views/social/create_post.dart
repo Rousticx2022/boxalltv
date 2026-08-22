@@ -20,20 +20,27 @@ class CreatePost extends GetView<CreatePostController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Post",
-            style: fontHeading(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w400,
-                color: kWhiteColor)),
+        title: Text(
+          "Create Post",
+          style: fontHeading(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w400,
+            color: kWhiteColor,
+          ),
+        ),
         leading: GestureDetector(
           onTap: () => Get.back(),
           child: Container(
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.only(left: 20),
             decoration: const ShapeDecoration(
-                shape: CircleBorder(), color: Colors.white10),
-            child:
-                const Icon(Remix.arrow_left_line, color: kSocialPrimaryColor),
+              shape: CircleBorder(),
+              color: Colors.white10,
+            ),
+            child: const Icon(
+              Remix.arrow_left_line,
+              color: kSocialPrimaryColor,
+            ),
           ),
         ),
         actions: [
@@ -47,11 +54,14 @@ class CreatePost extends GetView<CreatePostController> {
                   foregroundColor: kWhiteColor,
                   shape: const StadiumBorder(),
                 ),
-                child: Text("Post",
-                    style: customTextStyleBody(
-                        color: kBlackColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14)),
+                child: Text(
+                  "Post",
+                  style: customTextStyleBody(
+                    color: kBlackColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
               ),
             ),
           ),
@@ -98,10 +108,12 @@ class CreatePost extends GetView<CreatePostController> {
                         width: context.width - 20,
                         child: Stack(
                           children: [
-                            Image.file(File(controller.content[index]["path"]),
-                                fit: BoxFit.cover,
-                                height: context.width - 20,
-                                width: context.width - 20),
+                            Image.file(
+                              File(controller.content[index]["path"]),
+                              fit: BoxFit.cover,
+                              height: context.width - 20,
+                              width: context.width - 20,
+                            ),
                             Positioned(
                               right: 10,
                               top: 10,
@@ -111,62 +123,75 @@ class CreatePost extends GetView<CreatePostController> {
                                 children: [
                                   GestureDetector(
                                     onTap: () async {
-                                      final Uint8List editedImage =
-                                          await Navigator.push(
+                                      final Uint8List
+                                      editedImage = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ImageEditor(
-                                                image: File(controller
-                                                        .content[index]["path"])
-                                                    .readAsBytesSync())),
+                                          builder: (context) => ImageEditor(
+                                            image: File(
+                                              controller.content[index]["path"],
+                                            ).readAsBytesSync(),
+                                          ),
+                                        ),
                                       );
                                       final tempDir =
                                           await getTemporaryDirectory();
                                       var fileName =
                                           DateTime.now().millisecondsSinceEpoch;
                                       final file = await File(
-                                              "${tempDir.path}/$fileName.png")
-                                          .create();
+                                        "${tempDir.path}/$fileName.png",
+                                      ).create();
                                       file.writeAsBytesSync(editedImage);
                                       controller.content[controller.content
                                               .indexOf(
-                                                  controller.content[index])]
-                                          ["path"] = file.path;
+                                                controller.content[index],
+                                              )]["path"] =
+                                          file.path;
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(3),
                                       decoration: ShapeDecoration(
-                                          color: Colors.grey.shade300,
-                                          shape: const CircleBorder()),
-                                      child: const Icon(Icons.edit,
-                                          color: Colors.black, size: 14),
+                                        color: Colors.grey.shade300,
+                                        shape: const CircleBorder(),
+                                      ),
+                                      child: const Icon(
+                                        Icons.edit,
+                                        color: Colors.black,
+                                        size: 14,
+                                      ),
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      controller.content
-                                          .remove(controller.content[index]);
+                                      controller.content.remove(
+                                        controller.content[index],
+                                      );
                                     },
                                     child: Container(
                                       padding: const EdgeInsets.all(3),
                                       decoration: ShapeDecoration(
-                                          color: Colors.grey.shade300,
-                                          shape: const CircleBorder()),
-                                      child: const Icon(Icons.remove,
-                                          color: Colors.black, size: 14),
+                                        color: Colors.grey.shade300,
+                                        shape: const CircleBorder(),
+                                      ),
+                                      child: const Icon(
+                                        Icons.remove,
+                                        color: Colors.black,
+                                        size: 14,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       )
                     : UploadTypeVideo(
                         element: controller.content[index],
-                        postController: controller);
+                        postController: controller,
+                      );
               },
-            )
+            ),
           ],
         ),
       ),
@@ -182,8 +207,11 @@ class CreatePost extends GetView<CreatePostController> {
 class UploadTypeVideo extends StatefulWidget {
   final Map element;
   final CreatePostController postController;
-  const UploadTypeVideo(
-      {super.key, required this.element, required this.postController});
+  const UploadTypeVideo({
+    super.key,
+    required this.element,
+    required this.postController,
+  });
 
   @override
   State<UploadTypeVideo> createState() => _UploadTypeVideoState();
@@ -239,10 +267,14 @@ class _UploadTypeVideoState extends State<UploadTypeVideo> {
                         child: Container(
                           padding: const EdgeInsets.all(3),
                           decoration: ShapeDecoration(
-                              color: Colors.grey.shade300,
-                              shape: const CircleBorder()),
-                          child: const Icon(Icons.remove,
-                              color: Colors.black, size: 14),
+                            color: Colors.grey.shade300,
+                            shape: const CircleBorder(),
+                          ),
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.black,
+                            size: 14,
+                          ),
                         ),
                       ),
                     ],
@@ -258,11 +290,12 @@ class _UploadTypeVideoState extends State<UploadTypeVideo> {
                     setState(() {});
                   },
                   icon: Icon(
-                      videoPlayerController.value.isPlaying
-                          ? Icons.pause_circle
-                          : Icons.play_circle,
-                      size: 35,
-                      color: kWhiteColor),
+                    videoPlayerController.value.isPlaying
+                        ? Icons.pause_circle
+                        : Icons.play_circle,
+                    size: 35,
+                    color: kWhiteColor,
+                  ),
                 ),
               ],
             )

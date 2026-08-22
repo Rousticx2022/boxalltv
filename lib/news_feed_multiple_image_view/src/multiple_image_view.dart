@@ -46,10 +46,7 @@ class MultipleImageView extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: imageUrls.first["type"] == "video"
-              ? SmartVideo(
-                  src: imageUrls.first["url"],
-                  isPost: true,
-                )
+              ? SmartVideo(src: imageUrls.first["url"], isPost: true)
               : SmartImage(
                   imageUrls.first["url"],
                   fit: BoxFit.cover,
@@ -70,10 +67,7 @@ class MultipleImageView extends StatelessWidget {
             bottomLeft: Radius.circular(20),
           ),
           child: imageUrls.first["type"] == "video"
-              ? SmartVideo(
-                  src: imageUrls.first["url"],
-                  isPost: true,
-                )
+              ? SmartVideo(src: imageUrls.first["url"], isPost: true)
               : SmartImage(
                   imageUrls.first["url"],
                   fit: BoxFit.cover,
@@ -90,17 +84,14 @@ class MultipleImageView extends StatelessWidget {
             bottomRight: Radius.circular(20),
           ),
           child: imageUrls.last["type"] == "video"
-              ? SmartVideo(
-                  src: imageUrls.last["url"],
-                  isPost: true,
-                )
+              ? SmartVideo(src: imageUrls.last["url"], isPost: true)
               : SmartImage(
                   imageUrls.last["url"],
                   fit: BoxFit.cover,
                   isPost: true,
                 ),
         ),
-      )
+      ),
     ];
   }
 
@@ -114,10 +105,7 @@ class MultipleImageView extends StatelessWidget {
             bottomLeft: Radius.circular(20),
           ),
           child: imageUrls[0]["type"] == "video"
-              ? SmartVideo(
-                  src: imageUrls[0]["url"],
-                  isPost: true,
-                )
+              ? SmartVideo(src: imageUrls[0]["url"], isPost: true)
               : SmartImage(
                   imageUrls[0]["url"],
                   fit: BoxFit.cover,
@@ -140,10 +128,7 @@ class MultipleImageView extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
                 child: imageUrls[1]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[1]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[1]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[1]["url"],
                         fit: BoxFit.cover,
@@ -159,10 +144,7 @@ class MultipleImageView extends StatelessWidget {
                   bottomRight: Radius.circular(20),
                 ),
                 child: imageUrls[2]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[2]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[2]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[2]["url"],
                         fit: BoxFit.cover,
@@ -186,10 +168,7 @@ class MultipleImageView extends StatelessWidget {
             bottomLeft: Radius.circular(20),
           ),
           child: imageUrls[0]["type"] == "video"
-              ? SmartVideo(
-                  src: imageUrls[0]["url"],
-                  isPost: true,
-                )
+              ? SmartVideo(src: imageUrls[0]["url"], isPost: true)
               : SmartImage(
                   imageUrls[0]["url"],
                   fit: BoxFit.cover,
@@ -212,10 +191,7 @@ class MultipleImageView extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
                 child: imageUrls[1]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[1]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[1]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[1]["url"],
                         fit: BoxFit.cover,
@@ -228,10 +204,7 @@ class MultipleImageView extends StatelessWidget {
               flex: 1,
               child: ClipRRect(
                 child: imageUrls[2]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[2]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[2]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[2]["url"],
                         fit: BoxFit.cover,
@@ -247,10 +220,7 @@ class MultipleImageView extends StatelessWidget {
                   bottomRight: Radius.circular(20),
                 ),
                 child: imageUrls[3]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[3]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[3]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[3]["url"],
                         fit: BoxFit.cover,
@@ -274,10 +244,7 @@ class MultipleImageView extends StatelessWidget {
             bottomLeft: Radius.circular(20),
           ),
           child: imageUrls[0]["type"] == "video"
-              ? SmartVideo(
-                  src: imageUrls[0]["url"],
-                  isPost: true,
-                )
+              ? SmartVideo(src: imageUrls[0]["url"], isPost: true)
               : SmartImage(
                   imageUrls[0]["url"],
                   fit: BoxFit.cover,
@@ -300,10 +267,7 @@ class MultipleImageView extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
                 child: imageUrls[1]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[1]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[1]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[1]["url"],
                         fit: BoxFit.cover,
@@ -316,10 +280,7 @@ class MultipleImageView extends StatelessWidget {
               flex: 1,
               child: ClipRRect(
                 child: imageUrls[2]["type"] == "video"
-                    ? SmartVideo(
-                        src: imageUrls[2]["url"],
-                        isPost: true,
-                      )
+                    ? SmartVideo(src: imageUrls[2]["url"], isPost: true)
                     : SmartImage(
                         imageUrls[2]["url"],
                         fit: BoxFit.cover,
@@ -339,10 +300,7 @@ class MultipleImageView extends StatelessWidget {
                       bottomRight: Radius.circular(20),
                     ),
                     child: imageUrls[3]["type"] == "video"
-                        ? SmartVideo(
-                            src: imageUrls[3]["url"],
-                            isPost: true,
-                          )
+                        ? SmartVideo(src: imageUrls[3]["url"], isPost: true)
                         : SmartImage(
                             imageUrls[3]["url"],
                             fit: BoxFit.cover,

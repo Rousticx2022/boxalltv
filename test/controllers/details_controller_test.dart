@@ -16,12 +16,18 @@ void main() {
     videosCollection = fakeFirestore.collection('videos');
     videoDataCollection = fakeFirestore.collection('videoData');
     Get.testMode = true;
-    
+
     Get.parameters = {'uid': testUid, 'vid': testVid};
     await usersCollection.doc(testUid).set({'recommendations': []});
-    await videosCollection.doc(testVid).set({'genres': ['Action']});
-    await videoDataCollection.doc(testVid).set({'views': 0, 'likes': [], 'dislikes': []});
-    
+    await videosCollection.doc(testVid).set({
+      'genres': ['Action'],
+    });
+    await videoDataCollection.doc(testVid).set({
+      'views': 0,
+      'likes': [],
+      'dislikes': [],
+    });
+
     controller = DetailsController();
     Get.put(controller);
   });
@@ -30,29 +36,55 @@ void main() {
     Get.reset();
   });
 
-  test('toggleWatchlist should add video to watchlist if it does not exist', () async {
-    final videoDetails = await fakeFirestore.collection('dummy').doc('dummy').set({
-        'poster': 'poster.png',
-        'title': 'Test Title',
-        'type': 'movie',
-        'section': 'trending',
-    }).then((_) => fakeFirestore.collection('dummy').doc('dummy').get());
+  test(
+    'toggleWatchlist should add video to watchlist if it does not exist',
+    () async {
+      final videoDetails = await fakeFirestore
+          .collection('dummy')
+          .doc('dummy')
+          .set({
+            'poster': 'poster.png',
+            'title': 'Test Title',
+            'type': 'movie',
+            'section': 'trending',
+          })
+          .then((_) => fakeFirestore.collection('dummy').doc('dummy').get());
 
-    await controller.toggleWatchlist(false, videoDetails);
+      await controller.toggleWatchlist(false, videoDetails);
 
-    final watchlistDoc = await usersCollection.doc(testUid).collection('watchlist').doc(testVid).get();
-    expect(watchlistDoc.exists, true);
-    expect(watchlistDoc['title'], 'Test Title');
-  });
+      final watchlistDoc = await usersCollection
+          .doc(testUid)
+          .collection('watchlist')
+          .doc(testVid)
+          .get();
+      expect(watchlistDoc.exists, true);
+      expect(watchlistDoc['title'], 'Test Title');
+    },
+  );
 
-  test('toggleWatchlist should remove video from watchlist if it exists', () async {
-    await usersCollection.doc(testUid).collection('watchlist').doc(testVid).set({'dummy': 'data'});
+  test(
+    'toggleWatchlist should remove video from watchlist if it exists',
+    () async {
+      await usersCollection
+          .doc(testUid)
+          .collection('watchlist')
+          .doc(testVid)
+          .set({'dummy': 'data'});
 
-    final dummyVideoDetails = await fakeFirestore.collection('dummy').doc('dummy').set({'poster': 'a', 'title': 'b', 'type': 'c', 'section': 'd'}).then((_) => fakeFirestore.collection('dummy').doc('dummy').get());
+      final dummyVideoDetails = await fakeFirestore
+          .collection('dummy')
+          .doc('dummy')
+          .set({'poster': 'a', 'title': 'b', 'type': 'c', 'section': 'd'})
+          .then((_) => fakeFirestore.collection('dummy').doc('dummy').get());
 
-    await controller.toggleWatchlist(true, dummyVideoDetails);
+      await controller.toggleWatchlist(true, dummyVideoDetails);
 
-    final watchlistDoc = await usersCollection.doc(testUid).collection('watchlist').doc(testVid).get();
-    expect(watchlistDoc.exists, false);
-  });
+      final watchlistDoc = await usersCollection
+          .doc(testUid)
+          .collection('watchlist')
+          .doc(testVid)
+          .get();
+      expect(watchlistDoc.exists, false);
+    },
+  );
 }

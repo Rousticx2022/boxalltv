@@ -16,8 +16,13 @@ class SmartImage extends StatelessWidget {
   final bool isPost;
   final double? radius;
 
-  const SmartImage(this.src,
-      {super.key, this.fit, this.isPost = false, this.radius});
+  const SmartImage(
+    this.src, {
+    super.key,
+    this.fit,
+    this.isPost = false,
+    this.radius,
+  });
 
   bool networkImage() => src.startsWith('https');
   //bool base64() => src.contains('[]');
@@ -46,17 +51,14 @@ class SmartImage extends StatelessWidget {
             },
           )
         : isPost
-            ? Image.file(
-                File(src),
-                fit: fit,
-              )
-            : CircleAvatar(
-                radius: radius,
-                backgroundImage: MemoryImage(
-                  imageDecoder(src),
-                  //fit: fit,
-                ),
-              );
+        ? Image.file(File(src), fit: fit)
+        : CircleAvatar(
+            radius: radius,
+            backgroundImage: MemoryImage(
+              imageDecoder(src),
+              //fit: fit,
+            ),
+          );
   }
 
   Uint8List imageDecoder(String image) {
@@ -79,15 +81,16 @@ class _SmartVideoState extends State<SmartVideo> {
   bool networkVideo() => widget.src.startsWith('https');
   @override
   void initState() {
-    videoPlayerController = networkVideo()
-        ? VideoPlayerController.networkUrl(Uri.parse(widget.src))
-        : VideoPlayerController.file(File(widget.src))
-      ..initialize().then((_) {
-        if (!mounted) return;
-        videoPlayerController.pause();
-        videoPlayerController.setVolume(1);
-        setState(() {});
-      });
+    videoPlayerController =
+        networkVideo()
+              ? VideoPlayerController.networkUrl(Uri.parse(widget.src))
+              : VideoPlayerController.file(File(widget.src))
+          ..initialize().then((_) {
+            if (!mounted) return;
+            videoPlayerController.pause();
+            videoPlayerController.setVolume(1);
+            setState(() {});
+          });
     super.initState();
   }
 
@@ -142,7 +145,7 @@ class _SmartVideoState extends State<SmartVideo> {
                           color: kBlackColor.withValues(alpha: 0.5),
                           blurRadius: 10,
                           spreadRadius: 0,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -154,11 +157,12 @@ class _SmartVideoState extends State<SmartVideo> {
                       children: [
                         const Icon(Icons.circle, color: kBlackColor, size: 50),
                         Icon(
-                            videoPlayerController.value.isPlaying
-                                ? Icons.pause_circle
-                                : Icons.play_circle,
-                            size: 50,
-                            color: kWhiteColor),
+                          videoPlayerController.value.isPlaying
+                              ? Icons.pause_circle
+                              : Icons.play_circle,
+                          size: 50,
+                          color: kWhiteColor,
+                        ),
                       ],
                     ),
                   ),

@@ -49,8 +49,12 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
   Future<void> pickVideo() async {
     final pickedFile = await imagePicker.pickVideo(source: ImageSource.gallery);
     if (pickedFile != null) {
-      Get.to(() =>
-          AddReelDetails(videoPath: pickedFile.path, audioData: selectedSound));
+      Get.to(
+        () => AddReelDetails(
+          videoPath: pickedFile.path,
+          audioData: selectedSound,
+        ),
+      );
     }
   }
 
@@ -62,30 +66,35 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
   Future<void> initializeCamera(int cameraDirection) async {
     cameras = await availableCameras();
     cameraController = CameraController(
-        cameras[cameraDirection], ResolutionPreset.max,
-        enableAudio: _captureAudioInVideoRecording);
-    cameraController.initialize().then((_) async {
-      if (!mounted) {
-        return;
-      }
-      maxZoom = await cameraController.getMaxZoomLevel();
+      cameras[cameraDirection],
+      ResolutionPreset.max,
+      enableAudio: _captureAudioInVideoRecording,
+    );
+    cameraController
+        .initialize()
+        .then((_) async {
+          if (!mounted) {
+            return;
+          }
+          maxZoom = await cameraController.getMaxZoomLevel();
 
-      setState(() {
-        _isCameraReady = true;
-      });
-    }).catchError((Object e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            Permission.camera.request();
-            Get.back();
-            break;
-          default:
-            // Handle other errors here.
-            break;
-        }
-      }
-    });
+          setState(() {
+            _isCameraReady = true;
+          });
+        })
+        .catchError((Object e) {
+          if (e is CameraException) {
+            switch (e.code) {
+              case 'CameraAccessDenied':
+                Permission.camera.request();
+                Get.back();
+                break;
+              default:
+                // Handle other errors here.
+                break;
+            }
+          }
+        });
   }
 
   void toggleCamDirection() {
@@ -98,8 +107,9 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
 
   void enableFlash() {
     _enableFlashlight = !_enableFlashlight;
-    cameraController
-        .setFlashMode(_enableFlashlight ? FlashMode.torch : FlashMode.off);
+    cameraController.setFlashMode(
+      _enableFlashlight ? FlashMode.torch : FlashMode.off,
+    );
     setState(() {});
   }
 
@@ -131,7 +141,8 @@ class _CreateReelState extends State<CreateReel> with WidgetsBindingObserver {
     XFile xFile = await cameraController.stopVideoRecording();
 
     Get.off(
-        () => AddReelDetails(videoPath: xFile.path, audioData: selectedSound));
+      () => AddReelDetails(videoPath: xFile.path, audioData: selectedSound),
+    );
   }
 
   void toggleRecordingMode() {

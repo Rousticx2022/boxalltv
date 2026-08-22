@@ -36,11 +36,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
 
   int recordingStartedFrom = 0;
 
-  Map recordDuration = {
-    "freemium": 15,
-    "freemium+": 30,
-    "premium": 90,
-  };
+  Map recordDuration = {"freemium": 15, "freemium+": 30, "premium": 90};
 
   late FlickManager flickManager;
   late FlickManager flickAdsManager;
@@ -97,12 +93,17 @@ class WatchController extends GetxController with WidgetsBindingObserver {
     try {
       String fileName = "vid_${DateTime.now().millisecondsSinceEpoch}";
       bool? started = await DeviceScreenRecorder.startRecordScreen(
-          name: fileName, recordAudio: true);
+        name: fileName,
+        recordAudio: true,
+      );
       // bool started = await FlutterScreenRecording.startRecordScreenAndAudio(fileName);
       if (started!) {
         recordingStarted.value = true;
         recordingStartedFrom = flickManager
-            .flickVideoManager!.videoPlayerValue!.position.inMicroseconds;
+            .flickVideoManager!
+            .videoPlayerValue!
+            .position
+            .inMicroseconds;
         if (!flickManager.flickVideoManager!.videoPlayerValue!.isPlaying) {
           flickManager.flickControlManager!.play();
         }
@@ -126,8 +127,13 @@ class WatchController extends GetxController with WidgetsBindingObserver {
       recordTimer.cancel();
     } catch (e) {}
     NoScreenshot.instance.screenshotOff();
-    Get.off(() => VideoEditor(
-        file: response, vid: vid!, recordingStartedFrom: recordingStartedFrom));
+    Get.off(
+      () => VideoEditor(
+        file: response,
+        vid: vid!,
+        recordingStartedFrom: recordingStartedFrom,
+      ),
+    );
   }
 
   Future<void> showAds() async {
@@ -209,23 +215,27 @@ class WatchController extends GetxController with WidgetsBindingObserver {
 
     flickManager = FlickManager(
       videoPlayerController: VideoPlayerController.networkUrl(
-          Uri.parse(videoURL),
-          closedCaptionFile: loadCaptions(subtitleURL)),
+        Uri.parse(videoURL),
+        closedCaptionFile: loadCaptions(subtitleURL),
+      ),
       autoPlay: false,
       autoInitialize: true,
-      getPlayerControlsTimeout: (
-          {bool? errorInVideo,
-          bool? isPlaying,
-          bool? isVideoEnded,
-          bool? isVideoInitialized}) {
-        if (isVideoInitialized! && !seeked) {
-          flickManager.flickControlManager!
-              .seekForward(Duration(microseconds: position));
-          seeked = true;
-          // flickManager.flickControlManager!.toggleFullscreen();
-        }
-        return const Duration(seconds: 3);
-      },
+      getPlayerControlsTimeout:
+          ({
+            bool? errorInVideo,
+            bool? isPlaying,
+            bool? isVideoEnded,
+            bool? isVideoInitialized,
+          }) {
+            if (isVideoInitialized! && !seeked) {
+              flickManager.flickControlManager!.seekForward(
+                Duration(microseconds: position),
+              );
+              seeked = true;
+              // flickManager.flickControlManager!.toggleFullscreen();
+            }
+            return const Duration(seconds: 3);
+          },
     );
 
     loading.value = false;
@@ -253,15 +263,15 @@ class WatchController extends GetxController with WidgetsBindingObserver {
             .where("startAt", isEqualTo: elapsedSeconds)
             .get()
             .then((value) {
-          for (var doc in value.docs) {
-            if (!products.contains(doc.id)) {
-              productFadeTime[doc.id] = elapsedSeconds + doc["displayFor"];
-              products.add(doc.id);
-            }
-          }
+              for (var doc in value.docs) {
+                if (!products.contains(doc.id)) {
+                  productFadeTime[doc.id] = elapsedSeconds + doc["displayFor"];
+                  products.add(doc.id);
+                }
+              }
 
-          products.value = products.toSet().toList();
-        });
+              products.value = products.toSet().toList();
+            });
       }
     });
 
@@ -297,9 +307,7 @@ class WatchController extends GetxController with WidgetsBindingObserver {
         videoDataCollection.doc(vid).update({
           "views": FieldValue.arrayUnion([uid]),
         });
-        videosCollection.doc(vid).update({
-          "views": FieldValue.increment(1),
-        });
+        videosCollection.doc(vid).update({"views": FieldValue.increment(1)});
       }
     });
   }
@@ -308,9 +316,15 @@ class WatchController extends GetxController with WidgetsBindingObserver {
     flickManager.flickControlManager!.pause();
     Get.find<BottomTabController>().updateContinueWatching(
       position: flickManager
-          .flickVideoManager!.videoPlayerValue!.position.inMicroseconds,
+          .flickVideoManager!
+          .videoPlayerValue!
+          .position
+          .inMicroseconds,
       duration: flickManager
-          .flickVideoManager!.videoPlayerValue!.duration.inMicroseconds,
+          .flickVideoManager!
+          .videoPlayerValue!
+          .duration
+          .inMicroseconds,
       vid: vid!,
       section: section!,
       type: type!,
@@ -321,9 +335,9 @@ class WatchController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onReady() async {
-    await videosCollection
-        .doc(vid!)
-        .update({"trending": FieldValue.increment(1)});
+    await videosCollection.doc(vid!).update({
+      "trending": FieldValue.increment(1),
+    });
     super.onReady();
   }
 
@@ -338,9 +352,15 @@ class WatchController extends GetxController with WidgetsBindingObserver {
       case AppLifecycleState.hidden:
         Get.find<BottomTabController>().updateContinueWatching(
           position: flickManager
-              .flickVideoManager!.videoPlayerValue!.position.inMicroseconds,
+              .flickVideoManager!
+              .videoPlayerValue!
+              .position
+              .inMicroseconds,
           duration: flickManager
-              .flickVideoManager!.videoPlayerValue!.duration.inMicroseconds,
+              .flickVideoManager!
+              .videoPlayerValue!
+              .duration
+              .inMicroseconds,
           vid: vid!,
           section: section!,
           adsCount: adsShown,
@@ -355,10 +375,14 @@ class WatchController extends GetxController with WidgetsBindingObserver {
   @override
   void onClose() {
     WidgetsBinding.instance.removeObserver(this);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     flickManager.dispose();
     NoScreenshot.instance.screenshotOff();
     try {

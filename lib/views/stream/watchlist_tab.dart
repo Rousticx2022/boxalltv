@@ -33,30 +33,33 @@ class _FavouriteTabState extends State<FavouriteTab> {
             final fav = snapshot.docs[index];
 
             return StreamBuilder<DocumentSnapshot>(
-                stream: videosCollection.doc(fav.id).snapshots(),
-                builder: (context, vSnapshot) {
-                  if (!vSnapshot.hasData) {
-                    return Container(
-                      height: 180,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(12)),
-                    );
-                  }
-                  DocumentSnapshot vDetails = vSnapshot.data!;
+              stream: videosCollection.doc(fav.id).snapshots(),
+              builder: (context, vSnapshot) {
+                if (!vSnapshot.hasData) {
+                  return Container(
+                    height: 180,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  );
+                }
+                DocumentSnapshot vDetails = vSnapshot.data!;
 
-                  if (vSnapshot.hasData && !vDetails.exists) {
-                    return const SizedBox();
-                  }
+                if (vSnapshot.hasData && !vDetails.exists) {
+                  return const SizedBox();
+                }
 
-                  if (vSnapshot.hasData && !vDetails["active"]) {
-                    fav.reference.delete();
-                  }
+                if (vSnapshot.hasData && !vDetails["active"]) {
+                  fav.reference.delete();
+                }
 
-                  return ContainerBuilder(uid: widget.uid)
-                      .videoGridContainer(context, vDetails);
-                });
+                return ContainerBuilder(
+                  uid: widget.uid,
+                ).videoGridContainer(context, vDetails);
+              },
+            );
           },
           gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 14.h,

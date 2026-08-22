@@ -41,13 +41,19 @@ class _YourSeriesState extends State<YourSeries> {
                       margin: const EdgeInsets.only(right: 10),
                       padding: const EdgeInsets.all(4),
                       decoration: const ShapeDecoration(
-                          color: Colors.white12, shape: CircleBorder()),
+                        color: Colors.white12,
+                        shape: CircleBorder(),
+                      ),
                       child: const Icon(Icons.close),
                     ),
                   ),
-                  Text("Edit Series",
-                      style: fontHeading(
-                          fontSize: 18.sp, fontWeight: FontWeight.w600)),
+                  Text(
+                    "Edit Series",
+                    style: fontHeading(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 15),
@@ -56,8 +62,9 @@ class _YourSeriesState extends State<YourSeries> {
                 leading: const Icon(Icons.edit),
                 title: const Text("Edit Series Details"),
                 onTap: () => Get.to(
-                    () => EditSeries(videoID: vid, uid: widget.uid),
-                    transition: Transition.cupertino),
+                  () => EditSeries(videoID: vid, uid: widget.uid),
+                  transition: Transition.cupertino,
+                ),
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
@@ -70,8 +77,9 @@ class _YourSeriesState extends State<YourSeries> {
                 leading: const Icon(Icons.add),
                 title: const Text("Add Episode"),
                 onTap: () => Get.off(
-                    () => AddEpisode(uid: widget.uid, vid: vid),
-                    transition: Transition.cupertino),
+                  () => AddEpisode(uid: widget.uid, vid: vid),
+                  transition: Transition.cupertino,
+                ),
               ),
               const SizedBox(height: 15),
             ],
@@ -90,13 +98,14 @@ class _YourSeriesState extends State<YourSeries> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Your Series"),
-      ),
+      appBar: AppBar(title: const Text("Your Series")),
       body: FirestoreListView(
         emptyBuilder: (context) => Center(
-            child: Text("No series found",
-                style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600))),
+          child: Text(
+            "No series found",
+            style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600),
+          ),
+        ),
         padding: const EdgeInsets.all(20.0),
         query: videosCollection
             .where('creatorID', isEqualTo: widget.uid)
@@ -116,12 +125,17 @@ class _YourSeriesState extends State<YourSeries> {
               const SizedBox(height: 10.0),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text(snapshot['title'],
-                    style:
-                        fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600)),
-                subtitle: Text(snapshot['genres'].join(", "),
-                    style: fontBody(
-                        fontSize: 15.5.sp, fontWeight: FontWeight.w400)),
+                title: Text(
+                  snapshot['title'],
+                  style: fontBody(fontSize: 18.sp, fontWeight: FontWeight.w600),
+                ),
+                subtitle: Text(
+                  snapshot['genres'].join(", "),
+                  style: fontBody(
+                    fontSize: 15.5.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
               const SizedBox(height: 10.0),
               Row(
@@ -138,8 +152,9 @@ class _YourSeriesState extends State<YourSeries> {
                     child: TextButton(
                       onPressed: () => openEditOptions(snapshot.id),
                       style: TextButton.styleFrom(
-                          backgroundColor: kGreyColor2,
-                          foregroundColor: kWhiteColor),
+                        backgroundColor: kGreyColor2,
+                        foregroundColor: kWhiteColor,
+                      ),
                       child: Text("Edit", style: fontButton(fontSize: 17.sp)),
                     ),
                   ),
@@ -147,18 +162,22 @@ class _YourSeriesState extends State<YourSeries> {
                   Expanded(
                     child: TextButton(
                       onPressed: () async {
-                        snapshot.reference
-                            .update({"active": !snapshot["active"]});
+                        snapshot.reference.update({
+                          "active": !snapshot["active"],
+                        });
                       },
                       style: TextButton.styleFrom(
-                          backgroundColor: kButtonColor,
-                          foregroundColor: kWhiteColor),
-                      child: Text(snapshot["active"] ? "Disable" : "Enable",
-                          style: fontButton(fontSize: 17.sp)),
+                        backgroundColor: kButtonColor,
+                        foregroundColor: kWhiteColor,
+                      ),
+                      child: Text(
+                        snapshot["active"] ? "Disable" : "Enable",
+                        style: fontButton(fontSize: 17.sp),
+                      ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           );
         },

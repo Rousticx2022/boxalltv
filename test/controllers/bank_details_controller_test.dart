@@ -20,34 +20,40 @@ void main() {
     Get.reset();
   });
 
-  test('fetchBankData should populate controllers correctly if data exists', () async {
-    await usersCollection.doc(testUid).set({
-      'bankDetails': {
-        'accountName': 'John Doe',
-        'accountNumber': '1234567890',
-        'bankName': 'Test Bank',
-        'branch': 'Main Branch',
-        'swiftCode': 'TESTSWIFT',
-      }
-    });
+  test(
+    'fetchBankData should populate controllers correctly if data exists',
+    () async {
+      await usersCollection.doc(testUid).set({
+        'bankDetails': {
+          'accountName': 'John Doe',
+          'accountNumber': '1234567890',
+          'bankName': 'Test Bank',
+          'branch': 'Main Branch',
+          'swiftCode': 'TESTSWIFT',
+        },
+      });
 
-    await controller.fetchBankData();
+      await controller.fetchBankData();
 
-    expect(controller.accountNameController.text, 'John Doe');
-    expect(controller.accountNumberController.text, '1234567890');
-    expect(controller.bankNameController.text, 'Test Bank');
-    expect(controller.branchNameController.text, 'Main Branch');
-    expect(controller.swiftCodeController.text, 'TESTSWIFT');
-  });
+      expect(controller.accountNameController.text, 'John Doe');
+      expect(controller.accountNumberController.text, '1234567890');
+      expect(controller.bankNameController.text, 'Test Bank');
+      expect(controller.branchNameController.text, 'Main Branch');
+      expect(controller.swiftCodeController.text, 'TESTSWIFT');
+    },
+  );
 
-  test('fetchBankData should gracefully handle non-existent bank details', () async {
-    await usersCollection.doc(testUid).set(<String, dynamic>{});
+  test(
+    'fetchBankData should gracefully handle non-existent bank details',
+    () async {
+      await usersCollection.doc(testUid).set(<String, dynamic>{});
 
-    await controller.fetchBankData();
+      await controller.fetchBankData();
 
-    expect(controller.accountNameController.text, '');
-    expect(controller.accountNumberController.text, '');
-  });
+      expect(controller.accountNameController.text, '');
+      expect(controller.accountNumberController.text, '');
+    },
+  );
 
   test('updateBankDetails should return early if form is not valid', () async {
     // Note: To truly test formKey validation, we'd need a widget test.

@@ -14,17 +14,18 @@ class Posts {
   final Timestamp postDate;
 
   const Posts(
-      this.postID,
-      this.uid,
-      this.caption,
-      this.content,
-      this.likes,
-      this.comments,
-      this.shares,
-      this.vid,
-      this.isTrimmed,
-      this.recordingStartedFrom,
-      this.postDate);
+    this.postID,
+    this.uid,
+    this.caption,
+    this.content,
+    this.likes,
+    this.comments,
+    this.shares,
+    this.vid,
+    this.isTrimmed,
+    this.recordingStartedFrom,
+    this.postDate,
+  );
 
   factory Posts.fromDocument(DocumentSnapshot document) {
     return Posts(
