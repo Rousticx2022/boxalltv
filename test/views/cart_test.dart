@@ -6,16 +6,14 @@ import 'package:get/get.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:boxalltv/utils/collections.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../helpers/firebase_test_setup.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
   const String testUid = 'user123';
 
   setUp(() {
-    fakeFirestore = FakeFirebaseFirestore();
-    usersCollection = fakeFirestore.collection('users');
-    videosCollection = fakeFirestore.collection('videos');
-    ordersCollection = fakeFirestore.collection('orders');
+    fakeFirestore = setupFakeFirestore();
     Get.testMode = true;
 
     Get.parameters = {'uid': testUid};

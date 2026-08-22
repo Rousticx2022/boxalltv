@@ -5,6 +5,7 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import '../helpers/firebase_test_setup.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
@@ -12,8 +13,7 @@ void main() {
   const String testUid = 'user123';
 
   setUp(() {
-    fakeFirestore = FakeFirebaseFirestore();
-    reelsCollection = fakeFirestore.collection('reels');
+    fakeFirestore = setupFakeFirestore();
     Get.testMode = true;
 
     controller = UploadVideoController(uid: testUid);

@@ -1,8 +1,10 @@
 import 'package:boxalltv/controllers/cart_controller.dart';
 import 'package:boxalltv/utils/collections.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import '../helpers/firebase_test_setup.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
@@ -12,11 +14,16 @@ void main() {
   const String testProductId = 'prod123';
 
   setUp(() {
-    fakeFirestore = FakeFirebaseFirestore();
-    usersCollection = fakeFirestore.collection('users');
-    videosCollection = fakeFirestore.collection('videos');
-    ordersCollection = fakeFirestore.collection('orders');
+    fakeFirestore = setupFakeFirestore();
     Get.testMode = true;
+
+    // Mock fluttertoast platform channel
+    TestWidgetsFlutterBinding.ensureInitialized();
+    const channel = MethodChannel('PonnamKarthik/fluttertoast');
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+      return true;
+    });
 
     Get.parameters = {'uid': testUid};
     controller = CartController();

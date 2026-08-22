@@ -3,6 +3,7 @@ import 'package:boxalltv/utils/collections.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import '../helpers/firebase_test_setup.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
@@ -11,10 +12,7 @@ void main() {
   const String testVideoId = 'video123';
 
   setUp(() {
-    fakeFirestore = FakeFirebaseFirestore();
-    videosCollection = fakeFirestore.collection('videos');
-    reviewVideosCollection = fakeFirestore.collection('reviewVideos');
-    genresCollection = fakeFirestore.collection('genres');
+    fakeFirestore = setupFakeFirestore();
     Get.testMode = true;
 
     controller = EditMovieController(uid: testUid, videoID: testVideoId);

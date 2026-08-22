@@ -43,6 +43,7 @@ To execute the test suite:
 ```bash
 flutter test
 ```
+Note: The unit and widget tests use a `fake_cloud_firestore` test harness located in `test/helpers/firebase_test_setup.dart`. This allows the tests to run fully offline in CI environments, without requiring real Firebase or Stripe credentials.
 
 ## Setup (Missing Configuration)
 The repository does not include pre-configured `google-services.json` (Android) or `GoogleService-Info.plist` (iOS) files. 

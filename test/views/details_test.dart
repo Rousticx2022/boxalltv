@@ -5,8 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:boxalltv/utils/collections.dart';
-
 import 'package:responsive_sizer/responsive_sizer.dart';
+import '../helpers/firebase_test_setup.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
@@ -14,10 +14,7 @@ void main() {
   const String testVid = 'video123';
 
   setUp(() async {
-    fakeFirestore = FakeFirebaseFirestore();
-    videosCollection = fakeFirestore.collection('videos');
-    usersCollection = fakeFirestore.collection('users');
-    videoDataCollection = fakeFirestore.collection('videoData');
+    fakeFirestore = setupFakeFirestore();
     Get.testMode = true;
 
     Get.parameters = {'uid': testUid, 'vid': testVid};
@@ -27,6 +24,10 @@ void main() {
       'title': 'Test Movie',
       'url': 'http://test.com/video.mp4',
       'genres': [],
+      'banner': 'http://test.com/banner.png',
+      'poster': 'http://test.com/poster.png',
+      'type': 'movie',
+      'amount': 0,
     });
 
     await videoDataCollection.doc(testVid).set({

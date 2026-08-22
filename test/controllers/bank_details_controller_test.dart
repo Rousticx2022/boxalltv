@@ -3,6 +3,7 @@ import 'package:boxalltv/utils/collections.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import '../helpers/firebase_test_setup.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeFirestore;
@@ -10,8 +11,7 @@ void main() {
   const String testUid = 'user123';
 
   setUp(() {
-    fakeFirestore = FakeFirebaseFirestore();
-    usersCollection = fakeFirestore.collection('users');
+    fakeFirestore = setupFakeFirestore();
     Get.testMode = true;
     controller = BankDetailsController(uid: testUid);
   });
